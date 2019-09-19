@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>流 程 展 示 页 面</title>
+	<link rel="stylesheet" href="/static/css/bootstrap.css" />
+	<script src="/static/js/wsapi.js"></script>
+	<script src="/static/js/newline.js"></script>
+	<script>
+        //let lc = {{ lc }};
+        // 这里可以像下面这样直接引用变量
+        //if (lc.流程运行状态 === '运行中') {
+			//  .....
+		//}
+		//模拟函数1
+		function simulation(){
+			var data = {
+				"status": "ok",
+				"reason": "AAA",
+				"yc": {
+					"工作模式": "加热模式",
+					"供液流量": "10",
+					"供液压力": "20",
+					"回液压力": "30",
+					"供液温度": "25",
+					"回液温度": "20",
+					"阀门开度": "30",
+				},
+				"yx": {
+					"加热器运行状态": "分",		//1=="合"，0=="分"
+					"压缩机运行状态": "分",
+					"循环泵运行状态": "分",
+				}
+			}
+			return data;
+		}
+		//模拟函数2
+		function simulation1(){
+			var data = {
+				"status": "ok",
+				"reason": "AAA",
+				"yc": {
+					"电池平均温度": "30",
+					"最高电池温度": "10",
+					"最低电池温度": "20",
+					"电池电压": "30",
+					"电池电流": "25",
+				},
+				"yx": {
+					"加热允许状态": "分",		//1=="合"，0=="分"
+					"制冷允许状态": "分",
+				}
+			}
+			return data;
+		}
+		//动态生成表(已改完)
+		function dynamic_list(){
+			var mycars = new Array()
+			var rows = 0;
+			var tab;
+			var tab1 = "";
+			mycars[ 0] = "执行状态"
+			mycars[ 1] = "工步编号"
+			mycars[ 2] = "工步名称"
+			mycars[ 3] = "运行时间(秒)"
+			mycars[ 4] = "流量设定(L/min)"
+			mycars[ 5] = "温度设定(℃)"
+			mycars[ 6] = "加热百分比(%)"
+			mycars[ 7] = "循环模式"
+			mycars[ 8] = "跳转条件1"
+			mycars[ 9] = "逻辑关系"
+			mycars[10] = "跳转条件2"
+			mycars[11] = "匹配"
+			mycars[12] = "不匹配"
+			//mycars[13] = "工步操作"
+			var return_data = "";
+			$.getJSON("/v1.0/json/step/steps/get/?tsp=timestamp", '', function(data, status, xhr){
+				if ( data.status === "ok" ) {
+					//查询全部工步数据成功
+					cols=13;
+					//cols=14;
+					div1=document.getElementById('div1');
+					for ( step in data.steps ) {  
+						rows = rows + 1;
+					}
+					heights = 40*(rows+1);
+					height = String(heights);
+					tab="<table border=1 width=100% height=" + height + " class=\" table-bordered table-striped table-responsive\"  cellspacing=0 cellpadding=10 align=\"center\" bgcolor=\"aqua\")>";
+					tab+='<tr align="center" valign="middle">';
+					for(var j=0;j<cols;j++){
+						tab+="<td><b>"+mycars[j]+"<b></td>"
+					}
+					tab+='</tr>'; 
+					for ( step in data.steps ) {
+						var dispose = step;
+						var i = dispose.charAt(4);
+						var j = dispose.charAt(5);
+						if(j == ""){
+							i = i;
+						}else{
+							i = i+j;
+						}
+						var date = parseFloat(i);
+						if((date > 0)&&(date < 10)){
+							tab+='<tr align="center" valign="middle">';
+							tab+='<td id="id_setp'+ String(i) +'">-</td>';
+							tab+="<td>"+String(i)+"</td>";
+							tab+="<td>"+data['steps']['step'+ String(i)]['mode']+"</td>";
+							tab+="<td>"+data['steps']['step'+ String(i)]['ttl']+"</td>";
+							tab+="<td>"+data['steps']['step'+ String(i)]['liuliang']+"</td>";
+							tab+="<td>"+data['steps']['step'+ String(i)]['wendu']+"</td>";
+							tab+="<td>"+data['steps']['step'+ String(i)]['jiaregonglv']+"</td>";
+							circulation = data['steps']['step'+ String(i)]['xunhuan'];
+							if (circulation == ""){
+								tab+="<td>" + '-' + "</td>";
+							}else{
+								tab+="<td>" + circulation + "</td>";
+							}
+							comparison_other1 = data['steps']['step'+ String(i)]['tiaojian'][0];
+							symbol1 = data['steps']['step'+ String(i)]['tiaojian'][1];
+							condition1 = data['steps']['step'+ String(i)]['tiaojian'][2];
+							if((comparison_other1 == "")||(symbol1 == "")||(condition1 == 0)){
+								tab+="<td>" + '-' + "</td>";
+							}else{
+								tab+="<td>" + comparison_other1 + ' ' + symbol1 + ' ' + condition1 + "</td>";
+							}
+							relationship = data['steps']['step'+ String(i)]['tiaojian'][3];
+							if (relationship == ""){
+								tab+="<td>" + '-' + "</td>";
+							}else {
+								tab+="<td>" + relationship + "</td>";
+							}
+							comparison_other2 = data['steps']['step'+ String(i)]['tiaojian'][4];
+							symbol2 = data['steps']['step'+ String(i)]['tiaojian'][5];
+							condition2 = data['steps']['step'+ String(i)]['tiaojian'][6];
+							if((comparison_other2 == "")||(symbol2 == "")||(condition2 == 0)){
+								tab+="<td>" + '-' + "</td>";
+							}else{
+								tab+="<td>" + comparison_other2 + ' ' + symbol2 + ' ' + condition2 + "</td>";
+							}
+							tab+="<td>"+data['steps']['step'+ String(i)]['true']+"</td>";
+							tab+="<td>"+data['steps']['step'+ String(i)]['false']+"</td>";
+							//tab+= '<td><button type="button" class="btn btn-xs btn-info" onClick="javascript:restart_steps('+ String(i) +')"><span class="link glyphicon glyphicon-refresh"></span></button></td>';
+							tab+='</tr>'; 
+						}else if((date >= 10)&&(date < 20)){
+							tab1+='<tr align="center" valign="middle">';
+							tab1+='<td id="id_setp'+ String(i) +'">-</td>';
+							tab1+="<td>"+String(i)+"</td>";
+							tab1+="<td>"+data['steps']['step'+ String(i)]['mode']+"</td>";
+							tab1+="<td>"+data['steps']['step'+ String(i)]['ttl']+"</td>";
+							tab1+="<td>"+data['steps']['step'+ String(i)]['liuliang']+"</td>";
+							tab1+="<td>"+data['steps']['step'+ String(i)]['wendu']+"</td>";
+							tab1+="<td>"+data['steps']['step'+ String(i)]['jiaregonglv']+"</td>";
+							circulation = data['steps']['step'+ String(i)]['xunhuan'];
+							if (circulation == ""){
+								tab1+="<td>" + '-' + "</td>";
+							}else{
+								tab1+="<td>" + circulation + "</td>";
+							}
+							comparison_other1 = data['steps']['step'+ String(i)]['tiaojian'][0];
+							symbol1 = data['steps']['step'+ String(i)]['tiaojian'][1];
+							condition1 = data['steps']['step'+ String(i)]['tiaojian'][2];
+							if((comparison_other1 == "")||(symbol1 == "")||(condition1 == 0)){
+								tab1+="<td>" + '-' + "</td>";
+							}else{
+								tab1+="<td>" + comparison_other1 + ' ' + symbol1 + ' ' + condition1 + "</td>";
+							}
+							relationship = data['steps']['step'+ String(i)]['tiaojian'][3];
+							if (relationship == ""){
+								tab1+="<td>" + '-' + "</td>";
+							}else {
+								tab1+="<td>" + relationship + "</td>";
+							}
+							comparison_other2 = data['steps']['step'+ String(i)]['tiaojian'][4];
+							symbol2 = data['steps']['step'+ String(i)]['tiaojian'][5];
+							condition2 = data['steps']['step'+ String(i)]['tiaojian'][6];
+							if((comparison_other2 == "")||(symbol2 == "")||(condition2 == 0)){
+								tab1+="<td>" + '-' + "</td>";
+							}else{
+								tab1+="<td>" + comparison_other2 + ' ' + symbol2 + ' ' + condition2 + "</td>";
+							}
+							tab1+="<td>"+data['steps']['step'+ String(i)]['true']+"</td>";
+							tab1+="<td>"+data['steps']['step'+ String(i)]['false']+"</td>";
+							//tab1+= '<td><button type="button" class="btn btn-xs btn-info" onClick="javascript:restart_steps('+ String(i) +')"><span class="link glyphicon glyphicon-refresh"></span></button></td>';
+							tab1+='</tr>'; 
+						}	
+					}
+					tab = tab + tab1;
+					tab+='</table>';
+					div1.innerHTML=tab;
+					var tab2 = "";
+					step_check_fail_reason.innerHTML=tab2;				//清除读取全部工步失败的打印信息
+				}else{
+					//查询全部工步数据失败
+					var tab3="<table border=1 width=100% height=40 class=\"table-bordered table-striped table-responsive\")>";
+					tab3+="<tr>";
+					tab3+="<td style=\"color:red\"><font size=\"4\"><b>&nbsp&nbsp查询全部工步数据失败，失败原因="+ data.reason  +"！！！<b></font></tb>";
+					tab3+="</tr>";
+					tab3+="</table>";
+					step_check_fail_reason.innerHTML=tab3;				//动态打印读取全部工步失败的错误信息
+				}
+			});	
+        }
+		//开始函数(已改完)
+        function start_steps() {
+			$.getJSON("/v1.0/json/step/check/?tsp=timestamp", '', function(data, status, xhr){
+				//var data = simulation();
+				if ( data.status === "ok" ) {
+					//检查工步成功，就启动工步
+					$.getJSON("/v1.0/json/step/start/?tsp=timestamp", '', function(data, status, xhr){
+						//var data = simulation();
+						if ( data.status === "ok" ) {
+							//启动工步成功
+							var tab1="";
+							step_check_fail_reason.innerHTML=tab1;				//清除启动工步失败的打印信息
+						}else{
+							//启动工步失败
+							var tab2="<table border=1 width=100% height=40 class=\"table-bordered table-striped table-responsive\")>";
+							tab2+="<tr>";
+							tab2+="<td style=\"color:red\"><font size=\"4\"><b>&nbsp&nbsp启动工步失败，失败原因="+ data.reason  +"！！！<b></font></tb>";
+							tab2+="</tr>";
+							tab2+="</table>";
+							step_check_fail_reason.innerHTML=tab2;				//动态打印启动工步失败的错误信息
+						}
+					});
+				}else{
+					//检查工步失败
+					var tab4="<table border=1 width=100% height=40 class=\"table-bordered table-striped table-responsive\")>";
+					tab4+="<tr>";
+					tab4+="<td style=\"color:red\"><font size=\"4\"><b>&nbsp&nbsp检查工步失败，失败原因="+ data.reason  +"！！！<b></font></tb>";
+					tab4+="</tr>";
+					tab4+="</table>";
+					step_check_fail_reason.innerHTML=tab4;				//动态打印检查工步失败的错误信息
+				}
+			});
+			//
+            /*newline.steps_check(function (data) {		//检查工步逻辑可用性，成功：清除打印信息，启动工步；失败：打印报错
+                console.log('steps_check success return:', data);
+                $("tr").removeClass("danger");		//从tr中移除danger属性
+				var tab1="";
+                step_check_fail_reason.innerHTML=tab1;
+                newline.steps_start("step1", function (data) {		//启动工步，成功：返回工步；失败：打印错误
+                    console.log('steps_start success return:', data);
+                }, function (response) {
+                    console.log('steps_start return fail, response=', response)
+                });
+            }, function (response) {
+                var name = response.data;
+                $("." + name).addClass("danger");
+				var tab2="<table border=1 width=100% height=40 class=\"table-bordered table-striped table-responsive\")>";
+				tab2+="<tr>";
+				tab2+="<td style=\"color:red\"><font size=\"4\"><b>&nbsp&nbsp" + String(response.reason) + "!<b></font></tb>";
+				tab2+="</tr>";
+				tab2+="</table>";
+				step_check_fail_reason.innerHTML=tab2;				//动态打印启动工步失败
+                console.log('steps_check return fail, response=', response)
+            });*/
+        }
+		//暂停函数(已改完)
+        function pause_steps() {
+			$.getJSON("/v1.0/json/step/pause/?tsp=timestamp", '', function(data, status, xhr){
+				//var data = simulation();
+				if ( data.status === "ok" ) {
+					//暂停工步成功
+					var tab1="<table border=1 width=100% height=40 class=\"table-bordered table-striped table-responsive\")>";
+					tab1+="<tr>";
+					tab1+="<td style=\"color:#00BB00\"><font size=\"3\"><b>&nbsp&nbsp工 步 暂 停 成 功<b></font></tb>";
+					tab1+="</tr>";
+					tab1+="</table>";
+				    step_check_fail_reason.innerHTML=tab1;     			//动态打印暂停工步成功的信息
+				}else{
+					//暂停工步失败
+					var tab2="<table border=1 width=100% height=40 class=\"table-bordered table-striped table-responsive\")>";
+					tab2+="<tr>";
+					tab2+="<td style=\"color:red\"><font size=\"4\"><b>&nbsp&nbsp暂停工步失败，失败原因="+ data.reason  +"！！！<b></font></tb>";
+					tab2+="</tr>";
+					tab2+="</table>";
+					step_check_fail_reason.innerHTML=tab2;				//动态打印暂停工步失败的错误信息
+				}
+			});
+		//
+            /*newline.steps_pause(function (data) {
+                console.log('steps_pause success return:', data);
+				$("tr").removeClass("danger");		//从tr中移除danger属性
+				var tab1="<table border=1 width=100% height=40 class=\"table-bordered table-striped table-responsive\")>";
+				tab1+="<tr>";
+				tab1+="<td style=\"color:#00BB00\"><font size=\"3\"><b>&nbsp&nbsp工 步 暂 停 成 功<b></font></tb>";
+				tab1+="</tr>";
+				tab1+="</table>";
+               step_check_fail_reason.innerHTML=tab1;     //动态打印暂停成功
+            }, function (response) {
+				var name = response.data;
+				$("." + name).addClass("danger");
+				var tab2="<table border=1 width=100% height=40 class=\"table-bordered table-striped table-responsive\")>";
+				tab2+="<tr>";
+				tab2+="<td style=\"color:red\"><font size=\"4\"><b>&nbsp&nbsp" + String(response.reason) + "!<b></font></tb>";
+				tab2+="</tr>";
+				tab2+="</table>";
+                step_check_fail_reason.innerHTML=tab2;		//动态打印暂停失败原因
+                console.log('steps_check return fail, response=', response)
+            });*/
+        }
+		//停止函数(已改完)
+        function stop_steps() {
+			$.getJSON("/v1.0/json/step/stop/?tsp=timestamp", '', function(data, status, xhr){
+				//var data = simulation();
+				if ( data.status === "ok" ) {
+					//停止工步成功
+					var tab1="<table border=1 width=100% height=40 class=\"table-bordered table-striped table-responsive\")>";
+					tab1+="<tr>";
+					tab1+="<td style=\"color:#00BB00\"><font size=\"3\"><b>&nbsp&nbsp工 步 停 止 成 功<b></font></tb>";
+					tab1+="</tr>";
+					tab1+="</table>";
+				    step_check_fail_reason.innerHTML=tab1;     			//动态打印停止工步成功的信息
+				}else{
+					//停止工步失败
+					var tab2="<table border=1 width=100% height=40 class=\"table-bordered table-striped table-responsive\")>";
+					tab2+="<tr>";
+					tab2+="<td style=\"color:red\"><font size=\"4\"><b>&nbsp&nbsp停止工步失败，失败原因="+ data.reason  +"！！！<b></font></tb>";
+					tab2+="</tr>";
+					tab2+="</table>";
+					step_check_fail_reason.innerHTML=tab2;				//动态打印停止工步失败的错误信息
+				}
+			});
+		//
+            /*newline.steps_stop(function (data) {
+                console.log('steps_stop success return:', data);
+				$("tr").removeClass("danger");		//从tr中移除danger属性
+				var tab1="<table border=1 width=100% height=40 class=\"table-bordered table-striped table-responsive\")>";
+				tab1+="<tr>";
+				tab1+="<td style=\"color:#00BB00\"><font size=\"3\"><b>&nbsp&nbsp工 步 停 止 成 功<b></font></tb>";
+				tab1+="</tr>";
+				tab1+="</table>";
+                step_check_fail_reason.innerHTML=tab1;     //动态打印停止成功
+            }, function (response) {
+				var name = response.data;
+				$("." + name).addClass("danger");
+				var tab2="<table border=1 width=100% height=40 class=\"table-bordered table-striped table-responsive\")>";
+				tab2+="<tr>";
+				tab2+="<td style=\"color:red\"><font size=\"4\"><b>&nbsp&nbsp" + String(response.reason) + "!<b></font></tb>";
+				tab2+="</tr>";
+				tab2+="</table>";
+                step_check_fail_reason.innerHTML=tab2;		//动态打印暂停失败原因
+                console.log('steps_stop return fail, response=', response)
+            });*/
+        }
+		//检查函数(已改完)
+		function check_all_steps() {
+			$.getJSON("/v1.0/json/step/check/?tsp=timestamp", '', function(data, status, xhr){
+				//var data = simulation();
+				if ( data.status === "ok" ) {
+					//检查工步成功
+					var tab1="<table border=1 width=100% height=40 class=\"table-bordered table-striped table-responsive\")>";
+					tab1+="<tr>";
+					tab1+="<td style=\"color:#00BB00\"><font size=\"3\"><b>&nbsp&nbsp工 步 文 件 无 误<b></font></tb>";
+					tab1+="</tr>";
+					tab1+="</table>";
+					step_check_fail_reason.innerHTML=tab1;				//动态打印检查工步成功的信息
+				}else{
+					//检查工步失败
+					var tab2="<table border=1 width=100% height=40 class=\"table-bordered table-striped table-responsive\")>";
+					tab2+="<tr>";
+					tab2+="<td style=\"color:red\"><font size=\"4\"><b>&nbsp&nbsp检查工步失败，失败原因="+ data.reason  +"！！！<b></font></tb>";
+					tab2+="</tr>";
+					tab2+="</table>";
+					step_check_fail_reason.innerHTML=tab2;				//动态打印检查工步失败的错误信息
+				}
+			});
+		//
+            /*newline.steps_check(function (data) {
+                console.log('steps_check success return:', data);
+                $("tr").removeClass("danger");
+				var tab1="<table border=1 width=100% height=40 class=\"table-bordered table-striped table-responsive\")>";
+				tab1+="<tr>";
+				tab1+="<td style=\"color:#00BB00\"><font size=\"3\"><b>&nbsp&nbsp工 步 文 件 无 误<b></font></tb>";
+				tab1+="</tr>";
+				tab1+="</table>";
+                step_check_fail_reason.innerHTML=tab1;     //动态打印检查工步无误
+            }, function (response) {
+                var name = response.data;
+                $("." + name).addClass("danger");
+				var tab2="<table border=1 width=100% height=40 class=\"table-bordered table-striped table-responsive\")>";
+				tab2+="<tr>";
+				tab2+="<td style=\"color:red\"><font size=\"4\"><b>&nbsp&nbsp" + String(response.reason) + "!<b></font></tb>";
+				tab2+="</tr>";
+				tab2+="</table>";
+                step_check_fail_reason.innerHTML=tab2;		//动态打印工步故障
+                console.log('steps_check return fail, response=', response)
+            });*/
+        }
+		//重启函数
+		function restart_steps(step) {
+            newline.steps_reboot('step' + String(step),function (data) {
+                console.log('steps_reboot success return:', data);
+                $("tr").removeClass("danger");
+				var tab1="<table border=1 width=100% height=40 class=\"table-bordered table-striped table-responsive\")>";
+				tab1+="<tr>";
+				tab1+="<td style=\"color:#00BB00\"><font size=\"3\"><b>&nbsp&nbsp工 步 " + String(step) + " 重 启 成 功<b></font></tb>";
+				tab1+="</tr>";
+				tab1+="</table>";
+               step_check_fail_reason.innerHTML=tab1;   	//动态打印工步重启成功
+            }, function (response) {
+                var name = response.data;
+                $("." + name).addClass("danger");
+				var tab2="<table border=1 width=100% height=40 class=\"table-bordered table-striped table-responsive\")>";
+				tab2+="<tr>";
+				tab2+="<td style=\"color:red\"><font size=\"4\"><b>&nbsp&nbsp" + String(response.reason) + "!<b></font></tb>";
+				tab2+="</tr>";
+				tab2+="</table>";
+                step_check_fail_reason.innerHTML=tab2;		//动态打印工步重启失败原因
+                console.log('steps_reboot return fail, response=', response)
+            });
+        }
+		
+
+		//let lc = {{lc | safe}};
+		var process_number = "-1";
+		//获取当前运行流程编号
+		function execution_process_number() {
+			var lengthes = -1;
+			let lc = {{lc | safe}};
+			var state = lc.流程运行状态;
+			if(state === "运行中"){
+				var number = lc.当前流程名;
+				number=number.substr(1,number.length-1);	//把"s11"变成"11"
+				if(process_number != number){
+					var data = JSON.parse(lc.Source);	//当前流程内容
+					flow_time = data.ttl;				//流程执行时间
+					lengthes = data.conditions.length;	//条件长度
+					//根据条件数量做出对应显示
+					var tab1="<h4><span class=\"label label-success\">第 " + number + " 步</span></h4>";
+					tab1+="<hr>";
+					step_1.innerHTML=tab1;
+					//lengthes=lengthes+12;
+					if(lengthes == 1){
+						show_1_condition();	
+					}else if(lengthes == 3){
+						show_3_condition();	
+					}else if(lengthes == 7){
+						show_7_condition();	
+					}else if(lengthes == 11){
+						show_11_condition();	
+					}else if(lengthes == 15){
+						show_15_condition();	
+					}
+					process_number = number;
+				}else{
+					//process_number = number;
+				}
+			}	
+		}
+		//1个条件动态显示数据
+		function show_1_condition() {
+			let lc = {{lc | safe}};
+			var data = JSON.parse(lc.Source);		//当前流程内容				
+			var condition = data.conditions[0];		//条件
+			var flow_time = data.ttl;				//流程执行时间
+			var cycle_index = lc.流程循环计数;		//当前流程循环次数
+			var flow_number = lc.流程数量;			//总流程数
+			
+			var tab1="<div class=\"row\">";	
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程条件:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程执行时间:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>本流程循环次数:&nbsp;</b></h5></label> ";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程总计:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div class=\"row\">";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition\">" + condition + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition1\">条件</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"flow_time\">" + flow_time + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"flow_time1\">秒</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"cycle_index\">" + cycle_index + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"cycle_index1\">次</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"flow_number\">" + flow_number + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"flow_number1\">个</span> ";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="</div>";
+			div1.innerHTML=tab1;				
+		}
+		//3个条件动态显示数据
+		function show_3_condition() {
+			let lc = {{lc | safe}};
+			var data = JSON.parse(lc.Source);		//当前流程内容				
+			var condition_0 = data.conditions[0];	//条件
+			var condition_1 = data.conditions[1];	//符号
+			var condition_2 = data.conditions[2];	//值
+			var flow_time = data.ttl;				//流程执行时间
+			var cycle_index = lc.流程循环计数;		//当前流程循环次数
+			var flow_number = lc.流程数量;			//总流程数
+			
+			var tab1="<div class=\"row\">";	
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程条件:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程符号:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程条件值:&nbsp;</b></h5></label> ";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程执行时间:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div class=\"row\">";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_0\">" + condition_0 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_01\">条件</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_1\">" + condition_1 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_11\">符号</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_2\">" + condition_2 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_21\">值</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"flow_time\">" + flow_time + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"flow_time1\">秒</span> ";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="</div>";
+			
+			tab1+="<div class=\"row\"><p></p></div>";	
+			
+			tab1+="<div class=\"row\">";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>本流程循环次数:&nbsp;</b></h5></label> ";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程总计:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div class=\"row\">";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"cycle_index\">" + cycle_index + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"cycle_index1\">次</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"flow_number\">" + flow_number + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"flow_number1\">个</span> ";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="</div>";
+			div1.innerHTML=tab1;				
+		}
+		//7个条件动态显示数据
+		function show_7_condition() {
+			let lc = {{lc | safe}};
+			var data = JSON.parse(lc.Source);		//当前流程内容				
+			var condition_0 = data.conditions[0];	//条件1
+			var condition_1 = data.conditions[1];	//符号1
+			var condition_2 = data.conditions[2];	//值1
+			var condition_3 = data.conditions[3];	//关联逻辑关系
+			var condition_4 = data.conditions[4];	//条件2
+			var condition_5 = data.conditions[5];	//符号2
+			var condition_6 = data.conditions[6];	//值2
+			var flow_time = data.ttl;				//流程执行时间
+			var cycle_index = lc.流程循环计数;		//当前流程循环次数
+			var flow_number = lc.流程数量;			//总流程数
+			
+			var tab1="<div class=\"row\">";	
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程条件1:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程符号1:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程条件值1:&nbsp;</b></h5></label> ";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>条件关联逻辑:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div class=\"row\">";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_0\">" + condition_0 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_01\">条件</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_1\">" + condition_1 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_11\">符号</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_2\">" + condition_2 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_21\">值</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_3\">" + condition_3 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_31\">关系</span> ";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="</div>";
+			
+			tab1+="<div class=\"row\"><p></p></div>";
+			
+			tab1+="<div class=\"row\">";	
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程条件2:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程符号2:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程条件值2:&nbsp;</b></h5></label> ";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程执行时间:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div class=\"row\">";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_4\">" + condition_4 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_41\">条件</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_5\">" + condition_5 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_51\">符号</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_6\">" + condition_6 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_61\">值</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"flow_time\">" + flow_time + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"flow_time1\">秒</span> ";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="</div>";
+			
+			tab1+="<div class=\"row\"><p></p></div>";	
+			
+			tab1+="<div class=\"row\">";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>本流程循环次数:&nbsp;</b></h5></label> ";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程总计:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div class=\"row\">";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"cycle_index\">" + cycle_index + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"cycle_index1\">次</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"flow_number\">" + flow_number + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"flow_number1\">个</span> ";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="</div>";
+			div1.innerHTML=tab1;				
+		}
+		//11个条件动态显示数据
+		function show_11_condition() {
+			let lc = {{lc | safe}};
+			var data = JSON.parse(lc.Source);		//当前流程内容				
+			var condition_0 = data.conditions[0];	//条件1
+			var condition_1 = data.conditions[1];	//符号1
+			var condition_2 = data.conditions[2];	//值1
+			var condition_3 = data.conditions[3];	//关联逻辑关系1
+			var condition_4 = data.conditions[4];	//条件2
+			var condition_5 = data.conditions[5];	//符号2
+			var condition_6 = data.conditions[6];	//值2
+			var condition_7 = data.conditions[7];	//关联逻辑关系2
+			var condition_8 = data.conditions[8];	//条件3
+			var condition_9 = data.conditions[9];	//符号3
+			var condition_10 = data.conditions[10];	//值3
+			var flow_time = data.ttl;				//流程执行时间
+			var cycle_index = lc.流程循环计数;		//当前流程循环次数
+			var flow_number = lc.流程数量;			//总流程数
+			
+			var tab1="<div class=\"row\">";	
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程条件1:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程符号1:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程条件值1:&nbsp;</b></h5></label> ";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>条件关联逻辑1:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div class=\"row\">";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_0\">" + condition_0 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_01\">条件</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_1\">" + condition_1 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_11\">符号</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_2\">" + condition_2 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_21\">值</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_3\">" + condition_3 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_31\">关系</span> ";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="</div>";
+			
+			tab1+="<div class=\"row\"><p></p></div>";
+			
+			tab1+="<div class=\"row\">";	
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程条件2:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程符号2:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程条件值2:&nbsp;</b></h5></label> ";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>条件关联逻辑2:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div class=\"row\">";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_4\">" + condition_4 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_41\">条件</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_5\">" + condition_5 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_51\">符号</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_6\">" + condition_6 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_61\">值</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_3\">" + condition_7 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_71\">关系</span> ";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="</div>";
+			
+			tab1+="<div class=\"row\"><p></p></div>";
+			
+			tab1+="<div class=\"row\">";	
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程条件3:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程符号3:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程条件值3:&nbsp;</b></h5></label> ";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程执行时间:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div class=\"row\">";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_8\">" + condition_8 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_81\">条件</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_9\">" + condition_9 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_91\">符号</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_10\">" + condition_10 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_101\">值</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"flow_time\">" + flow_time + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"flow_time1\">秒</span> ";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="</div>";
+			
+			tab1+="<div class=\"row\"><p></p></div>";	
+			
+			tab1+="<div class=\"row\">";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>本流程循环次数:&nbsp;</b></h5></label> ";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程总计:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div class=\"row\">";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"cycle_index\">" + cycle_index + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"cycle_index1\">次</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"flow_number\">" + flow_number + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"flow_number1\">个</span> ";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="</div>";
+			div1.innerHTML=tab1;				
+		}
+		//15个条件动态显示数据
+		function show_15_condition() {
+			let lc = {{lc | safe}};
+			var data = JSON.parse(lc.Source);		//当前流程内容				
+			var condition_0 = data.conditions[0];	//条件1
+			var condition_1 = data.conditions[1];	//符号1
+			var condition_2 = data.conditions[2];	//值1
+			var condition_3 = data.conditions[3];	//关联逻辑关系1
+			var condition_4 = data.conditions[4];	//条件2
+			var condition_5 = data.conditions[5];	//符号2
+			var condition_6 = data.conditions[6];	//值2
+			var condition_7 = data.conditions[7];	//关联逻辑关系2
+			var condition_8 = data.conditions[8];	//条件3
+			var condition_9 = data.conditions[9];	//符号3
+			var condition_10 = data.conditions[10];	//值3
+			var condition_11 = data.conditions[11];	//关联逻辑关系3
+			var condition_12 = data.conditions[12];	//条件4
+			var condition_13 = data.conditions[13];	//符号4
+			var condition_14 = data.conditions[14];	//值4
+			var flow_time = data.ttl;				//流程执行时间
+			var cycle_index = lc.流程循环计数;		//当前流程循环次数
+			var flow_number = lc.流程数量;			//总流程数
+			
+			var tab1="<div class=\"row\">";	
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程条件1:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程符号1:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程条件值1:&nbsp;</b></h5></label> ";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>条件关联逻辑1:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div class=\"row\">";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_0\">" + condition_0 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_01\">条件</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_1\">" + condition_1 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_11\">符号</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_2\">" + condition_2 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_21\">值</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_3\">" + condition_3 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_31\">关系</span> ";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="</div>";
+			
+			tab1+="<div class=\"row\"><p></p></div>";
+			
+			tab1+="<div class=\"row\">";	
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程条件2:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程符号2:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程条件值2:&nbsp;</b></h5></label> ";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>条件关联逻辑2:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div class=\"row\">";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_4\">" + condition_4 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_41\">条件</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_5\">" + condition_5 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_51\">符号</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_6\">" + condition_6 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_61\">值</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_3\">" + condition_7 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_71\">关系</span> ";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="</div>";
+			
+			tab1+="<div class=\"row\"><p></p></div>";
+			
+			tab1+="<div class=\"row\">";	
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程条件3:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程符号3:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程条件值3:&nbsp;</b></h5></label> ";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>条件关联逻辑3:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div class=\"row\">";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_8\">" + condition_8 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_81\">条件</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_9\">" + condition_9 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_91\">符号</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_10\">" + condition_10 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_101\">值</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_11\">" + condition_11 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_111\">关系</span> ";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="</div>";
+			
+			tab1+="<div class=\"row\"><p></p></div>";
+			
+			tab1+="<div class=\"row\">";	
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程条件4:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程符号4:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程条件值4:&nbsp;</b></h5></label> ";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程执行时间:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div class=\"row\">";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_12\">" + condition_12 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_121\">条件</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_13\">" + condition_13 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_131\">符号</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"condition_14\">" + condition_14 + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"condition_141\">值</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"flow_time\">" + flow_time + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"flow_time1\">秒</span> ";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="</div>";
+			
+			tab1+="<div class=\"row\"><p></p></div>";	
+			
+			tab1+="<div class=\"row\">";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>本流程循环次数:&nbsp;</b></h5></label> ";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-2\">";
+			tab1+="<label><h5><b>流程总计:&nbsp;</b></h5></label>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div class=\"row\">";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"cycle_index\">" + cycle_index + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"cycle_index1\">次</span>";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="<div style=\"width: 25%\" class=\"col-xs-1\">";
+			tab1+="<div class=\"input-group\">";
+			tab1+="<output type=\"text\" class=\"form-control\" id=\"flow_number\">" + flow_number + "</output>";
+			tab1+="<span class=\"input-group-addon\" id=\"flow_number1\">个</span> ";
+			tab1+="</div>";
+			tab1+="</div>";
+			tab1+="</div>";
+			div1.innerHTML=tab1;					
+		}
+		//指定5秒调用一次解析函数
+		setInterval('location.reload([false]) ',10000); 
+		//跳转编辑页面
+		function skip_page() {
+           window.location.href = "/xmzt";
+        }
+	</script>
+</head>
+<body onload="javascript:execution_process_number()">
+    <div class="container">		
+		<div class="row">
+			<div style="width: 50%" class="col-xs-1">
+				<h3>
+					<span class="glyphicon glyphicon-folder-open text-primary"></span>
+					&nbsp;当 前 执 行 流 程 展 示
+				</h3>
+			</div>
+			<div style="width:50%;text-align:right;" class="col-xs-1">
+				<h3>
+					<button type="button" style="height:30px;width:30px;" class="btn btn-xs btn-success" onClick="javascript:start_steps()"><span class="link glyphicon glyphicon-play"></span></button>
+					<button type="button" style="height:30px;width:30px;" class="btn btn-xs btn-warning" onClick="javascript:pause_steps()"><span class="link glyphicon glyphicon-pause"></span></button>
+					<button type="button" style="height:30px;width:30px;" class="btn btn-xs btn-danger" onClick="javascript:stop_steps()"><span class="link glyphicon glyphicon-stop"></span></button>
+					<button type="button" style="height:30px;width:30px;" class="btn btn-xs btn-primary" onClick="javascript:check_all_steps()"><span class="link glyphicon glyphicon-zoom-out"></span></button>
+					<button type="button" style="height:30px;width:30px;" class="btn btn-xs btn-success.focus" onclick="javascript:skip_page()"><span class="link glyphicon glyphicon-edit"></span></button>
+				</h3>
+			</div>
+		</div>
+		
+		<div class="row"><p>&nbsp;</p></div>
+		
+		<div class="row" id="step_1">
+            <h4><span class="label label-success">第 N 步</span></h4>
+            <hr>
+        </div>
+		
+		<div class="row" id="div1"></div>
+		
+		<div class="row"><p></p></div>
+		
+		<div class="row" id="step_check_fail_reason"></div>
+		
+		<div class="row"><p></p></div>
+		
+    </div>
+</body>
+</html>		
+
+
+
+
+
+
+
+
+
+
+

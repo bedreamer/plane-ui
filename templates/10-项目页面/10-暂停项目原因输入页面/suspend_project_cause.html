@@ -1,0 +1,159 @@
+
+{% extends "00-base/01-theme-basic/1-10-1.html" %}
+
+{% block page-title %}暂停项目-原因输入{% endblock %}
+
+
+{% block page-header %}
+    {% include "00-base/01-theme-basic/page-head.html" %}
+    {% include "00-base/01-theme-basic/global-message.html" %}
+{% endblock %}
+
+
+
+{% block inline-js-ahead %}
+	<script>
+        //获取ID函数
+        function get_url_param(key) {
+            var url = location.search; //获取url中"?"符后的字串
+            var theRequest = new Object();
+            if(url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("&");
+                for(var i = 0; i < strs.length; i ++) {
+                    theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+                }
+            }
+             return theRequest[key];
+        }
+        //提示
+		function display_prompt_message() {
+            var id = get_url_param("id");
+            var tab1="<div class=\"input-group\">";
+            tab1+="<span class=\"input-group-addon\">项目ID</span>";
+            tab1+="<input type=\"text\" class=\"form-control\"readonly=\"readonly\" name=\"id\" value="+ id +">";
+            tab1+="</div>";
+            rw_id.innerHTML=tab1;
+
+            var tab="<div class=\"text-danger col-xs-12\">";
+            tab+="<h4>确 定 暂 停 该 项 目 ？ 如 果 确 定 请 输 入 暂 停 项 目 原 因，并 点 击 <strong>暂 停 按 钮 </strong>暂 停 该 项 目 ！</h4>";
+			tab+="</div>";
+            tishi.innerHTML=tab;
+        }
+		//返回，执行项目罗列页面
+		function skip_page() {
+           window.location.href = "{% url '执行项目详情页面' %}";
+        }
+	</script>
+{% endblock %}
+
+{% block page-body %}
+   <br>
+    <h3>
+        <div class="row">
+            <div class="col-xs-4">
+                <span class="glyphicon glyphicon-tasks text-danger"></span>
+                &nbsp;项目操作
+            </div>
+
+            <div class="col-xs-8 text-right">
+                <a class="btn btn-lg btn-default" href="{% url "项目概要页面" as project_summary_url %}{{ request.GET.next|default:project_summary_url }}">
+                    <span class="glyphicon glyphicon-hand-left"></span>
+                    返回
+                </a>
+            </div>
+        </div>
+    </h3>
+    <hr>
+    <div class="row">
+        <div class="col-xs-12" style="padding: 0">
+            <div class="btn-group btn-group-justified" role="group">
+                <div class="btn-group" role="group">
+                    <a  href="{% url "暂停项目原因输入页面" ID.项目ID %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}" type="button" class="btn{% url "暂停项目原因输入页面" ID.项目ID as this_url %}{% if request.path == this_url %} btn-danger{% else %} btn-default{% endif %}">
+                        <span class="glyphicon glyphicon-pause"></span>
+                        暂停项目
+                    </a>
+
+
+                </div>
+                <div class="btn-group" role="group">
+                    <a  href="{% url '中止项目确认页面' ID.项目ID %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}" type="button" class="btn{% url "中止项目确认页面" ID.项目ID  as this_url %}{% if request.path == this_url %} btn-warning{% else %} btn-default{% endif %}">
+                        <span class="glyphicon  glyphicon-stop"></span>
+                        中止项目
+                    </a>
+                </div>
+            <div class="btn-group" role="group">
+                    <a href="{% url "执行项目确认页面" ID.项目ID  %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}"  type="button" class="btn{% url "执行项目确认页面" ID.项目ID  as this_url %}{% if request.path == this_url %} btn-success{% else %} btn-default{% endif %}">
+                        <span class="glyphicon glyphicon-play"></span>
+                        执行项目
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   <h3>{{ project }}</h3>
+   <form action="{% url "暂停项目成功页面" %}" method="post">
+       <div class="row">
+            <div class="col-xs-6">
+                <label class="text-success">项 目 I D:&nbsp;</label>
+            </div>
+            <div class="col-xs-6">
+                <label class="text-success">项 目 名:&nbsp;</label>
+            </div>
+
+            <div class=""><p></p></div>
+
+            <div class="col-xs-6" id="rw_id">
+                <div class="input-group">
+                    <span class="input-group-addon">项目ID</span>
+                    <input type="text" class="form-control" readonly="readonly" name="xm_id" value={{ ID.项目ID }}>
+                </div>
+            </div>
+            <div class="col-xs-6" id="rt_name">
+                <div class="input-group">
+                    <span class="input-group-addon">项目名</span>
+                    <input type="text" class="form-control" readonly="readonly" name="xm_name" value={{ ID.项目名 }}>
+                </div>
+            </div>
+       </div>
+
+       <div class="row"><p>&nbsp;</p></div>
+
+       <div class="row" id="tj_headline">
+            <div class="col-lg-12">
+                <label class="text-success">请 输 入 暂 停 原 因:&nbsp;</label>
+            </div>
+
+           <div class=""><p></p></div>
+
+           <div class="col-lg-12">
+               <div class="input-group">
+                   <span class="input-group-addon">暂停原因:</span>
+                   <input type="text" name="ztyy" value="" class="form-control" placeholder="例如：参数设置错误，项目测试无效">
+               </div>
+           </div>
+       </div>
+
+       <div class="row"><p>&nbsp;</p></div>
+
+       <div class="row" id="tj_headline">
+            <div class="col-xs-6">
+                <label class="text-success">暂 停 项 目:&nbsp;</label>
+            </div>
+       </div>
+       <div class="row" id="tj_headline">
+            <div  class="col-xs-6">
+                <input class="btn btn-info btn-block" type="submit" value="点 击 暂 停">
+            </div>
+       </div>
+   </form>
+
+   <div class="row"><p></p></div>
+
+   <div class="row" id="div1"></div>
+
+{% endblock %}
+
+
+

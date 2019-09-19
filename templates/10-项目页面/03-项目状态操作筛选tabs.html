@@ -1,0 +1,43 @@
+<br>
+<h3>
+    <div class="row">
+        <div class="col-xs-4">
+            <span class="glyphicon glyphicon-tasks text-danger"></span>
+            &nbsp;项目操作
+        </div>
+
+        <div class="col-xs-8 text-right">
+            <a class="btn btn-lg btn-default" href="{% url "项目概要页面" as project_summary_url %}{{ request.GET.next|default:project_summary_url }}">
+                <span class="glyphicon glyphicon-hand-left"></span>
+                返回
+            </a>
+        </div>
+    </div>
+</h3>
+<hr>
+<div class="row">
+    <div class="col-xs-12" style="padding: 0">
+        <div class="btn-group btn-group-justified" role="group">
+            <div class="btn-group" role="group">
+                <a  href="{% url "暂停项目原因输入页面" ID.项目ID %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}" type="button" class="btn{% url "暂停项目原因输入页面" ID.项目ID as this_url %}{% if request.path == this_url %} btn-danger{% else %} btn-default{% endif %}">
+                    <span class="glyphicon glyphicon-pause"></span>
+                    暂停项目
+                </a>
+
+
+            </div>
+            <div class="btn-group" role="group">
+                <a  href="{% url '中止项目确认页面' ID.项目ID %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}" type="button" class="btn{% url "中止项目确认页面" ID.项目ID as this_url %}{% if request.path == this_url %} btn-warning{% else %} btn-default{% endif %}">
+                    <span class="glyphicon  glyphicon-stop"></span>
+                    中止项目
+                </a>
+            </div>
+        <div class="btn-group" role="group">
+                <a href="{% url "执行项目确认页面" ID.项目ID %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}"  type="button" class="btn{% url "执行项目确认页面" ID.项目ID as this_url %}{% if request.path == this_url %} btn-success{% else %} btn-default{% endif %}">
+                    <span class="glyphicon glyphicon-play"></span>
+                    执行项目
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

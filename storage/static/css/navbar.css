@@ -1,0 +1,17 @@
+.my-side-nav {
+    top: 50px;
+    left: 0px;
+    width: 16.7%;
+    height: 98vh;
+    float: left;
+    position: fixed;
+    background-color: #f2f8fc;
+    border-right-color: rgb(221, 221, 221);
+    border-right-style: solid;
+    border-right-width: 1px;
+    overflow: hidden;
+}
+
+body {
+    //overflow: hidden;
+}

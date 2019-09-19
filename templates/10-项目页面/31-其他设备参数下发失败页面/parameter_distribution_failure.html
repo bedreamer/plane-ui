@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>应 用 设 备 参 数 设 置 失 败 提 示 页 面</title>
+	<link rel="stylesheet" href="/static/css/bootstrap.css" />
+	<script src="/static/js/wsapi.js"></script>
+	<script src="/static/js/newline.js"></script>
+	<script>
+
+		let skip = {{ skip | safe }};
+		//显示中止成功信息
+		function sstop_succeed(){
+            if(skip.设置页面 == "zsgc"){
+                var tab="<div class=\"text-danger col-xs-12\">";
+                tab+="<h3><strong>提示</strong>：应 用 设 备 参 数 设 置<strong> 失 败</strong> ，将 在 3 秒 后 返 回 高 级 操 作 页 面 ，重 新 设 置 参 数 ！</h3>";
+                tab+="</div>";
+                tishi.innerHTML=tab;
+                setTimeout("skip_page()","3000");
+            }else if(skip.设置页面 == "xjxm"){
+                var tab="<div class=\"text-danger col-xs-12\">";
+                tab+="<h3><strong>提示</strong>：应 用 设 备 参 数 设 置<strong> 失 败</strong> ，将 在 3 秒 后 返 回 项 目 新 建 页 面 ，重 新 设 置 参 数 ！</h3>";
+                tab+="</div>";
+                tishi.innerHTML=tab;
+                setTimeout("skip_page1()","3000");
+            }
+		}
+	    //跳转，高级操作页面
+        function skip_page() {
+           window.location.href = "/zsgc/";
+        }
+        //跳转，新建项目页面
+        function skip_page1() {
+           window.location.href = "/xjxm/";
+        }
+	</script>
+</head>
+<body onload="javascript:sstop_succeed()">
+    <div class="container">
+
+		<div class="row"><p></p></div>
+
+		<div class="row">
+			<div class="col-xs-12">
+				<h3>
+					<span class="glyphicon glyphicon-alert text-danger"></span>
+					&nbsp;应 用 设 备 参 数 设 置 失 败 提 示 页 面
+				</h3>
+			</div>
+		</div>
+
+        <div class="row"><hr></hr></div>
+
+        <div class="row"><p>&nbsp;</p></div>
+
+        <div class="row"><p>&nbsp;</p></div>
+
+        <div class="row" id ="tishi"></div>
+
+        <div class="row"><p></p></div>
+
+		<div class="row" id="div1"></div>
+		
+    </div>
+</body>
+</html>		
+
+
+
+
+
+
+
+
+
+
+

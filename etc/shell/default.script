@@ -1,0 +1,5 @@
+echo 这是默认的脚本执行文件
+host localhost
+port 6379
+database 0
+connect

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title> 项 目 流 程 文 件 上 传 页 面</title>
+	<link rel="stylesheet" href="/static/css/bootstrap.css" />
+	<script src="/static/js/wsapi.js"></script>
+	<script src="/static/js/newline.js"></script>
+    <style>
+        
+    </style>
+	
+	<script>
+		//let wj_list = {{ wj_list | safe }};
+        let ID = {{ ID | safe }};
+        // 这里可以像下面这样直接引用变量
+
+         //获取ID函数
+        function get_url_param(key) {
+            var url = location.search; //获取url中"?"符后的字串
+            var theRequest = new Object();
+            if(url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("&");
+                for(var i = 0; i < strs.length; i ++) {
+                    theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+                }
+            }
+             return theRequest[key];
+        }
+        //根据各种情况，显示项目ID，页面标志
+		function display_prompt_message() {
+            var tab2="<div class=\"input-group\">";
+            tab2+="<span class=\"input-group-addon\">项目ID</span>";
+            tab2+="<input type=\"text\" class=\"form-control\" readonly=\"readonly\" name=\"xm_id\" value="+ {{ ID.项目ID }}+">";
+            tab+="</div>";
+            rw_id3.innerHTML=tab2;
+
+            var tab3="<div class=\"input-group\">";
+            tab3+="<span class=\"input-group-addon\">项目ID</span>";
+            tab3+="<input type=\"text\" class=\"form-control\" readonly=\"readonly\" name=\"xm_id\" value="+ {{ ID.项目ID }}+">";
+            tab3+="</div>";
+            rw_id4.innerHTML=tab3;
+
+            if(ID.进入状态 == "修改项目"){
+                var tab="<h4><span style=\"font-size:80%\" class=\"label label-success\">流 程 文 件 信 息 列 表</span></h4>";
+                rw_id1.innerHTML=tab;
+
+                var tab1="<div class=\"col-xs-12\">";
+                tab1+="<table class=\"table table-striped table-bordered\">";
+                tab1+="<thead>";
+                tab1+="<tr>";
+                tab1+="<th>项目流程文件ID</th>";
+                tab1+="<th>项目流程文件名</th>";
+                tab1+="</tr>";
+                tab1+="</thead>";
+                tab1+="<tbody>";
+                tab1+="{% for wj in wj_list %}";
+                tab1+="<tr style=\"vertical-align: middle;text-align: center;\">";
+                tab1+="<td class=\"text-primary\">{{wj.id}}</td>";
+                tab1+="<td>{{wj.name}}</td>";
+                tab1+="</tr>";
+                tab1+="{% endfor %}";
+                tab1+="</tbody>";
+                tab1+="</table>";
+                tab1+="</div>";
+                tishi.innerHTML=tab1;
+            }
+        }
+
+	</script>
+	
+</head>
+<body onload="javascript:display_prompt_message()">
+
+    <div class="container">
+        
+		<div class="row">
+			<div style="width: 50%" class="col-xs-2">
+				<h3>
+					<span class="glyphicon  glyphicon-floppy-open text-primary"></span>
+					&nbsp;项 目 流 程 文 件 上 传 页 面
+				</h3>
+			</div>
+			<!--<div style="width:50%;text-align:right;" class="col-xs-2">
+				<h2>
+					<button type="button" style="height:35px;width:150px;" class="btn btn-info btn-success.focus" onclick="javascript:skip_page()"><span class="link glyphicon glyphicon-hand-left">&nbsp返 回</span></button>
+				</h2>
+			</div>-->
+		</div>
+	
+		<div class="row"><hr></hr></div>
+
+		<form method="post" name="f_upload" enctype="multipart/form-data" action="{% url "上传文件失败页面" %}" > <!--UploadOneServlet-->
+
+            <div class="row">
+                <div class="text-danger col-xs-12"><h4><strong>提示：</strong>选 择 项 目 流 程 文 件，上 传，执 行！</h4></div>
+            </div>
+
+            <div class="row"><p></p></div>
+
+           <div class="row">
+                <div class="col-xs-4" id="rw_id1">
+
+                </div>
+            </div>
+
+            <div class="row"><p></p></div>
+
+           <div class="row" id="tishi">
+
+           </div>
+
+           <div class="row">
+               <div class="col-xs-6">
+                   <h4><span style="font-size:80%" class="label label-success">项 目 名</span></h4>
+               </div>
+               <div class="col-xs-6">
+                   <h4><span style="font-size:80%" class="label label-success">项 目 I D</span></h4>
+               </div>
+           </div>
+
+            <div class="row"><p></p></div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group" id="rw_id">
+                        <div class="input-group">
+                            <span class="input-group-addon">项目名</span>
+                             <input type="text" class="form-control" readonly="readonly" name="xm_name" value={{ ID.项目名 }}>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group" id="rw_id">
+                        <div class="input-group">
+                            <span class="input-group-addon">项目ID</span>
+                             <input type="text" class="form-control" readonly="readonly" name="xm_id" value={{ ID.项目ID }}>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <div class="form-group" id="rw_id2"></div>
+                </div>
+            </div>
+
+            <div class="row"><p></p></div>
+
+            <div class="row" id="tj_headline">
+                <div class="col-xs-6">
+                    <h4><label style="font-size:80%"  class="label label-success">流程文件保存名称:&nbsp;</label></h4>
+                </div>
+                <div class="col-xs-6">
+                    <h4><label style="font-size:80%"  class="label label-success">流程文件备注:&nbsp;</label></h4>
+                </div>
+
+                <div class=""><p></p></div>
+
+                <div class="col-xs-6" id="xm_zy">
+                    <div class="input-group">
+                        <span class="input-group-addon">文件名称:</span>
+                        <input type="text" name="subscript" value="" class="form-control" placeholder="例如：充电实验流程文件">
+                    </div>
+                </div>
+                 <div class="col-xs-6" id="xm_js">
+                    <div class="input-group">
+                        <span class="input-group-addon">文件备注:</span>
+                        <input type="text" name="description" value="" class="form-control" placeholder="例如：执行一次">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row"><p></p></div>
+
+            <div class="row">
+                <div class="col-xs-3 form-group">
+                    <h4><label for="inputfile" class="label label-success">文 件 输 入</label></h4>
+                    <div class="row"><p></p></div>
+                    <input type="file" id="inputfile" name="myfile" multiple="multiple" value="" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div style="width: 50%" class="col-xs-2 withunderline">
+                    <h4><span style="font-size:80%" class="label label-success">操 作 选 项</span></h4>
+                </div>
+            </div>
+
+            <div class="row"><p></p></div>
+
+            <div class="row" id="tj_headline">
+                <div style="width: 25%" class="col-xs-2">
+                    <input class="btn btn-info btn-block" type="submit" value="点 击 上 传">
+                    <!--<a type="submit" class="btn btn-default btn-block" onClick="javascript:project_upload()">点 击 就 绪</a>-->
+                </div>
+                <!--<div style="width: 25%" class="col-xs-2">
+                    <a type="submit" class="btn btn-default btn-block" onClick="javascript:project_implementation()">点 击 执 行</a>
+                </div>-->
+            </div>
+
+            <div class="row"><p>&nbsp;</p></div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="text-danger"><h4><strong>说 明:</strong></h4></div>
+                    <div class="text-danger"><strong>编辑信息：</strong>根 据 实 际 需 求 编 辑，文 件 名 称 及 文 件 备 注，其 中 <strong>文 件 名 必 须 编 辑 ！</strong></div>
+                    <div class="row"><p></p></div>
+                    <div class="text-danger"><strong>选择文件：</strong>查 找 需 要 执 行 的 项 目 流 程 文 件 ！</div>
+                    <div class="row"><p></p></div>
+                    <div class="text-danger"><strong>点击上传：</strong>上 传 项 目 流 程 文 件，<strong>上 传 成 功</strong> 进 入 操 作 选 择 页 面，<strong>上 传 失 败</strong> 将 在 3 秒 以 后 返 回 该 页 面，重 新 上 传 ！</div>
+                    <div class="row"><p></p></div>
+					<div class="text-danger"><strong>完成配置：</strong>完 成 当 前 项 目 的 配 置 工 作 ！</div>
+                    <div class="row"><p></p></div>
+					<div class="text-danger"><strong>跳过配置：</strong>继 续 编 辑 项 目 时，当 前 页 面 已 经 是 编 辑 完 成 的，可 以 选 择 跳 过 编 辑 ！</div>
+                </div>
+            </div>
+		
+		    <div class="row"><p></p></div>
+
+        </form>
+
+        <div class="row"><p>&nbsp;</p></div>
+
+        <div class="row">
+
+            <form method="post" action="{% url "完成配置成功页面" %}">
+                <div class="hidden row">
+                    <div class="col-xs-6">
+                        <div class="form-group" id="rw_id3"></div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <table class="table">
+                        <tbody>
+                            <tr style='vertical-align: middle;text-align: center;'>
+                                <td class="success"><input class="btn btn-link" type="submit" value="完 成 配 置"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+
+            <form method="post" action="{% url "新建执行项目确认页面" %}">
+                <div class="hidden row">
+                    <div class="col-xs-6">
+                        <div class="form-group" id="rw_id4"></div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <table class="table">
+                        <tbody>
+                            <tr style='vertical-align: middle;text-align: center;'>
+                                <td class="warning"><input class="btn btn-link" type="submit" value="跳 过 配 置"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</body>
+</html>		
+
+
+
+

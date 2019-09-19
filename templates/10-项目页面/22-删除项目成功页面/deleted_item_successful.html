@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>项 目 删 除 成 功 提 示 页 面</title>
+	<link rel="stylesheet" href="/static/css/bootstrap.css" />
+	<script src="/static/js/wsapi.js"></script>
+	<script src="/static/js/newline.js"></script>
+	<script>
+        //let lc = {{ lc }};
+
+		//显示暂停成功信息
+		function sstop_succeed(){
+            var tab="<div class=\"text-danger col-xs-12\">";
+            tab+="<h3><strong>提示</strong>：删 除 该 项 目<strong> 成 功</strong> ，将 在 3 秒 后 返 回 项 目 删 除 列 表 页 面 ！</h3>";
+            tab+="</div>";
+            tishi.innerHTML=tab;
+            setTimeout("skip_page()","3000");
+		}
+	    //跳转，项目概要页面
+        function skip_page() {
+           window.location.href = "/scxm/";
+        }
+	</script>
+</head>
+<body onload="javascript:sstop_succeed()">
+    <div class="container">	
+	
+		<div class="row"><p></p></div>
+		
+		<div class="row">
+			<div class="col-xs-12">
+				<h3>
+					<span class="glyphicon glyphicon-saved text-success"></span>
+					&nbsp;项 目 删 除 成 功 提 示 界 面
+				</h3>
+			</div>
+		</div>
+
+        <div class="row"><hr></hr></div>
+
+        <div class="row"><p>&nbsp;</p></div>
+
+        <div class="row"><p>&nbsp;</p></div>
+
+        <div class="row" id ="tishi"></div>
+
+        <div class="row"><p></p></div>
+
+		<div class="row" id="div1"></div>
+
+    </div>
+</body>
+</html>		
+
+
+
+
+
+
+
+
+
+
+

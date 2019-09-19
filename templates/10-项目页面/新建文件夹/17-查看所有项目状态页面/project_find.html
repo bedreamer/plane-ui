@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>项 目 查 阅 页 面</title>
+	<link rel="stylesheet" href="/static/css/bootstrap.css" />
+	<script src="/static/js/wsapi.js"></script>
+	<script src="/static/js/newline.js"></script>
+
+	
+	<script>
+		//var api = WsApi('/newline/step/', 'onlwe.com:8888');
+        //var newline = NewLine(api);
+	//页面刷新生成表格
+		//$(document).ready(function () {
+            //api.ready(function () {
+               //dynamic_list();
+			   //jump_condition();
+            //});
+        //});
+	//整理下发数据
+		function distributed_data(){
+			var dispose,i,j;
+			var stepes = 0;
+			var steps = 1;
+			bushu = String(parseFloat(document.getElementById('step').value)); 			//步数（字符串）						
+			work_pattern = document.getElementById('work_pattern').value;
+			work_pattern = distinguish_work_pattern(work_pattern);							//工作模式（字符串）
+			temperature = parseFloat(document.getElementById('temperature').value); 		//温度（数字）
+			flow = parseFloat(document.getElementById('flow').value); 						//流量（数字）
+			time = parseFloat(document.getElementById('time').value)*60; 					//时间间隔（数字）
+			if(time > 0){
+				times = time;
+			}else{
+				times = -1;
+			}
+			percentage = parseFloat(document.getElementById('percentage').value); 		//加热百分比（数字）
+			cyclical_pattern = document.getElementById('cyclical_pattern').value;
+			cyclical_pattern = distinguish_cyclical_pattern(cyclical_pattern);				//循环模式（字符串）
+			comparison_other1 = document.getElementById('comparison_other1').value;
+			comparison_other1 = distinguish_comparison_other1(comparison_other1);			//比较对象1（字符串）
+			symbol1 = document.getElementById('symbol1').value;
+			symbol1 = distinguish_symbol1(symbol1);											//比较符号1（字符串）
+			condition1 = String(parseFloat(document.getElementById('condition1').value)); 	//比较值1（字符串）
+			relation = document.getElementById('relation').value;
+			relation = distinguish_relation(relation);										//关联关系（字符串）
+			if (relation == "N/A"){
+				relation = ""; 
+			}
+			comparison_other2 = document.getElementById('comparison_other2').value;
+			comparison_other2 = distinguish_comparison_other1(comparison_other2);			//比较对象2（字符串）
+			symbol2 = document.getElementById('symbol2').value;
+			symbol2 = distinguish_symbol1(symbol2);											//比较符号2（字符串）
+			condition2 = String(parseFloat(document.getElementById('condition2').value)); 	//比较值2（字符串）
+			if (((comparison_other1 == "")||(symbol1 == ""))&&((comparison_other2 == "")||(symbol2 == ""))){
+				comparison_other1 = "";
+				symbol1 = "";
+				condition1 = "";
+				relation = "";
+				comparison_other2 = "";
+				symbol2 = "";
+				condition2 = "";
+			}else if ((comparison_other1 == "")||(symbol1 == "")){
+				comparison_other1 = "";
+				symbol1 = "";
+				condition1 = "";
+				relation = "";
+			}else if ((comparison_other2 == "")||(symbol2 == "")){
+				relation = "";
+				comparison_other2 = "";
+				symbol2 = "";
+				condition2 = "";
+			}
+			matching = document.getElementById('matching').value;
+			matching = distinguish_matching(matching);						//匹配（字符串）
+			mismatching = document.getElementById('mismatching').value;
+			mismatching = distinguish_mismatching(mismatching);				//不匹配（字符串）		
+			//把上面拿到的数据写到表里
+			var stepdata = {
+				"mode": work_pattern,			//工作模式
+				"liuliang": flow,				//流量
+				"wendu": temperature,			//温度
+				"jiaregonglv": percentage,			//加热功率
+				"xunhuan": cyclical_pattern,	//循环方式
+				"ttl": times,					//执行时间
+				"tiaojian": [comparison_other1, symbol1, condition1, relation, comparison_other2, symbol2, condition2],//跳转条件
+				"true": matching,					//1. 判定条件为 ·真·， 默认跳转到下一步，或跳转至指定步骤
+				"false": mismatching				//2. 判定条件为 ·假·，默认继续执行当前工步，或跳转至指定步骤
+			}
+			$.getJSON("/v1.0/json/step/steps/get/?tsp=timestamp", '', function(data, status, xhr){
+				if ( data.status === "ok" ) {
+					//查询全部工步成功
+					for ( step in data.steps ) {
+						dispose = step;
+						i = dispose.charAt(4);
+						j = dispose.charAt(5);
+						if(j == ""){
+							i = i;
+						}else{
+							i = i+j;
+						}
+						if(parseFloat(i) >= 0){
+							stepes = parseFloat(i) + 1;
+							if(stepes > steps){
+								steps = stepes;
+							}
+						}else{
+							steps = 1;
+						}
+					}
+					if(bushu > 0){
+						//下发重新修改过的数据
+						$.getJSON("/v1.0/json/step/step"+  String(bushu) +"/save/?tsp=timestamp", '', function(data, status, xhr){
+							if ( data.status === "ok" ) {
+								//下发单个工步成功
+								dynamic_list();
+								$("#step").val(String(0));
+								var tab1="";
+								step_check_fail_reason.innerHTML=tab1;				//清除打印信息
+								//step_check_fail_reason1.innerHTML=tab1;			//清除判定条件2的错误打印信息
+							}else{
+								//下发单个工步失败
+								var tab5="<table border=1 width=100% height=40 class=\"table-bordered table-striped table-responsive\")>";
+								tab5+="<tr>";
+								tab5+="<td style=\"color:red\"><font size=\"4\"><b>&nbsp&nbsp下发工步修改工步失败，失败原因="+ data.reason  +"！！！<b></font></tb>";
+								tab5+="</tr>";
+								tab5+="</table>";
+								step_check_fail_reason.innerHTML=tab5;				//动态打印下发单个工步失败的错误信息
+							}
+						});	
+					}else {
+						if (steps < 13){
+							// 下发新建数据
+							$.getJSON("/v1.0/json/step/step"+  String(bushu) +"/save/?tsp=timestamp", '', function(data, status, xhr){
+								if ( data.status === "ok" ) {
+									//下发单个工步成功
+									dynamic_list();
+									var tab6="";
+									step_check_fail_reason.innerHTML=tab6;				//清除打印信息
+									//step_check_fail_reason1.innerHTML=tab1;			//清除判定条件2的错误打印信息
+								}else{
+									//下发单个工步失败
+									var tab7="<table border=1 width=100% height=40 class=\"table-bordered table-striped table-responsive\")>";
+									tab7+="<tr>";
+									tab7+="<td style=\"color:red\"><font size=\"4\"><b>&nbsp&nbsp下发新建单步工步失败，失败原因="+ data.reason  +"！！！<b></font></tb>";
+									tab7+="</tr>";
+									tab7+="</table>";
+									step_check_fail_reason.innerHTML=tab7;				//动态打印下发单个工步失败的错误信息
+								}
+							});	
+						}else{
+							var tab2="<table border=1 width=100% height=40 class=\"table-bordered table-striped table-responsive\")>";
+							tab2+="<tr>";
+							tab2+="<td style=\"color:red\"><font size=\"4\"><b>&nbsp&nbsp工步编辑已达上限！！！<b></font></tb>";
+							tab2+="</tr>";
+							tab2+="</table>";
+							step_check_fail_reason.innerHTML=tab2;				//动态打印工步编辑超上限
+						}
+					}
+					var tab3 = "";
+					step_check_fail_reason1.innerHTML=tab3;				//清除查询全部工步失败的打印信息
+				}else{
+					//查询全部工步失败
+					var tab4="<table border=1 width=100% height=40 class=\"table-bordered table-striped table-responsive\")>";
+					tab4+="<tr>";
+					tab4+="<td style=\"color:red\"><font size=\"4\"><b>&nbsp&nbsp查询全部工步失败，失败原因="+ data.reason  +"！！！<b></font></tb>";
+					tab4+="</tr>";
+					tab4+="</table>";
+					step_check_fail_reason1.innerHTML=tab4;				//动态打印查询全部工步失败的错误信息
+				}
+			});		
+		}
+	//动态生成表(已改完)
+		function dynamic_list(){
+			var mycars = new Array()
+			var rows = 0;
+			var tab;
+			var tab3 = "";
+			mycars[ 0] = "工步编号"
+			mycars[ 1] = "工步名称"
+			mycars[ 2] = "运行时间(秒)"
+			mycars[ 3] = "流量设定(L/min)"
+			mycars[ 4] = "温度设定(℃)"
+			mycars[ 5] = "加热百分比(%)"
+			mycars[ 6] = "循环模式"
+			mycars[ 7] = "跳转条件1"
+			mycars[ 8] = "逻辑关系"
+			mycars[ 9] = "跳转条件2"
+			mycars[10] = "匹配跳转"
+			mycars[11] = "不匹配跳转"
+			mycars[12] = "工步编辑"
+			var return_data = "";
+			$.getJSON("/v1.0/json/step/steps/get/?tsp=timestamp", '', function(data, status, xhr){
+				if ( data.status === "ok" ) {
+					//查询全部工步数据成功
+					cols=13;
+					div1=document.getElementById('div1');
+					for ( step in data.steps ) {  
+						rows = rows + 1;
+					}
+					heights = 40*(rows+1);
+					height = String(heights);
+					if (rows > 0){
+						tab="<table border=1 width=100% height=" + height + " cellspacing=0 cellpadding=10 align=\"center\" bgcolor=\"aqua\")>";
+						tab+='<tr align="center" valign="middle">';
+						for(var j=0;j<cols;j++){
+							tab+="<td><b>"+mycars[j]+"<b></td>"
+						}
+						tab+='</tr>'; 
+						for (step in data.steps ) {
+							var dispose = step;
+							var i = dispose.charAt(4);
+							var j = dispose.charAt(5);
+							if(j == ""){
+								i = i;
+							}else{
+								i = i+j;
+							}
+							var date = parseFloat(i);
+							if((date > 0)&&(date < 10)){
+								tab+='<tr align="center" valign="middle">';
+								tab+="<td>"+String(i)+"</td>";
+								tab+="<td>"+data['steps']['step'+ String(i)]['mode']+"</td>";
+								tab+="<td>"+data['steps']['step'+ String(i)]['ttl']+"</td>";
+								tab+="<td>"+data['steps']['step'+ String(i)]['liuliang']+"</td>";
+								tab+="<td>"+data['steps']['step'+ String(i)]['wendu']+"</td>";
+								tab+="<td>"+data['steps']['step'+ String(i)]['jiaregonglv']+"</td>";
+								circulation = data['steps']['step'+ String(i)]['xunhuan'];
+								if (circulation == ""){
+									tab+="<td>" + '-' + "</td>";
+								}else{
+									tab+="<td>" + circulation + "</td>";
+								}
+								comparison_other1 = data['steps']['step'+ String(i)]['tiaojian'][0];
+								symbol1 = data['steps']['step'+ String(i)]['tiaojian'][1];
+								condition1 = data['steps']['step'+ String(i)]['tiaojian'][2];
+								if((comparison_other1 == "")||(symbol1 == "")){
+									tab+="<td>" + '-' + "</td>";
+								}else{
+									tab+="<td>" + comparison_other1 + ' ' + symbol1 + ' ' + condition1 + "</td>";
+								}
+								relationship = data['steps']['step'+ String(i)]['tiaojian'][3];
+								if (relationship == ""){
+									tab+="<td>" + '-' + "</td>";
+								}else {
+									tab+="<td>" + relationship + "</td>";
+								}
+								comparison_other2 = data['steps']['step'+ String(i)]['tiaojian'][4];
+								symbol2 = data['steps']['step'+ String(i)]['tiaojian'][5];
+								condition2 = data['steps']['step'+ String(i)]['tiaojian'][6];
+								if((comparison_other2 == "")||(symbol2 == "")){
+									tab+="<td>" + '-' + "</td>";
+								}else{
+									tab+="<td>" + comparison_other2 + ' ' + symbol2 + ' ' + condition2 + "</td>";
+								}
+								tab+="<td>"+data['steps']['step'+ String(i)]['true']+"</td>";
+								tab+="<td>"+data['steps']['step'+ String(i)]['false']+"</td>";
+								tab+= '<td><button type="button" class="btn btn-xs btn-danger" onClick="javascript:remove_teps('+ String(i) +')"><span class="glyphicon glyphicon-remove"></span></button>&nbsp;';
+								tab+= '<button type="button" class="btn btn-xs btn-success" onClick="javascript:edit_data('+ String(i) +')"><span class="glyphicon glyphicon-edit"></span></button>&nbsp;';
+								tab+= '<button type="button" class="btn btn-xs btn-info" onClick="javascript:skip_page('+ String(i) +')"><span class="link glyphicon glyphicon-play"></span></button></td>';
+								tab+='</tr>'; 
+							}else if((date >= 10)&&(date < 20)){
+								tab3+='<tr align="center" valign="middle">';
+								tab3+="<td>"+String(i)+"</td>";
+								tab3+="<td>"+data['steps']['step'+ String(i)]['mode']+"</td>";
+								tab3+="<td>"+data['steps']['step'+ String(i)]['ttl']+"</td>";
+								tab3+="<td>"+data['steps']['step'+ String(i)]['liuliang']+"</td>";
+								tab3+="<td>"+data['steps']['step'+ String(i)]['wendu']+"</td>";
+								tab3+="<td>"+data['steps']['step'+ String(i)]['jiaregonglv']+"</td>";
+								circulation = data['steps']['step'+ String(i)]['xunhuan'];
+								if (circulation == ""){
+									tab3+="<td>" + '-' + "</td>";
+								}else{
+									tab3+="<td>" + circulation + "</td>";
+								}
+								comparison_other1 = data['steps']['step'+ String(i)]['tiaojian'][0];
+								symbol1 = data['steps']['step'+ String(i)]['tiaojian'][1];
+								condition1 = data['steps']['step'+ String(i)]['tiaojian'][2];
+								if((comparison_other1 == "")||(symbol1 == "")){
+									tab3+="<td>" + '-' + "</td>";
+								}else{
+									tab3+="<td>" + comparison_other1 + ' ' + symbol1 + ' ' + condition1 + "</td>";
+								}
+								relationship = data['steps']['step'+ String(i)]['tiaojian'][3];
+								if (relationship == ""){
+									tab3+="<td>" + '-' + "</td>";
+								}else {
+									tab3+="<td>" + relationship + "</td>";
+								}
+								comparison_other2 = data['steps']['step'+ String(i)]['tiaojian'][4];
+								symbol2 = data['steps']['step'+ String(i)]['tiaojian'][5];
+								condition2 = data['steps']['step'+ String(i)]['tiaojian'][6];
+								if((comparison_other2 == "")||(symbol2 == "")){
+									tab3+="<td>" + '-' + "</td>";
+								}else{
+									tab3+="<td>" + comparison_other2 + ' ' + symbol2 + ' ' + condition2 + "</td>";
+								}
+								tab3+="<td>"+data['steps']['step'+ String(i)]['true']+"</td>";
+								tab3+="<td>"+data['steps']['step'+ String(i)]['false']+"</td>";
+								tab3+= '<td><button type="button" class="btn btn-xs btn-danger" onClick="javascript:remove_teps('+ String(i) +')"><span class="glyphicon glyphicon-remove"></span></button>&nbsp;';
+								tab3+= '<button type="button" class="btn btn-xs btn-success" onClick="javascript:edit_data('+ String(i) +')"><span class="glyphicon glyphicon-edit"></span></button>&nbsp;';
+								tab3+= '<button type="button" class="btn btn-xs btn-info" onClick="javascript:skip_page('+ String(i) +')"><span class="link glyphicon glyphicon-play"></span></button></td>';
+								tab3+='</tr>'; 
+							}
+						}
+						tab = tab + tab3;
+						tab+='</table>';
+						div1.innerHTML=tab;
+						//生成匹配
+						var tab6 = "";
+						var tab1="<div class=\"input-group\">";
+						tab1+="<select id=\"matching\" style=\"padding: 6px 0px\" class=\"form-control\">";
+						tab1+="<option id=\"matching1\" value=\"\">请选择跳转步骤</option>";
+						tab1+="<option id=\"matching2\" value=\"xybt1\">$auto</option>";
+						tab1+="<option id=\"matching3\" value=\"daid1\">待定</option>";
+						for ( step in data.steps ) {
+							var dispose = step;
+							var i = dispose.charAt(4);
+							var x = dispose.charAt(5);
+							var j = 3 + parseFloat(i+x);
+							if((x+z)<10){
+								tab1+="<option id=matching" + String(j) +" value=step"+ String(i+x) +">" + String(i+x) + "</option>";
+							}else if((x+z)<20){
+								tab6+="<option id=matching" + String(j) +" value=step"+ String(i+x) +">" + String(i+x) + "</option>";
+							}			
+						}
+						tab1= tab1 + tab6;
+						tab1+='</select>';
+						tab1+="<span class=\"input-group-addon\" id=\"cyclical_pattern1\">步骤</span>";
+						tab1+='</div>';
+						matchings.innerHTML=tab1;
+						//生成不匹配
+						var tab7 = "";
+						var tab2="<div class=\"input-group\">";
+						tab2+="<select id=\"mismatching\" style=\"padding: 6px 0px\" class=\"form-control\">";
+						tab2+="<option id=\"mismatching1\" value=\"\">请选择跳转步骤</option>";
+						tab2+="<option id=\"mismatching2\" value=\"xybt2\">$auto</option>";
+						tab2+="<option id=\"mismatching3\" value=\"daid2\">待定</option>";
+						for ( step in data.steps ) {
+							var dispose = step;
+							var x = dispose.charAt(4);
+							var z = dispose.charAt(5);
+							var y = 3 + parseFloat(x+z);
+							if((x+z)<10){
+								tab2+="<option id=matching" + String(y) +" value=step"+ String(x+z) +">" + String(x+z) + "</option>";	
+							}else if((x+z)<20){
+								tab7+="<option id=matching" + String(y) +" value=step"+ String(x+z) +">" + String(x+z) + "</option>";
+							}
+								
+						}
+						tab2= tab2 + tab7;
+						tab2+='</select>';
+						tab2+="<span class=\"input-group-addon\" id=\"cyclical_pattern1\">步骤</span>";
+						tab2+='</div>';
+						mismatchings.innerHTML=tab2;
+					}else{
+						tab = "<div class=\"row col-xs-12\"><h3>当 前 无 工 步，请 编 辑！</h3></div>";
+						div1.innerHTML=tab;
+					}
+					var tab4 = "";
+					step_check_fail_reason.innerHTML=tab4;				//清除读取全部工步失败的打印信息
+				}else{
+					//查询全部工步数据失败
+					var tab5="<table border=1 width=100% height=40 class=\"table-bordered table-striped table-responsive\")>";
+					tab5+="<tr>";
+					tab5+="<td style=\"color:red\"><font size=\"4\"><b>&nbsp&nbsp查询全部工步数据失败，失败原因="+ data.reason  +"！！！<b></font></tb>";
+					tab5+="</tr>";
+					tab5+="</table>";
+					step_check_fail_reason.innerHTML=tab5;				//动态打印读取全部工步失败的错误信息
+				}
+			});		
+		}
+	//处理编辑函数(已改完)
+		function edit_data(step){
+			$.getJSON("/v1.0/json/step/step"+  String(step) +"/get/?tsp=timestamp", '', function(data, status, xhr){
+				if ( data.status === "ok" ) {
+					//查询单步工步数据成功
+					$("#step").val(String(step));
+					var mode = data.data.mode; 
+					if (mode == ""){
+						$("#work_pattern").val("wums");
+					}else if (mode == "自动模式"){
+						$("#work_pattern").val("zdms");	
+					}else if (mode == "加热模式"){
+						$("#work_pattern").val("jrms");	
+					}else if (mode == "制冷模式"){
+						$("#work_pattern").val("zlms");	
+					}else if (mode == "待机模式"){
+						$("#work_pattern").val("djms");	
+					}
+					$("#temperature").val(data.data.wendu);
+					$("#flow").val(data.data.liuliang);
+					$("#percentage").val(data.data.jiaregonglv);
+					if (data.data.ttl == "-1"){
+						$("#time").val("0");
+					}else{
+						$("#time").val(String(parseFloat(data.data.ttl)/60));
+					}
+					var xunhuan = data.data.xunhuan;
+					if (xunhuan == ""){
+						$("#cyclical_pattern").val("wuhms");
+					}else if (xunhuan == "内循环"){
+						$("#cyclical_pattern").val("nxhms");	
+					}else if (xunhuan == "外循环"){
+						$("#cyclical_pattern").val("wxhms");
+					}
+					var matching = data.data.true;
+					if (matching == ""){
+						$("#matching").val("");
+					}else if (matching == "$auto"){
+						$("#matching").val("xybt1");	
+					}else if (matching == "unknowed"){
+						$("#matching").val("daid1");
+					}else{
+						$("#matching").val(matching);
+					}
+					var mismatching = data.data.false;
+					if (mismatching == ""){
+						$("#mismatching").val("");
+					}else if (mismatching == "$auto"){
+						$("#mismatching").val("xybt2");	
+					}else if (mismatching == "unknowed"){
+						$("#mismatching").val("daid2");
+					}else{
+						$("#mismatching").val(mismatching);
+					}
+					var condition11 = data.data.tiaojian[0]; 
+					if (condition11 == ""){
+						$("#comparison_other1").val("wudx1");
+					}else {
+						$("#comparison_other1").val(condition11);
+					}
+					var symbol1 = data.data.tiaojian[1];
+					if (symbol1 == ""){
+						$("#symbol1").val("wuyu1");
+					}else if (symbol1 == ">"){
+						$("#symbol1").val("deyu1");	
+					}else if (symbol1 == "<"){
+						$("#symbol1").val("xiyu1");	
+					}else if (symbol1 == ">="){
+						$("#symbol1").val("dady1");
+					}else if (symbol1 == "<="){
+						$("#symbol1").val("xydy1");
+					}else if (symbol1 == "=="){
+						$("#symbol1").val("dydy1");
+					}else if (symbol1 == "!="){
+						$("#symbol1").val("budy1");
+					}
+					if (data.data.tiaojian[2] == ""){
+						$("#condition1").val(0);
+					}else if (parseFloat(data.data.tiaojian[2]) >= 0){
+						$("#condition1").val(parseFloat(data.data.tiaojian[2]));
+					}
+					var relation = data.data.tiaojian[3];
+					if (relation == ""){
+						$("#relation").val("wugx");
+					}else if (relation == "and"){
+						$("#relation").val("bqgx");
+					}else if(relation == "or"){
+						$("#relation").val("hzgx");
+					}
+					var condition21 = data.data.tiaojian[4]; 
+					if (condition21 == ""){
+						$("#comparison_other2").val("wudx2");
+					}else {
+						$("#comparison_other2").val(condition21);
+					}
+					var symbol2 = data.data.tiaojian[5];
+					if (symbol2 == ""){
+						$("#symbol2").val("wuyu2");
+					}else if (symbol2 == ">"){
+						$("#symbol2").val("deyu2");	
+					}else if (symbol2 == "<"){
+						$("#symbol2").val("xiyu2");	
+					}else if (symbol2 == ">="){
+						$("#symbol2").val("dady2");
+					}else if (symbol2 == "<="){
+						$("#symbol2").val("xydy2");
+					}else if (symbol2 == "=="){
+						$("#symbol2").val("dydy2");
+					}else if (symbol2 == "!="){
+						$("#symbol2").val("budy2");
+					}
+					if (data.data.tiaojian[6] == ""){
+						$("#condition2").val(0);
+					}else if (parseFloat(data.data.tiaojian[6]) >= 0){
+						$("#condition2").val(parseFloat(data.data.tiaojian[6]));
+					}
+					var tab1 = "";
+					step_check_fail_reason.innerHTML=tab1;				//清除查询单步工步失败的打印信息
+				}else{
+					//查询单步工步数据失败
+					var tab2="<table border=1 width=100% height=40 class=\"table-bordered table-striped table-responsive\")>";
+					tab2+="<tr>";
+					tab2+="<td style=\"color:red\"><font size=\"4\"><b>&nbsp&nbsp查询单步工步数据失败，失败原因="+ data.reason  +"！！！<b></font></tb>";
+					tab2+="</tr>";
+					tab2+="</table>";
+					step_check_fail_reason.innerHTML=tab2;				//动态打印查询单步工步失败的错误信息
+				}
+			});	
+		}
+	//删除工步(已改完)
+		function remove_teps(step){
+			$.getJSON("/v1.0/json/step/step"+  String(step) +"/delete/?tsp=timestamp", '', function(data, status, xhr){
+				if ( data.status === "ok" ) {
+					//删除工步成功
+					dynamic_list();
+					var tab1 = "";
+					step_check_fail_reason.innerHTML=tab1;				//清除删除工步失败的打印信息
+				}else{
+					//删除工步失败
+					var tab2="<table border=1 width=100% height=40 class=\"table-bordered table-striped table-responsive\")>";
+					tab2+="<tr>";
+					tab2+="<td style=\"color:red\"><font size=\"4\"><b>&nbsp&nbsp删除工步失败，失败原因="+ data.reason  +"！！！<b></font></tb>";
+					tab2+="</tr>";
+					tab2+="</table>";
+					step_check_fail_reason.innerHTML=tab2;				//动态打印删除工步失败的错误信息
+				}
+			});	
+		}
+	//动态生成跳转条件(已改完)
+		function jump_condition(){
+			//生成跳转条件1
+			$.getJSON("/v1.0/json/step/supported_conditions/?tsp=timestamp", '', function(data, status, xhr){
+				if ( data.status === "ok" ) {
+					//查询判定条件1成功
+					var tab1="<div class=\"input-group\">";
+					tab1+="<select id=\"comparison_other1\" style=\"padding: 6px 0px\" class=\"form-control\">";
+					tab1+="<option value=\"\">请选择比较对象</option>";
+					tab1+="<option value=\"wudx1\">N/A</option>";
+					for ( k in data.data ) {
+						tab1+="<option value=" + data.data[k] + ">" + k +"</option>";
+					}
+					tab1+='</select>';
+					tab1+="<span class=\"input-group-addon\" id=\"condition11\">条件</span>";
+					tab1+='</div>';
+					comparisonother1.innerHTML=tab1;
+					var tab2 = "";
+					step_check_fail_reason.innerHTML=tab2;				//清除查询判定条件1失败的打印信息
+				}else{
+					//查询判定条件1失败
+					var tab3="<table border=1 width=100% height=40 class=\"table-bordered table-striped table-responsive\")>";
+					tab3+="<tr>";
+					tab3+="<td style=\"color:red\"><font size=\"4\"><b>&nbsp&nbsp查询判定条件1失败，失败原因="+ data.reason  +"！！！<b></font></tb>";
+					tab3+="</tr>";
+					tab3+="</table>";
+					step_check_fail_reason.innerHTML=tab3;				//动态打印查询判定条件1失败的错误信息
+				}
+			});
+			//生成跳转条件2
+			$.getJSON("/v1.0/json/step/supported_conditions/?tsp=timestamp", '', function(data, status, xhr){
+				if ( data.status === "ok" ) {
+					//查询判定条件2成功
+					var tab4="<div class=\"input-group\">";
+					tab4+="<select id=\"comparison_other2\" style=\"padding: 6px 0px\" class=\"form-control\">";
+					tab4+="<option value=\"\">请选择比较对象</option>";
+					tab4+="<option value=\"wudx2\">N/A</option>";
+					for ( k in data.data ) {
+						tab4+="<option value=" + data.data[k] + ">" + k +"</option>";
+					}
+					tab4+='</select>';
+					tab4+="<span class=\"input-group-addon\" id=\"condition21\">条件</span>";
+					tab4+='</div>';
+					comparisonother2.innerHTML=tab4;
+					var tab5 = "";
+					step_check_fail_reason1.innerHTML=tab5;				//清除查询判定条件2失败的打印信息
+				}else{
+					//查询判断条件2失败
+					var tab6="<table border=1 width=100% height=40 class=\"table-bordered table-striped table-responsive\")>";
+					tab6+="<tr>";
+					tab6+="<td style=\"color:red\"><font size=\"4\"><b>&nbsp&nbsp查询判定条件2失败，失败原因="+ data.reason  +"！！！<b></font></tb>";
+					tab6+="</tr>";
+					tab6+="</table>";
+					step_check_fail_reason1.innerHTML=tab6;				//动态打印查询判定条件2失败的错误信息
+				}
+			});
+		}
+	//区分工作模式
+		function distinguish_work_pattern(data){
+			var key = "";
+			if (data == ""){
+				key = "";
+			}else if (data == "wums"){
+				key = "";
+			}else if (data == "zdms"){
+				key = "自动模式";
+			}else if (data == "jrms"){
+				key = "加热模式";
+			}else if (data == "zlms"){
+				key = "制冷模式";
+			}else if (data == "djms"){
+				key = "待机模式";
+			}
+			return key;
+		}
+	//区分循环模式
+		function distinguish_cyclical_pattern(data){
+			var key = "";
+			if (data == ""){
+				key = "";
+			}else if (data == "wuhms"){
+				key = "";
+			}else if (data == "nxhms"){
+				key = "内循环";
+			}else if (data == "wxhms"){
+				key = "外循环";
+			}
+			return key;
+		}
+	//区分比较对象
+		function distinguish_comparison_other1(data){
+			var key = "";
+			if (data == ""){
+				key = "";
+			}else if ((data == "wudx1")||(data == "wudx2")){
+				key = "";
+			}else {
+				key = data;
+			}
+			return key;
+		}
+	//区分比较符号
+		function distinguish_symbol1(data){
+			var key = "";
+			if (data == ""){
+				key = "";
+			}else if ((data == "wuyu1")||(data == "wuyu2")){
+				key = "";
+			}else if ((data == "deyu1")||(data == "deyu2")){
+				key = ">";
+			}else if ((data == "xiyu1")||(data == "xiyu2")){
+				key = "<";
+			}else if ((data == "dady1")||(data == "dady2")){
+				key = ">=";
+			}else if ((data == "xydy1")||(data == "xydy2")){
+				key = "<=";
+			}else if ((data == "dydy1")||(data == "dydy2")){
+				key = "==";
+			}else if ((data == "budy1")||(data == "budy2")){
+				key = "!=";
+			}
+			return key;
+		}
+	//区分关联关系
+		function distinguish_relation(data){
+			var key = "";
+			if (data == ""){
+				key = "";
+			}else if (data == "wugx"){
+				key = "N/A";
+			}else if (data == "bqgx"){
+				key = "and";
+			}else if (data == "hzgx"){
+				key = "or";
+			}
+			return key;
+		}
+	//区分匹配
+		function distinguish_matching(data){
+			var key = "";
+			if (data == ""){
+				key = "";
+			}else if (data == "xybt1"){
+				key = "$auto";
+			}else if (data == "daid1"){
+				key = "unknowed";
+			}else {
+				key = data;		//下发step1
+			}
+			return key;  
+		}
+	//区分不匹配
+		function distinguish_mismatching(data){
+			var key = "";
+			if (data == ""){
+				key = "";
+			}else if (data == "xybt2"){
+				key = "$auto";
+			}else if (data == "daid2"){
+				key = "unknowed";
+			}else {
+				key = data;
+			}
+			return key;
+		}
+	//跳转编辑页面(已改完)
+		function skip_page() {
+           window.location.href = "/zsgc";
+        }
+	</script>
+	
+</head>
+<body>
+
+    <div class="container">
+
+        {% if request.GET.e %}
+        <div class="row">
+            <div class="col-xs-offset-1 col-xs-10">
+                <div class="alert alert-warning alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Warning!</strong>&nbsp;&nbsp;&nbsp;<span>{{ request.GET.e }}</span>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="container">
+            
+			<div class="row">
+				<div style="width: 50%" class="col-xs-2">
+					<h2>
+						<span class="glyphicon  glyphicon-th-list text-primary"></span>
+						&nbsp;各 阶 段 项 目 列 表
+					</h2>
+				</div>
+				<div style="width:50%;text-align:right;" class="col-xs-2">
+					<h2>
+						<button type="button" style="height:35px;width:150px;" class="btn btn-info btn-success.focus" onclick="javascript:skip_page()"><span class="link glyphicon glyphicon-hand-left">&nbsp返 回</span></button>
+					</h2>
+				</div>
+			</div>
+		
+			<div class="row"><hr></hr></div>
+			
+            <form method="post" action="{{ request.path }}">
+                <div class="row">
+                    <div class="row">
+                        <div style="width: 50%" class="col-xs-2 withunderline">
+                            <h4><span style="font-size:80%" class="label label-success">配 置 阶 段</span></h4>
+                        </div>
+						<div style="width: 50%" class="col-xs-2 withunderline">
+                            <h4><span style="font-size:80%" class="label label-success">就 绪 阶 段</span></h4>
+                        </div>
+                    </div>
+
+                    <div class="row"><p></p></div>
+
+                    <div class="row" id="tj_headline">
+                        <div style="width: 25%" class="col-xs-2">
+                            <label>项目列表:&nbsp;</label>
+                        </div>
+						<div style="width: 25%" class="col-xs-2">
+                            <label>查看详情操作:&nbsp;</label>
+                        </div>
+						 <div style="width: 25%" class="col-xs-2">
+                            <label>项目列表:&nbsp;</label>
+                        </div>
+						<div style="width: 25%" class="col-xs-2">
+                            <label>查看详情操作:&nbsp;</label>
+                        </div>
+                    </div>
+                    <div class="row" id="tj_content">
+                        <div style="width: 25%" class="col-xs-2" id="pzjd">
+                            <div class="input-group">
+                                <select id="comparison_other1" style="padding: 6px 0px" class="form-control">
+                                    <option value="">请选择配置阶段项目</option>
+									<option value="wudx1">N/A</option>
+									<option value="bms.temp">cm.电池温度</option>
+									<option value="bms.voltage">cm.电压</option>
+									<option value="bms.max_temp">cm.最高温度</option>
+									<option value="bms.min_temp">cm.最低温度</option>
+									<option value="bms.allow">cm.允许加热</option>
+									<option value="newline.temp">newline.温度</option>
+									<option value="newline.flow">newline.流量</option>
+									<option value="self.loop">self.loop</option>
+									<option value="True">True</option>
+									<option value="False">False</option>
+									</select>
+                                <span class="input-group-addon" id="condition11">项目</span>
+                            </div>
+                        </div>
+						<div style="width: 25%" class="col-xs-2">
+                            <div class="">
+                                <a class="btn btn-default btn-block" href="{% url "配置项目详情页面1" %}">点 击 查 看</a>
+                                <!--<a class="btn btn-default btn-block" onClick="javascript:add_process_editing1()">点 击 查 看</a>-->
+                            </div>
+                        </div>
+						<div style="width: 25%" class="col-xs-2" id="jxjd">
+                            <div class="input-group">
+                                <select id="comparison_other1" style="padding: 6px 0px" class="form-control">
+                                    <option value="">请选择就绪阶段项目</option>
+									<option value="wudx1">N/A</option>
+									<option value="bms.temp">cm.电池温度</option>
+									<option value="bms.voltage">cm.电压</option>
+									<option value="bms.max_temp">cm.最高温度</option>
+									<option value="bms.min_temp">cm.最低温度</option>
+									<option value="bms.allow">cm.允许加热</option>
+									<option value="newline.temp">newline.温度</option>
+									<option value="newline.flow">newline.流量</option>
+									<option value="self.loop">self.loop</option>
+									<option value="True">True</option>
+									<option value="False">False</option>
+									</select>
+                                <span class="input-group-addon" id="condition11">项目</span>
+                            </div>
+                        </div>
+						<div style="width: 25%" class="col-xs-2">
+                            <div class="">
+                                <a class="btn btn-default btn-block" href="{% url "就绪项目详情页面1" %}">点 击 查 看</a>
+                                <!--<a class="btn btn-default btn-block" onClick="javascript:add_process_editing1()">点 击 查 看</a>-->
+                            </div>
+                        </div>
+                    </div>
+					
+					<div class="row"><h6></h6></div>
+
+                    <div class="row">
+						<div style="width: 50%" class="col-xs-2 withunderline">
+                            <h4><span style="font-size:80%" class="label label-success">执 行 阶 段</span></h4>
+                        </div>
+						<div style="width: 50%" class="col-xs-2 withunderline">
+                            <h4><span style="font-size:80%" class="label label-success">暂 停 阶 段</span></h4>
+                        </div>
+                    </div>
+
+                    <div class="row"><p></p></div>
+
+					<div class="row" id="tj_headline">
+                        <div style="width: 25%" class="col-xs-2">
+                            <label>项目列表:&nbsp;</label>
+                        </div>
+						<div style="width: 25%" class="col-xs-2">
+                            <label>查看详情操作:&nbsp;</label>
+                        </div>
+						<div style="width: 25%" class="col-xs-2">
+                            <label>项目列表:&nbsp;</label>
+                        </div>
+						<div style="width: 25%" class="col-xs-2">
+                            <label>查看详情操作:&nbsp;</label>
+                        </div>
+                    </div>
+                    <div class="row" id="tj_content">
+                        <div style="width: 25%" class="col-xs-2" id="zxjd">
+                            <div class="input-group">
+                                <select id="comparison_other1" style="padding: 6px 0px" class="form-control">
+                                    <option value="">请选择执行阶段项目</option>
+									<option value="wudx1">N/A</option>
+									<option value="bms.temp">cm.电池温度</option>
+									<option value="bms.voltage">cm.电压</option>
+									<option value="bms.max_temp">cm.最高温度</option>
+									<option value="bms.min_temp">cm.最低温度</option>
+									<option value="bms.allow">cm.允许加热</option>
+									<option value="newline.temp">newline.温度</option>
+									<option value="newline.flow">newline.流量</option>
+									<option value="self.loop">self.loop</option>
+									<option value="True">True</option>
+									<option value="False">False</option>
+									</select>
+                                <span class="input-group-addon" id="condition11">项目</span>
+                            </div>
+                        </div>
+						<div style="width: 25%" class="col-xs-2">
+                            <div class="">
+                                <a class="btn btn-default btn-block" href="{% url "流程显示页面" %}">点 击 查 看</a>
+                                <!--<a class="btn btn-default btn-block" onClick="javascript:add_process_editing1()">点 击 查 看</a>-->
+                            </div>
+                        </div>
+						<div style="width: 25%" class="col-xs-2" id="ztjd">
+                            <div class="input-group">
+                                <select id="comparison_other1" style="padding: 6px 0px" class="form-control">
+                                    <option value="">请选择暂停阶段项目</option>
+									<option value="wudx1">N/A</option>
+									<option value="bms.temp">cm.电池温度</option>
+									<option value="bms.voltage">cm.电压</option>
+									<option value="bms.max_temp">cm.最高温度</option>
+									<option value="bms.min_temp">cm.最低温度</option>
+									<option value="bms.allow">cm.允许加热</option>
+									<option value="newline.temp">newline.温度</option>
+									<option value="newline.flow">newline.流量</option>
+									<option value="self.loop">self.loop</option>
+									<option value="True">True</option>
+									<option value="False">False</option>
+									</select>
+                                <span class="input-group-addon" id="condition11">项目</span>
+                            </div>
+                        </div>
+						<div style="width: 25%" class="col-xs-2">
+                            <div class="">
+                                <a class="btn btn-default btn-block" href="{% url "暂停项目详情页面1" %}">点 击 查 看</a>
+                                <!--<a class="btn btn-default btn-block" onClick="javascript:add_process_editing1()">点 击 查 看</a>-->
+                            </div>
+                        </div>
+                    </div>
+						
+                    <div class="row"><h6></h6></div>
+						
+                    <div class="row">
+                        <div class="col-xs-2 withunderline">
+                            <h4><span style="font-size:80%" class="label label-success">完 成 阶 段</span></h4>
+                        </div>
+                    </div>
+
+                    <div class="row"><p></p></div>
+
+                    <div class="row" id="tj_headline">
+                        <div style="width: 25%" class="col-xs-2">
+                            <label>项目列表:&nbsp;</label>
+                        </div>
+                        <div style="width: 25%" class="col-xs-2">
+                            <label>查看详情操作:&nbsp;</label>
+                        </div>
+                    </div>
+                    <div class="row" id="tj_content">
+                        <div style="width: 25%" class="col-xs-2" id="wcjd">
+                            <div class="input-group">
+                                <select id="comparison_other1" style="padding: 6px 0px" class="form-control">
+									<option value="">请选择完成阶段项目</option>
+									<option value="wudx1">N/A</option>
+									<option value="bms.temp">cm.电池温度</option>
+									<option value="bms.voltage">cm.电压</option>
+									<option value="bms.max_temp">cm.最高温度</option>
+									<option value="bms.min_temp">cm.最低温度</option>
+									<option value="bms.allow">cm.允许加热</option>
+									<option value="newline.temp">newline.温度</option>
+									<option value="newline.flow">newline.流量</option>
+									<option value="self.loop">self.loop</option>
+									<option value="True">True</option>
+									<option value="False">False</option>
+									</select>
+                                <span class="input-group-addon" id="condition11">项目</span>
+                            </div>
+                        </div>
+						<div style="width: 25%" class="col-xs-2">
+                            <div class="">
+                                <a class="btn btn-default btn-block" href="{% url "完成项目详情页面1" %}">点 击 查 看</a>
+                                <!--<a class="btn btn-default btn-block" onClick="javascript:add_process_editing1()">点 击 查 看</a>-->
+                            </div>
+                        </div>
+                    </div>
+				</div>
+
+				<div class="row"><p></p></div>
+
+				<div id="div1"></div>
+
+            </form>
+        </div>
+    </div>
+</body>
+</html>		
+
+
+
+

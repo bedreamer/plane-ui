@@ -1,0 +1,5 @@
+echo 这是cbd-mall.vip的脚本执行文件
+host cbd-mall.vip
+port 6379
+database 0
+connect

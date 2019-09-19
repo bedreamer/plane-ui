@@ -1,0 +1,83 @@
+{% extends "00-base/01-theme-basic/1-10-1.html" %}
+
+{% block page-title %}流程文件列表{% endblock %}
+
+
+{% block page-header %}
+    {% include "00-base/01-theme-basic/page-head.html" %}
+    {% include "00-base/01-theme-basic/global-message.html" %}
+{% endblock %}
+
+
+
+{% block inline-js-ahead %}
+{% endblock %}
+
+{% block page-body %}
+    <h3>
+    <div class="row">
+        <div class="col-xs-6">
+            <span class="glyphicon glyphicon-equalizer text-danger"></span>
+            流程文件列表
+        </div>
+        <div class="col-xs-6 text-right">
+            <a class="btn btn-primary" href="{% url "上传流程文件" %}">
+                <span class="glyphicon glyphicon-upload"></span>
+                上传流程文件
+            </a>
+            <a class="btn btn-default" href="{% url "项目概要页面" as project_summary_url %}{{ request.GET.next|default:project_summary_url }}">
+                <span class="glyphicon glyphicon-arrow-left"></span>
+                返回
+            </a>
+        </div>
+    </div>
+    </h3>
+    <hr>
+
+    <table class="table table-bordered table-striped">
+        <caption>系统中全部流程文件列表，共{{ flows_file_list|length }}个记录</caption>
+        <tr>
+            <th>序号</th>
+            <th>版本</th>
+            <th>流程名</th>
+            <th>创建时间</th>
+            <th>最后更新时间</th>
+            <th>操作</th>
+        </tr>
+        {% for flow in flows_file_list %}
+            <tr>
+                <th>{{ flow.id }}</th>
+                <td class="text-center">{{ flow.version }}</td>
+                <td class="text-center">{{ flow.name }}</td>
+                <td class="text-center">{{ flow.create_datetime|date:'Y-m-d H:i:s' }}</td>
+                <td class="text-center">{{ flow.update_datetime|date:'Y-m-d H:i:s' }}</td>
+                <td class="text-center">
+                    <a href="{% url '查看流程文件' flow.id %}" title="查看流程 {{ flow.name }} 的详细信息">
+                        查看流程详情
+                    </a>
+                    |
+                    <a target="_blank" href="{% url '下载最新的流程文件' flow.id %}" title="下载最新的流程文件 {{ flow.name }}">
+                        <span class="glyphicon glyphicon-download"></span>
+                        下载流程
+                    </a>
+                    |
+                    <a href="{% url '更新流程文件' flow.id %}?next={{ request.path }}" title="更新流程文件 {{ flow.name }}">
+                        <span class="glyphicon glyphicon-upload"></span>
+                        更新流程
+                    </a>
+                    |
+                    <a class="text-danger" href="{% url '删除的流程文件' flow.id %}?next={{ request.path }}" title="删除的流程文件 {{ flow.name }}">
+                        <span class="glyphicon glyphicon-remove-circle"></span>
+                        删除
+                    </a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr class="text-center">
+                <td colspan="6">没有记录!</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+
+

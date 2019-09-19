@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>新 建 项 目 页 面</title>
+	<link rel="stylesheet" href="/static/css/bootstrap.css" />
+	<script src="/static/js/wsapi.js"></script>
+	<script src="/static/js/newline.js"></script>
+	<script>
+
+        let zt = {{ zt | safe }};
+
+		//返回，首页
+        function skip_page() {
+           window.location.href = "/";
+        }
+
+        //跳转，新建项目取名页面
+        function skip_page1(){
+           window.location.href = "/xmmsr/?sign=xjxm";
+        }
+
+	</script>
+</head>
+<body>
+    <div class="container">
+
+		<div class="row"><p></p></div>
+		
+		<div class="row">
+            <div style="width: 50%" class="col-xs-1">
+				<h2>
+                    <span class="glyphicon glyphicon-pencil text-danger"></span>
+                    &nbsp;需 新 建 项 目 页 面
+                </h2>
+			</div>
+			<div style="width:50%;text-align:right;" class="col-xs-1">
+				<h2>
+                    <a style="height:35px;width:150px;" class="btn btn-info btn-success.focus" href="{% url "系统首页" %}"><span class="link glyphicon glyphicon-hand-left">&nbsp返 回</span></a>
+				</h2>
+			</div>
+		</div>
+
+        <div class="row"><hr></hr></div>
+
+        <div class="row"><p>&nbsp;</p></div>
+        <div class="row"><p>&nbsp;</p></div>
+        <div class="row"><p>&nbsp;</p></div>
+
+        <div class="row">
+            <div class="col-xs-12" >
+                <table class="table">
+                    <tbody>
+                        <tr style='vertical-align: middle;text-align: center;'>
+                            <td class="danger"><a class="btn btn-link " href="{% url "新建项目项目名输入页面" %}?sign=xjxm">新 建 项 目</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2" >
+                <table class="table">
+                    <tbody>
+                        <tr style='vertical-align: middle;text-align: center;'>
+                            <td class="success"><a class="btn btn-link " href="{% url "就绪项目罗列页面" %}">就 绪 项 目（{{ zt.就绪项目数量 }}）</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-xs-2" >
+                <table class="table">
+                    <tbody>
+                        <tr style='vertical-align: middle;text-align: center;'>
+                            <td class="warning"><a class="btn btn-link " href="{% url "暂停项目罗列页面" %}">暂 停 项 目（{{ zt.暂停项目数量 }}）</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-xs-2" >
+                <table class="table">
+                    <tbody>
+                        <tr style='vertical-align: middle;text-align: center;'>
+                            <td class="info"><a class="btn btn-link " href="{% url "配置项目罗列页面" %}">配 置 项 目（{{ zt.配置项目数量 }}）</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-xs-2" >
+                <table class="table">
+                    <tbody>
+                        <tr style='vertical-align: middle;text-align: center;'>
+                            <td class="info"><a class="btn btn-link " href="{% url "完成项目罗列页面" %}">完 成 项 目（{{ zt.完成项目数量 }}）</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-xs-4" >
+                <table class="table">
+                    <tbody>
+                        <tr style='vertical-align: middle;text-align: center;'>
+                            <td class="active"><a class="btn btn-link " href="{% url "项目高级操作页面" %}">项 目 操 作</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12" id="tishi1"></div>
+        </div>
+		
+    </div>
+</body>
+</html>		
+
+
+
+
+
+
+
+
+
+
+

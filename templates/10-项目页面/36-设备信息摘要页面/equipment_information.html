@@ -1,0 +1,572 @@
+
+{% extends "00-base/01-theme-basic/0-12-0.html" %}
+
+{% block page-title %}设备信息_摘要{% endblock %}
+
+
+{% block page-header %}
+    {% include "00-base/01-theme-basic/global-message.html" %}
+{% endblock %}
+
+{% block inline-js-ahead %}
+	<script>
+        //刷新页面，拿遥信数据
+        function myrefresh(){
+            window.location.reload();
+        }
+        setTimeout('myrefresh()',10000); //指定10秒刷新一次
+	</script>
+{% endblock %}
+
+
+{% block page-body %}
+
+    {% if cm_sign.绑定cm设备状态 == '绑定' %}
+        {% if cm_qd_zt.驱动状态 != False %}
+            <div class="row">
+                <div class="col-xs-12">
+                    <table class="table table-striped table-bordered">
+                        <caption>
+                            <div class="row">
+                                <div class="col-xs-9">水冷机遥信摘要</div>
+                                <div class="col-xs-3 text-right">
+                                    <a href="{% url 'cm yx page' %}?next={{ request.path }}">
+                                        <span class="glyphicon glyphicon-zoom-in"></span>
+                                        详情
+                                     </a>
+                                </div>
+                            </div>
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th>加热器运行状态</th>
+                                <th>压缩机运行状态</th>
+                                <th>循环泵运行状态</th>
+                                <!--<th colspan="2" class="text-center">循环泵运行状态</th>-->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="vertical-align: middle;text-align: center;">
+                                {% if cm_yx.加热器运行状态 == '告警' %}
+                                    <td class="danger">告警</td>
+                                {% else %}
+                                    <td class="success">正常</td>
+                                {% endif %}
+                                {% if cm_yx.压缩机运行状态 == '告警' %}
+                                    <td class="danger">告警</td>
+                                {% else %}
+                                    <td class="success">正常</td>
+                                {% endif %}
+                                {% if cm_yx.循环泵运行状态 == '告警' %}
+                                    <td class="danger">告警</td>
+                                {% else %}
+                                    <td class="success">正常</td>
+                                {% endif %}
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr>
+                                <th>加热允许状态</th>
+                                <th>制冷允许状态</th>
+                                <th>冷却液存量状态</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="vertical-align: middle;text-align: center;">
+                                {% if cm_yx.加热允许状态 == '告警' %}
+                                    <td class="danger">告警</td>
+                                 {% else %}
+                                    <td class="success">正常</td>
+                                {% endif %}
+                                {% if cm_yx.制冷允许状态 == '告警' %}
+                                    <td class="danger">告警</td>
+                                 {% else %}
+                                    <td class="success">正常</td>
+                                {% endif %}
+                                {% if cm_yx.冷却液存量状态 == '告警' %}
+                                    <td class="danger">告警</td>
+                                 {% else %}
+                                    <td class="success">正常</td>
+                                {% endif %}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <table class="table table-striped table-bordered">
+                        <caption>
+                            <div class="row">
+                                <div class="col-xs-9">水冷机遥测摘要</div>
+                                <div class="col-xs-3 text-right">
+                                    <a href="{% url 'cm yc page' %}?next={{ request.path }}">
+                                        <span class="glyphicon glyphicon-zoom-in"></span>
+                                        详情
+                                     </a>
+                                </div>
+                            </div>
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th>供液流量</th>
+                                <th>供液压力</th>
+                                <th>回液压力</th>
+                                <th>供液温度</th>
+                                <!--<th colspan="2" class="text-center">循环泵运行状态</th>-->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="vertical-align: middle;text-align: center;">
+                                <td class="warning">{{ cm_yc.流量|default:20 }}</td>
+                                <td class="warning">{{ cm_yc.压力|default:0.5 }}</td>
+                                <td class="warning">{{ cm_yc.回液压力|default:0.5 }}</td>
+                                <td class="warning">{{ cm_yc.出液温度|default:20 }}</td>
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr>
+                                <th>回液温度</th>
+                                <th>阀门开度</th>
+                                <th>电池平均温度</th>
+                                <th>电池平均温度</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="vertical-align: middle;text-align: center;">
+                                <td class="warning">{{ cm_yc.回液温度|default:20 }}</td>
+                                <td class="warning">{{ cm_yc.阀门开度|default:5 }}</td>
+                                <td class="warning">{{ cm_yc.电池平均温度|default:25 }}</td>
+                                <td class="warning">{{ cm_yc.最高电池温度|default:30 }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% else %}
+            <div class="row">
+                <div class="col-xs-12">
+                    <table class="table table-striped table-bordered">
+                        <caption>
+                            <div class="row">
+                                <div class="col-xs-9">水冷机设备驱动未开启！</div>
+                            </div>
+                        </caption>
+                    </table>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+
+    {% if ec_sign.绑定ec设备状态 == '绑定' %}
+        {% if ec_qd_zt.驱动状态 != False %}
+            <div class="row">
+                <div class="col-xs-12">
+                    <table class="table table-striped table-bordered">
+                        <caption>
+                            <div class="row">
+                                <div class="col-xs-9">环境箱遥信摘要</div>
+                                <div class="col-xs-3 text-right">
+                                    <a href="{% url 'ec yx page' %}?next={{ request.path }}">
+                                        <span class="glyphicon glyphicon-zoom-in"></span>
+                                        详情
+                                     </a>
+                                </div>
+                            </div>
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th>加热器运行状态</th>
+                                <th>压缩机运行状态</th>
+                                <th>循环泵运行状态</th>
+                                <!--<th colspan="2" class="text-center">循环泵运行状态</th>-->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="vertical-align: middle;text-align: center;">
+                                {% if ec_yx.加热器运行状态 == '告警' %}
+                                    <td class="danger">告警</td>
+                                 {% else %}
+                                    <td class="success">正常</td>
+                                {% endif %}
+                                {% if ec_yx.压缩机运行状态 == '告警' %}
+                                    <td class="danger">告警</td>
+                                 {% else %}
+                                    <td class="success">正常</td>
+                                {% endif %}
+                                {% if ec_yx.循环泵运行状态 == '告警' %}
+                                    <td class="danger">告警</td>
+                                 {% else %}
+                                    <td class="success">正常</td>
+                                {% endif %}
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr>
+                                <th>加热允许状态</th>
+                                <th>制冷允许状态</th>
+                                <th>冷却液存量状态</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="vertical-align: middle;text-align: center;">
+                                {% if ec_yx.加热允许状态 == '告警' %}
+                                    <td class="danger">告警</td>
+                                 {% else %}
+                                    <td class="success">正常</td>
+                                {% endif %}
+                                {% if ec_yx.制冷允许状态 == '告警' %}
+                                    <td class="danger">告警</td>
+                                 {% else %}
+                                    <td class="success">正常</td>
+                                {% endif %}
+                                {% if ec_yx.冷却液存量状态 == '告警' %}
+                                    <td class="danger">告警</td>
+                                 {% else %}
+                                    <td class="success">正常</td>
+                                {% endif %}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <table class="table table-striped table-bordered">
+                        <caption>
+                            <div class="row">
+                                <div class="col-xs-9">环境箱遥测摘要</div>
+                                <div class="col-xs-3 text-right">
+                                    <a href="{% url 'ec yc page' %}?next={{ request.path }}">
+                                        <span class="glyphicon glyphicon-zoom-in"></span>
+                                        详情
+                                     </a>
+                                </div>
+                            </div>
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th>供液流量</th>
+                                <th>供液压力</th>
+                                <th>回液压力</th>
+                                <th>供液温度</th>
+                                <!--<th colspan="2" class="text-center">循环泵运行状态</th>-->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="vertical-align: middle;text-align: center;">
+                                <td class="warning">{{ ec_yc.供液流量|default:20 }}</td>
+                                <td class="warning">{{ ec_yc.供液压力|default:0.5 }}</td>
+                                <td class="warning">{{ ec_yc.回液压力|default:0.5 }}</td>
+                                <td class="warning">{{ ec_yc.供液温度|default:20 }}</td>
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr>
+                                <th>回液温度</th>
+                                <th>阀门开度</th>
+                                <th>电池平均温度</th>
+                                <th>电池平均温度</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="vertical-align: middle;text-align: center;">
+                                <td class="warning">{{ ec_yc.回液温度|default:20 }}</td>
+                                <td class="warning">{{ ec_yc.阀门开度|default:5 }}</td>
+                                <td class="warning">{{ ec_yc.电池平均温度|default:25 }}</td>
+                                <td class="warning">{{ ec_yc.最高电池温度|default:30 }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% else %}
+            <div class="row">
+                <div class="col-xs-12">
+                    <table class="table table-striped table-bordered">
+                        <caption>
+                            <div class="row">
+                                <div class="col-xs-9">环境箱设备驱动未开启！</div>
+                            </div>
+                        </caption>
+                    </table>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+
+    {% if cd_sign.绑定cd设备状态 == '绑定' %}
+        {% if cd_qd_zt.驱动状态 != False %}
+            <div class="row">
+                <div class="col-xs-12">
+                    <table class="table table-striped table-bordered">
+                        <caption>
+                            <div class="row">
+                                <div class="col-xs-9">充放电机遥信摘要</div>
+                                <div class="col-xs-3 text-right">
+                                    <a href="{% url 'cd yx page' %}?next={{ request.path }}">
+                                        <span class="glyphicon glyphicon-zoom-in"></span>
+                                        详情
+                                     </a>
+                                </div>
+                            </div>
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th>加热器运行状态</th>
+                                <th>压缩机运行状态</th>
+                                <th>循环泵运行状态</th>
+                                <!--<th colspan="2" class="text-center">循环泵运行状态</th>-->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="vertical-align: middle;text-align: center;">
+                                {% if cd_yx.加热器运行状态 == '告警' %}
+                                    <td class="danger">告警</td>
+                                 {% else %}
+                                    <td class="success">正常</td>
+                                {% endif %}
+                                {% if cd_yx.压缩机运行状态 == '告警' %}
+                                    <td class="danger">告警</td>
+                                 {% else %}
+                                    <td class="success">正常</td>
+                                {% endif %}
+                                {% if cd_yx.循环泵运行状态 == '告警' %}
+                                    <td class="danger">告警</td>
+                                 {% else %}
+                                    <td class="success">正常</td>
+                                {% endif %}
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr>
+                                <th>加热允许状态</th>
+                                <th>制冷允许状态</th>
+                                <th>冷却液存量状态</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="vertical-align: middle;text-align: center;">
+                                {% if cd_yx.加热允许状态 == '告警' %}
+                                    <td class="danger">告警</td>
+                                 {% else %}
+                                    <td class="success">正常</td>
+                                {% endif %}
+                                {% if cd_yx.制冷允许状态 == '告警' %}
+                                    <td class="danger">告警</td>
+                                 {% else %}
+                                    <td class="success">正常</td>
+                                {% endif %}
+                                {% if cd_yx.冷却液存量状态 == '告警' %}
+                                    <td class="danger">告警</td>
+                                 {% else %}
+                                    <td class="success">正常</td>
+                                {% endif %}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <table class="table table-striped table-bordered">
+                        <caption>
+                            <div class="row">
+                                <div class="col-xs-9">充放电机遥测摘要</div>
+                                <div class="col-xs-3 text-right">
+                                    <a href="{% url 'cd yc page' %}?next={{ request.path }}">
+                                        <span class="glyphicon glyphicon-zoom-in"></span>
+                                        详情
+                                     </a>
+                                </div>
+                            </div>
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th>供液流量</th>
+                                <th>供液压力</th>
+                                <th>回液压力</th>
+                                <th>供液温度</th>
+                                <!--<th colspan="2" class="text-center">循环泵运行状态</th>-->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="vertical-align: middle;text-align: center;">
+                                <td class="warning">{{ cd_yc.供液流量|default:20 }}</td>
+                                <td class="warning">{{ cd_yc.供液压力|default:0.5 }}</td>
+                                <td class="warning">{{ cd_yc.回液压力|default:0.5 }}</td>
+                                <td class="warning">{{ cd_yc.供液温度|default:20 }}</td>
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr>
+                                <th>回液温度</th>
+                                <th>阀门开度</th>
+                                <th>电池平均温度</th>
+                                <th>电池平均温度</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="vertical-align: middle;text-align: center;">
+                                <td class="warning">{{ cd_yc.回液温度|default:20 }}</td>
+                                <td class="warning">{{ cd_yc.阀门开度|default:5 }}</td>
+                                <td class="warning">{{ cd_yc.电池平均温度|default:25 }}</td>
+                                <td class="warning">{{ cd_yc.最高电池温度|default:30 }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% else %}
+            <div class="row">
+                <div class="col-xs-12">
+                    <table class="table table-striped table-bordered">
+                        <caption>
+                            <div class="row">
+                                <div class="col-xs-9">充放电机设备驱动未开启！</div>
+                            </div>
+                        </caption>
+                    </table>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+
+    {% if bms_sign.绑定bms设备状态 == '绑定' %}
+        {% if bms_qd_zt.驱动状态 != False %}
+            <div class="row">
+                <div class="col-xs-12">
+                    <table class="table table-striped table-bordered">
+                        <caption>
+                            <div class="row">
+                                <div class="col-xs-9">BMS遥信摘要</div>
+                                <div class="col-xs-3 text-right">
+                                    <a href="{% url 'bms yx page' %}?next={{ request.path }}">
+                                        <span class="glyphicon glyphicon-zoom-in"></span>
+                                        详情
+                                     </a>
+                                </div>
+                            </div>
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th>加热器运行状态</th>
+                                <th>压缩机运行状态</th>
+                                <th>循环泵运行状态</th>
+                                <!--<th colspan="2" class="text-center">循环泵运行状态</th>-->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="vertical-align: middle;text-align: center;">
+                                {% if bms_yx.加热器运行状态 == '告警' %}
+                                    <td class="danger">告警</td>
+                                 {% else %}
+                                    <td class="success">正常</td>
+                                {% endif %}
+                                {% if bms_yx.压缩机运行状态 == '告警' %}
+                                    <td class="danger">告警</td>
+                                 {% else %}
+                                    <td class="success">正常</td>
+                                {% endif %}
+                                {% if bms_yx.循环泵运行状态 == '告警' %}
+                                    <td class="danger">告警</td>
+                                 {% else %}
+                                    <td class="success">正常</td>
+                                {% endif %}
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr>
+                                <th>加热允许状态</th>
+                                <th>制冷允许状态</th>
+                                <th>冷却液存量状态</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="vertical-align: middle;text-align: center;">
+                                {% if bms_yx.加热允许状态 == '告警' %}
+                                    <td class="danger">告警</td>
+                                 {% else %}
+                                    <td class="success">正常</td>
+                                {% endif %}
+                                {% if bms_yx.制冷允许状态 == '告警' %}
+                                    <td class="danger">告警</td>
+                                 {% else %}
+                                    <td class="success">正常</td>
+                                {% endif %}
+                                {% if bms_yx.冷却液存量状态 == '告警' %}
+                                    <td class="danger">告警</td>
+                                 {% else %}
+                                    <td class="success">正常</td>
+                                {% endif %}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <table class="table table-striped table-bordered">
+                        <caption>
+                            <div class="row">
+                                <div class="col-xs-9">BMS遥测摘要</div>
+                                <div class="col-xs-3 text-right">
+                                    <a href="{% url 'bms yc page' %}?next={{ request.path }}">
+                                        <span class="glyphicon glyphicon-zoom-in"></span>
+                                        详情
+                                     </a>
+                                </div>
+                            </div>
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th>供液流量</th>
+                                <th>供液压力</th>
+                                <th>回液压力</th>
+                                <th>供液温度</th>
+                                <!--<th colspan="2" class="text-center">循环泵运行状态</th>-->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="vertical-align: middle;text-align: center;">
+                                <td class="warning">{{ bms_yc.供液流量|default:20 }}</td>
+                                <td class="warning">{{ bms_yc.供液压力|default:0.5 }}</td>
+                                <td class="warning">{{ bms_yc.回液压力|default:0.5 }}</td>
+                                <td class="warning">{{ bms_yc.供液温度|default:20 }}</td>
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr>
+                                <th>回液温度</th>
+                                <th>阀门开度</th>
+                                <th>电池平均温度</th>
+                                <th>电池平均温度</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="vertical-align: middle;text-align: center;">
+                                <td class="warning">{{ bms_yc.回液温度|default:20 }}</td>
+                                <td class="warning">{{ bms_yc.阀门开度|default:5 }}</td>
+                                <td class="warning">{{ bms_yc.电池平均温度|default:25 }}</td>
+                                <td class="warning">{{ bms_yc.最高电池温度|default:30 }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% else %}
+            <div class="row">
+                <div class="col-xs-12">
+                    <table class="table table-striped table-bordered">
+                        <caption>
+                            <div class="row">
+                                <div class="col-xs-9">BMS设备驱动未开启！</div>
+                            </div>
+                        </caption>
+                    </table>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,616 @@
+body {
+    background-color: gray;
+}
+
+a:link {text-decoration: none;}
+a:visited {text-decoration: none;}
+a:active {text-decoration: none;}
+a:hover {text-decoration: none;}
+
+.tools-panel {
+    position: static;
+    float: left;
+    width: 216px;
+    overflow: auto;
+    top: 30px;
+    border-style: solid;
+    margin: 0px;
+}
+
+.tools-title {
+    color: #ffffff;
+    text-align: center;
+    font-size: large;
+    border-width: 1px;
+    border-top-width: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-bottom: #ffffff;
+    border-style: solid;
+    border-color: #ffffff;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.selector {
+    position: relative;
+    float: left;
+    margin: 5px;
+    width: 60px;
+    height: 75px;
+    border: #FFFFFF;
+    border-style: dashed;
+    border-width: 1px;
+}
+
+.selector-face {
+    position: relative;
+    float: left;
+    //background-color: #FF0000;
+    margin: 5px;
+    padding: 0px;
+    width: 48px;
+    height: 48px;
+    font-size: 43px;
+    line-height: 48px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.selector-name {
+    position: relative;
+    float: left;
+    //background-color: #3e8f3e;
+    margin: 0;
+    padding-top: 2px;
+    width: 60px;
+    height: 11px;
+    line-height: 11px;
+    font-size: 10px;
+    text-align: center;
+    color: #FFFFFF;
+    border-top-style: dashed;
+    border-top-width: 1px;
+}
+
+.paint-room {
+    position: absolute;
+    background-color: #ac2925;
+    float: left;
+    left: 280px;
+    top: 150px;
+    color: #FFFFFF;
+    font-size: 12px;
+}
+
+canvas {
+    position: absolute;
+    float: left;
+    left: 280px;
+    top: 150px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.paint-panel {
+    position: absolute;
+    float: left;
+    top: 10px;
+    left: 280px;
+    width: 1002px;
+    height: 150px;
+    padding: 0px;
+}
+
+.config_panel {
+    position: absolute;
+    float: left;
+    left: 500px;
+    top: 0px;
+    width: 500px;
+    height: 125px;
+    //background-color: #ac2925;
+}
+
+.little-input {
+    color: #000000;
+    width: 60px;
+    min-height: 15px;
+    height: 20px;
+    padding: -8px;
+    margin: 0px;
+    line-height: 20px;
+    text-align: center;
+    font-size: 10px;
+}
+
+.paint-body {
+    position: absolute;
+    float: left;
+    top: 150px;
+    left: 240px;
+    width: 1282px;
+    height: 1026px;
+    padding: 0px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #FFFFFF;
+}
+
+.edior_box {
+    position: absolute;
+    float: left;
+    top: 850px;
+    left: 280px;
+    height: 18px;
+    background-color: #0f0f0f;
+    /*width: 277px;*/
+	width: 460px;
+    margin: 0;
+    padding: 0;
+    border-width: 1px;
+}
+
+.value_inputer {
+    position: relative;
+    float: left;
+    height: 16px;
+    width: 100px;
+    margin: 0;
+    padding: 0;
+    border-width: 1px;
+}
+
+.value_inputer_strip{
+    position: relative;
+    text-align: center;
+    width: 30px;
+}
+
+.color_inputer {
+    position: relative;
+    float: left;
+    height: 16px;
+    width: 40px;
+    margin: 0;
+    padding: 0;
+    border-width: 1px;
+}
+
+.editor_button {
+    position: relative;
+    float: left;
+    width: 18px;
+    height: 18px;
+    background-color: #eeeeee;
+    border-width: 1px;
+    border-style: dashed;
+    border-color: #AAAAAA;
+    background-image: url("/static/imgs/editor_icons.png");
+}
+
+.editor_lable {
+	width: 55px;
+    height: 16px;
+    font-size: 10px;
+    background-image: none;
+}
+
+.editor_lable_strip {
+	width: 20px;
+    height: 16px;
+    font-size: 10px;
+    background-image: none;
+}
+
+.editor_button:hover {
+    border-width: 1px;
+    border-style: dashed;
+    border-color: #ffffff;
+}
+
+.moveablebutton {
+    position: relative;
+    float: left;
+    width: 16px;
+    height: 16px;
+    background-color: #eeeeee;
+    border-width: 1px;
+    border-style: dashed;
+    border-color: #AAAAAA;
+    background-image: url("/static/imgs/move.png");
+    cursor: move;
+}
+
+/* icons */
+.ke-icon-source {
+	background-position: 0px 0px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-preview {
+	background-position: 0px -16px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-print {
+	background-position: 0px -32px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-undo {
+	background-position: 0px -48px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-redo {
+	background-position: 0px -64px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-cut {
+	background-position: 0px -80px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-copy {
+	background-position: 0px -96px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-paste {
+	background-position: 0px -112px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-selectall {
+	background-position: 0px -128px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-justifyleft {
+	background-position: 0px -144px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-justifycenter {
+	background-position: 0px -160px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-justifyright {
+	background-position: 0px -176px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-justifyfull {
+	background-position: 0px -192px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-insertorderedlist {
+	background-position: 0px -208px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-insertunorderedlist {
+	background-position: 0px -224px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-indent {
+	background-position: 0px -240px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-outdent {
+	background-position: 0px -256px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-subscript {
+	background-position: 0px -272px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-superscript {
+	background-position: 0px -288px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-date {
+	background-position: 0px -304px;
+	width: 25px;
+	height: 16px;
+}
+.ke-icon-time {
+	background-position: 0px -320px;
+	width: 25px;
+	height: 16px;
+}
+.ke-icon-formatblock {
+	background-position: 0px -336px;
+	width: 25px;
+	height: 16px;
+}
+.ke-icon-fontname {
+	background-position: 0px -352px;
+	width: 21px;
+	height: 16px;
+}
+.ke-icon-fontsize {
+	background-position: 0px -368px;
+	width: 23px;
+	height: 16px;
+}
+.ke-icon-forecolor {
+	background-position: 0px -384px;
+	width: 20px;
+	height: 16px;
+}
+.ke-icon-hilitecolor {
+	background-position: 0px -400px;
+	width: 23px;
+	height: 16px;
+}
+.ke-icon-bold {
+	background-position: 0px -416px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-italic {
+	background-position: 0px -432px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-underline {
+	background-position: 0px -448px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-strikethrough {
+	background-position: 0px -464px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-removeformat {
+	background-position: 0px -480px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-image {
+	background-position: 0px -496px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-flash {
+	background-position: 0px -512px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-media {
+	background-position: 0px -528px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-div {
+	background-position: 0px -544px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-formula {
+	background-position: 0px -576px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-hr {
+	background-position: 0px -592px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-emoticons {
+	background-position: 0px -608px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-link {
+	background-position: 0px -624px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-unlink {
+	background-position: 0px -640px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-fullscreen {
+	background-position: 0px -656px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-about {
+	background-position: 0px -672px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-plainpaste {
+	background-position: 0px -704px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-wordpaste {
+	background-position: 0px -720px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-table {
+	background-position: 0px -784px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-tablemenu {
+	background-position: 0px -768px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-tableinsert {
+	background-position: 0px -784px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-tabledelete {
+	background-position: 0px -800px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-tablecolinsertleft {
+	background-position: 0px -816px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-tablecolinsertright {
+	background-position: 0px -832px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-tablerowinsertabove {
+	background-position: 0px -848px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-tablerowinsertbelow {
+	background-position: 0px -864px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-tablecoldelete {
+	background-position: 0px -880px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-tablerowdelete {
+	background-position: 0px -896px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-tablecellprop {
+	background-position: 0px -912px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-tableprop {
+	background-position: 0px -928px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-checked {
+	background-position: 0px -944px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-code {
+	background-position: 0px -960px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-map {
+	background-position: 0px -976px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-baidumap {
+	background-position: 0px -976px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-lineheight {
+	background-position: 0px -992px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-clear {
+	background-position: 0px -1008px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-pagebreak {
+	background-position: 0px -1024px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-insertfile {
+	background-position: 0px -1040px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-quickformat {
+	background-position: 0px -1056px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-template {
+	background-position: 0px -1072px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-tablecellsplit {
+	background-position: 0px -1088px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-tablerowmerge {
+	background-position: 0px -1104px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-tablerowsplit {
+	background-position: 0px -1120px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-tablecolmerge {
+	background-position: 0px -1136px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-tablecolsplit {
+	background-position: 0px -1152px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-anchor {
+	background-position: 0px -1168px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-search {
+	background-position: 0px -1184px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-new {
+	background-position: 0px -1200px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-specialchar {
+	background-position: 0px -1216px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-multiimage {
+	background-position: 0px -1232px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-ok {
+	background-position: 0px -944px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-close {
+	background-position: 0px -688px;
+	width: 16px;
+	height: 16px;
+}

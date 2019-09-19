@@ -1,0 +1,4 @@
+echo 这是安装模拟驱动的脚本执行文件
+device --install --module cd_sim.driver
+device --install --module cm_sim.driver
+device --install --module ec_sim.driver

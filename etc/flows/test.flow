@@ -1,0 +1,56 @@
+{
+    "flow": {
+        "s1": {
+            "ttl": 30000,
+            "conditions": ["self.loop", ">", "1"],
+            "true": "$auto",
+            "false": "$auto",
+            "switch-in-instruction": [
+                {
+                    "obj": "cm",
+                    "function": "设置运行模式",
+                    "args": ["恒流模式"]
+                }
+            ],
+            "running-instruction":[
+                {
+                    "period": 30,
+                    "obj": "cm",
+                    "function": "设置流速",
+                    "args": [23.5]
+                },
+                {
+                    "period": 2,
+                    "obj": "cm",
+                    "function": "设置温度",
+                    "args": [-23.5]
+                }
+            ],
+            "switch-in-instruction": [
+                {
+                    "obj": "cm",
+                    "function": "设置流速",
+                    "args": [23.5]
+                },
+                {
+                    "obj": "cm",
+                    "function": "设置温度",
+                    "args": [-23.5]
+                }
+            ]
+        },
+        "s2": {
+            "ttl": 3000,
+            "conditions": ["cm.回液温度", ">", "1"],
+            "true": "$auto",
+            "false": "$auto"
+        }
+    },
+    "require": {
+        "cm": {
+            "newline": {
+                "HL-160": ["V1.0", "V1.1"]
+            }
+        }
+    }
+}

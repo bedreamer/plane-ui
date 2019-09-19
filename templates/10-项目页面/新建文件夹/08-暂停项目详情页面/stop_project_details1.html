@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>暂 停 项 目 详 情 页 面</title>
+	<link rel="stylesheet" href="/static/css/bootstrap.css" />
+	<script src="/static/js/wsapi.js"></script>
+	<script src="/static/js/newline.js"></script>
+    <style>
+        select {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 30px;
+        }
+
+        option {
+            text-align: right;
+        }
+    </style>
+	
+	<script>
+		///let zt = {{ zt }};
+        zt = {"暂停项目": "充放电实验"};
+        // 这里可以像下面这样直接引用变量
+        //if (lc.流程运行状态 === '运行中') {
+			//  .....
+		//}
+
+
+		function display_prompt_message() {
+            var tab="<div class=\"text-danger col-xs-12\">";
+            tab+="<h4><strong>提示</strong>：当 前 是 <strong>"+ zt.暂停项目 + "项目</strong> 暂 停 状 态 下 的 大 体 信 息！</h4>";
+			tab+="</div>";
+            tishi.innerHTML=tab;
+        }
+		//跳转编辑页面(已改完)
+		function skip_page() {
+           window.location.href = "/xmck";
+        }
+	</script>
+	
+</head>
+<body onload="javascript:display_prompt_message()">
+
+	<div class="container">
+        
+		<div class="row">
+			<div style="width: 50%" class="col-xs-2">
+				<h3>
+					<span class="glyphicon  glyphicon-edit text-primary"></span>
+					&nbsp;暂 停 项 目 详 情 页 面
+				</h3>
+			</div>
+			<div style="width:50%;text-align:right;" class="col-xs-2">
+				<h2>
+					<button type="button" style="height:35px;width:150px;" class="btn btn-info btn-success.focus" onclick="javascript:skip_page()"><span class="link glyphicon glyphicon-hand-left">&nbsp返 回</span></button>
+				</h2>
+			</div>
+		</div>
+	
+		<div class="row"><hr></hr></div>
+		
+		<!--<div class="row">
+			<div class="text-danger col-xs-12"><h3><strong>提 示:</strong></h3></div>
+		</div>-->
+
+		<div class="row" id="tishi"></div>
+		
+		<div class="row">
+            <div style="width: 50%" class="col-xs-2 withunderline">
+                <h4><span style="font-size:80%" class="label label-success">详 情 信息</span></h4>
+            </div>
+        </div>
+
+        <div class="row"><p></p></div>
+
+        <div class="row">
+            <div style="width: 25%" class="col-xs-2">
+                <label>项目名:&nbsp;</label>
+            </div>
+            <div style="width: 25%" class="col-xs-2">
+                <label>项目状态:&nbsp;</label>
+            </div>
+            <div style="width: 25%" class="col-xs-2">
+                <label>项目数量:&nbsp;</label>
+            </div>
+            <div style="width: 25%" class="col-xs-2">
+                <label>项目入口:&nbsp;</label>
+            </div>
+        </div>
+
+		<div class="row" id="tj_headline">
+			<div style="width: 25%" class="col-xs-12">
+				<div class="input-group">
+					<span class="input-group-addon">项目名:</span>
+                    <input type="text" class="form-control" disabled="disabled" placeholder="充放电实验">
+				</div>
+			</div>
+            <div style="width: 25%" class="col-xs-12">
+				<div class="input-group">
+					<span class="input-group-addon">项目状态:</span>
+                    <input type="text" class="form-control" disabled="disabled" placeholder="就绪">
+				</div>
+			</div>
+            <div style="width: 25%" class="col-xs-12">
+				<div class="input-group">
+					<span class="input-group-addon">项目数量:</span>
+					 <input type="text" class="form-control" disabled="disabled" placeholder="30">
+				</div>
+			</div>
+            <div style="width: 25%" class="col-xs-12">
+				<div class="input-group">
+					<span class="input-group-addon">项目入口:</span>
+					 <input type="text" class="form-control" disabled="disabled" placeholder="S2">
+				</div>
+			</div>
+		</div>
+		
+		<div class="row"><p>&nbsp;</p></div>
+		
+		<div class="row" id="data_feedback"></div>
+		
+		<div class="row"><p></p></div>
+
+		<div id="div1"></div>
+
+    </div>
+</body>
+</html>		
+
+
+
+

@@ -1,0 +1,23 @@
+{
+    "flow": {
+        "s1": {
+            "ttl": 30,
+            "conditions": ["self.loop", ">", "1"],
+            "true": "$auto",
+            "false": "$auto"
+        },
+        "s2": {
+            "ttl": 3000,
+            "conditions": ["self.loop", ">", "1"],
+            "true": "$auto",
+            "false": "$auto"
+        }
+    },
+    "require": {
+        "cm": {
+            "newline": {
+                "HL-160": ["V1.0", "V1.1"]
+            }
+        }
+    }
+}

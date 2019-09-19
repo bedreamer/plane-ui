@@ -1,0 +1,29 @@
+{
+    "plane_loop_period": 1000,
+    "redis": {
+        "host": "127.0.0.1",
+        "port": 6379,
+        "db": 0,
+        "password": null
+    },
+    "水冷机": {
+        "vendor": "NewLine",
+        "model": "HL-160",
+        "version": "V1.2"
+    },
+    "水冷机": {
+        "vendor": "NewLine",
+        "model": "HL-160",
+        "version": "V1.2"
+    },
+    "水冷机": {
+        "vendor": "NewLine",
+        "model": "HL-160",
+        "version": "V1.2"
+    },
+    "水冷机": {
+        "vendor": "NewLine",
+        "model": "HL-160",
+        "version": "V1.2"
+    },
+}

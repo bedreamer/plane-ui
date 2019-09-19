@@ -1,0 +1,78 @@
+
+{% extends "00-base/01-theme-basic/1-10-1.html" %}
+
+{% block page-title %}环境箱设备遥控-成功{% endblock %}
+
+
+{% block page-header %}
+    {% include "00-base/01-theme-basic/page-head.html" %}
+    {% include "00-base/01-theme-basic/global-message.html" %}
+{% endblock %}
+
+
+
+{% block inline-js-ahead %}
+	<script>
+         //let skip = {{ skip | safe }};
+		//显示对应设备对应点的遥控成功提示
+		function stop_succeed(){
+            var tab="<div class=\"text-danger col-xs-12\">";
+            tab+="<h3><strong>提示</strong>：环 境 箱 设 备 遥 控 <strong>"+ skip.数据点 + "</strong> 数 据 点<strong> 成 功</strong> ，将 在 3 秒 后 返 回 环 境 箱 遥 控 页 面 ！</h3>";
+            tab+="</div>";
+            tishi.innerHTML=tab;
+            setTimeout("skip_page()","3000");
+
+		}
+		//跳转，水冷机遥控
+		function skip_page(){
+		    window.location.href = "{% url 'ec yk page' %}";
+        }
+	</script>
+{% endblock %}
+
+{% block page-body %}
+    <h3>
+        <div class="row">
+            <div class="col-xs-8">
+                <span class="glyphicon glyphicon-saved text-success"></span>
+					&nbsp;环 境 箱 设 备 遥 控 成 功 提 示 页 面
+            </div>
+            <div class="col-xs-4 text-right">
+                <a class="btn btn-lg btn-default" href="{% url "ec yk page" as project_summary_url %}{{ request.GET.next|default:project_summary_url }}">
+                    <span class="glyphicon glyphicon-hand-left"></span>
+                    返回
+                </a>
+            </div>
+        </div>
+    </h3>
+    <hr>
+
+    <h3>{{ project }}</h3>
+
+        <div class="row" id ="tishi">
+            <div class="text-danger col-xs-12">
+                <h3><strong>提 示</strong>：</h3>
+                <div class="row"><p></p></div>
+                <h4>环 境 箱 设 备 遥 控 <strong>{{ skip.数据点 }}</strong> 数 据 点<strong> 成 功</strong>！</h4>
+                <div class="row"><p></p></div>
+                <h4>可 点 击 <strong>返 回 按 钮</strong>, 返 回 环 境 箱 设 备 遥 控 页 面 ,继 续 操 作 ！</h4>
+            </div>
+        </div>
+
+        <div class="row"><p></p></div>
+
+		<div class="row" id="div1"></div>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,144 @@
+
+{% extends "00-base/01-theme-basic/1-10-1.html" %}
+
+{% block page-title %}水冷机设备信息-遥调{% endblock %}
+
+
+{% block page-header %}
+    {% include "00-base/01-theme-basic/page-head.html" %}
+    {% include "00-base/01-theme-basic/global-message.html" %}
+{% endblock %}
+
+
+{% block inline-js-ahead %}
+	<script>
+    	 //跳转编辑页面(已改完)
+		function skip_page() {
+		    window.location.href = "{% url '设备四遥页面' %}";
+        }
+        //刷新页面，拿遥信数据
+        //function myrefresh(){
+        //    window.location.reload();
+        //}
+        //setTimeout('myrefresh()',10000); //指定10秒刷新一次
+	</script>
+{% endblock %}
+
+
+{% block page-body %}
+    {% include "10-项目页面/01-项目设备信息筛选tabs.html" %}
+
+    <br>
+    <form method="post" action="{% url "cm yt page" %}">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="row">
+                    <div  class="col-xs-3">
+                        <label>温度值:&nbsp;</label>
+                    </div>
+                    <div  class="col-xs-3">
+                        <label>流量值:&nbsp;</label>
+                    </div>
+                    <div  class="col-xs-3">
+                        <label>执行时间:&nbsp;</label>
+                    </div>
+                    <div  class="col-xs-3">
+                        <label>加热百分比:&nbsp;</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="温度值" value="{{ cm_yt.温度|default:20 }}" id="temperature"></input>
+                            <span class="input-group-addon" id="temperature1">℃</span>
+                        </div>
+                    </div>
+                    <div class="col-xs-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="流量值" value="{{ cm_yt.流量|default:10 }}" id="flow"></input>
+                            <span class="input-group-addon" id="temperature1">L/min</span>
+                        </div>
+                    </div>
+                    <div class="col-xs-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="执行时间" value="{{ cm_yt.执行时间|default:30 }}" id="time"></input>
+                            <span class="input-group-addon" id="temperature1">min</span>
+                        </div>
+                    </div>
+                    <div class="col-xs-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="加热百分比" value="{{ cm_yt.加热百分比|default:10 }}" id="percentage"></input>
+                            <span class="input-group-addon" id="percentage1">%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row"><h6>&nbsp;</h6></div>
+
+                <div class="row">
+                    <div class="col-xs-3">
+                        <label>电池平均温度:&nbsp;</label>
+                    </div>
+                    <div class="col-xs-3">
+                        <label>最高电池温度:&nbsp;</label>
+                    </div>
+                    <div class="col-xs-3">
+                        <label>最低电池温度:&nbsp;</label>
+                    </div>
+                    <div class="col-xs-3">
+                        <label>电池电压:&nbsp;</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control"  name="电池平均温度" value="{{ cm_yt.电池平均温度|default:40 }}" id="dcpjwd"></input>
+                            <span class="input-group-addon" id="dcpjwd1">℃</span>
+                        </div>
+                    </div>
+                    <div  class="col-xs-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control"  name="最高电池温度" value="{{ cm_yt.最高电池温度|default:30 }}" id="zgdcwd"></input>
+                            <span class="input-group-addon" id="zgdcwd1">℃</span>
+                        </div>
+                    </div>
+                    <div class="col-xs-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control"  name="最低电池温度" value="{{ cm_yt.最低电池温度|default:20 }}" id="zddcwd"></input>
+                            <span class="input-group-addon" id="zddcwd1">℃</span>
+                        </div>
+                    </div>
+                    <div class="col-xs-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control"  name="电池电压" value="{{ cm_yt.电池电压|default:10 }}" id="dcdy"></input>
+                            <span class="input-group-addon" id="dcdy1">V</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row"><h6></h6></div>
+            </div>
+        </div>
+
+        <div class="row"><h6></h6></div>
+
+        <div class="row">
+            <div style="width: 100%" class="col-xs-1">
+                <div class="">
+                    <input class="btn btn-info btn-default btn-block" type="submit" value="点 击 设 置">
+                </div>
+            </div>
+        </div>
+
+        <div class="row"><h6>&nbsp;</h6></div>
+
+    </form>
+
+    <div class="row"><p></p></div>
+
+    <div class="row" id="div1"></div>
+
+{% endblock %}
+
+

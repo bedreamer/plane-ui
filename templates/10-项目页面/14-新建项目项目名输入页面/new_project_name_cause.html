@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>新 建 项 目 项 目 名 输 入 页 面</title>
+	<link rel="stylesheet" href="/static/css/bootstrap.css" />
+	<script src="/static/js/wsapi.js"></script>
+	<script src="/static/js/newline.js"></script>
+    <style>
+        select {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 30px;
+        }
+
+        option {
+            text-align: right;
+        }
+    </style>
+	
+	<script>
+		//let ID = {{ ID | safe }};
+        //获取ID函数
+        function get_url_param(key) {
+            var url = location.search; //获取url中"?"符后的字串
+            var theRequest = new Object();
+            if(url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("&");
+                for(var i = 0; i < strs.length; i ++) {
+                    theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+                }
+            }
+             return theRequest[key];
+        }
+        //返回，执行项目罗列页面
+		function skip_page() {
+            var sign = get_url_param("sign");
+            if(sign == "zsgc"){
+                window.location.href = "/zsgc/";
+            }else if(sign == "xjxm"){
+                window.location.href = "/xjxm/";
+            }
+            //else if(ID.进入状态 == "完成状态"){
+            //    window.location.href = "{% url '完成项目罗列页面' %}";
+            //}
+        }
+	</script>
+	
+</head>
+<body onload="javascript:display_prompt_message()">
+
+	<div class="container">
+        
+		<div class="row">
+			<div style="width: 50%" class="col-xs-2">
+				<h3>
+					<span class="glyphicon  glyphicon-edit text-primary"></span>
+					&nbsp;项 目 名 输 入 页 面
+				</h3>
+			</div>
+			<div style="width:50%;text-align:right;" class="col-xs-2">
+				<h2>
+					<button type="button" style="height:35px;width:150px;" class="btn btn-info btn-success.focus" onclick="javascript:skip_page()"><span class="link glyphicon glyphicon-hand-left">&nbsp返 回</span></button>
+				</h2>
+			</div>
+		</div>
+	
+		<div class="row"><hr></hr></div>
+		
+		<div class="row">
+			<div class="text-danger col-xs-12"><h3><strong>提 示:</strong></h3></div>
+		</div>
+
+		<div class="row" id="tishi">
+            <div class="text-danger col-xs-12">
+                <h4>确 定 新 建 测 试 项 目 ？如 果 确 定 请 输 入 以 下 信 息，并 点 击 <strong>新 建 </strong>按 钮 进 行 下 一 步 ！</h4>
+			</div>
+        </div>
+		
+		<div class="row">
+            <div style="width: 50%" class="col-xs-2 withunderline">
+                <h4><span style="font-size:80%" class="label label-success">输 入 选 项</span></h4>
+            </div>
+        </div>
+
+        <div class="row"><p></p></div>
+
+        <form action="{% url "新建项目名下发失败页面" %}" method="post">
+
+            <div class="row" id="tj_headline">
+
+                <div class="col-xs-6">
+                    <label>项目名输入:&nbsp;</label>
+                </div>
+                <div class="col-xs-6">
+                    <label>实验室项目编号输入:&nbsp;</label>
+                </div>
+
+                <div class=""><p></p></div>
+
+                <div class="col-xs-6" id="xm_name">
+                    <div class="input-group">
+                        <span class="input-group-addon">项目名:</span>
+                        <input type="text" name="prj_name" value="" class="form-control" placeholder="例如：充放电实验">
+                    </div>
+                </div>
+                 <div class="col-xs-6" id="sys_name">
+                    <div class="input-group">
+                        <span class="input-group-addon">项目编号:</span>
+                        <input type="text" name="sn" value="" class="form-control" placeholder="例如：B122">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row"><p>&nbsp;</p></div>
+
+            <div class="row" id="tj_headline">
+
+                <div class="col-xs-6">
+                    <label>项目摘要输入:&nbsp;</label>
+                </div>
+                <div class="col-xs-6">
+                    <label>项目介绍输入:&nbsp;</label>
+                </div>
+
+                <div class=""><p></p></div>
+
+                <div class="col-xs-6" id="xm_zy">
+                    <div class="input-group">
+                        <span class="input-group-addon">项目摘要:</span>
+                        <input type="text" name="subscript" value="" class="form-control" placeholder="例如：充电实验">
+                    </div>
+                </div>
+                 <div class="col-xs-6" id="xm_js">
+                    <div class="input-group">
+                        <span class="input-group-addon">项目介绍:</span>
+                        <input type="text" name="description" value="" class="form-control" placeholder="例如：充电">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row"><p>&nbsp;</p></div>
+
+            <div class="row" id="tj_headline">
+
+                <div style="width: 50%" class="col-xs-6">
+                    <label>项目备注输入:&nbsp;</label>
+                </div>
+            </div>
+
+            <div class=""><p></p></div>
+
+            <div class="row" id="tj_headline">
+                <div style="width: 50%" class="col-xs-6" id="xm_bz">
+                    <div class="input-group">
+                        <span class="input-group-addon">项目备注:</span>
+                        <input type="text" name="comment" value="" class="form-control" placeholder="例如：项目新建">
+                    </div>
+                </div>
+
+                <div style="width: 50%" class="col-xs-6" id="tishi11">
+
+                </div>
+
+            </div>
+
+            <div class="row"><p>&nbsp;</p></div>
+
+            <div class="row" id="tj_headline">
+                <div style="width: 25%" class="col-xs-2">
+                    <label>确定提交:&nbsp;</label>
+                </div>
+            </div>
+            <div class="row" id="tj_headline">
+                <div style="width: 25%" class="col-xs-2">
+                    <input class="btn btn-default btn-block" type="submit" value="点 击 新 建">
+                </div>
+                <div style="width: 25%" class="hidden col-xs-2" id="rw_id1">
+                </div>
+            </div>
+		</form>
+		
+		<div class="row"><p>&nbsp;</p></div>
+        <div class="row"><p>&nbsp;</p></div>
+
+    </div>
+</body>
+</html>		
+
+
+
+

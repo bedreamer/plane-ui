@@ -1,0 +1,1049 @@
+
+SVN：地址：https://cbd-mall.vip/svn/plane-ui/trunk
+
+
+//显示提示信息
+function display_prompt_message() {
+    var execute=zt.执行项目数量;
+	var ready=zt.就绪项目数量;
+	var suspend=zt.暂停项目数量;
+    var configuration=zt.配置项目数量;
+    if((execute > 0)&&(ready == 0)&&(suspend == 0)&&(configuration == 0)){
+        var tab="<div class=\"text-danger\"><h4>当 前 <strong>"+ zt.执行项目 + "项目</strong> 正 处 于 执 行 阶 段，可 选 择 以 下 <strong>操 作 选 项</strong> 查 看 执 行 项 目 详 情 <strong>！</strong></h4></div>";
+        tab+="<div class=\"\">";
+		tab+="<div class=\"row\"><p></p></div>";
+        tab+="<div class=\"row\">";
+        tab+="<div class=\"col-xs-2 withunderline\">";
+        tab+="<h4><span style=\"font-size:80%\" class=\"label label-success\">操 作 选 项</span></h4></div>";
+        tab+="</div>";
+        tab+="<div class=\"row\"><p></p></div>";
+        tab+="<div class=\"row\">";
+        tab+="<div style=\"width: 40%\" class=\"col-xs-2\">";
+        tab+="<label><h5><b>查看执行项目:&nbsp;</b></h5></label></div>";
+		tab+="</div>";
+		tab+="<div class=\"row\">";
+        tab+="<div style=\"width: 40%\" class=\"col-xs-1\" id=\"sljyx\">";
+        tab+="<div class=\"\"><a class=\"btn btn-default btn-block\" href=\"{% url "执行项目详情页面" %}\">点 击 查 看</a></div></div>";
+        tab+="</div>";
+		tab+="</div>";
+        tishi.innerHTML=tab;
+    }else if((execute == 0)&&(ready > 0)&&(suspend == 0)&&(configuration == 0)){
+		var tab="<div class=\"text-danger\"><h4>当 前 有 <strong>"+ zt.就绪项目数量 + " 个 项 目</strong> 正 处 于 项 目 就 绪 阶 段，可 选 择 以 下 <strong>操 作 选 项</strong> 查 看 就 绪 项 目 详 情 <strong>！</strong></h4></div>";
+        tab+="<div class=\"\">";
+		tab+="<div class=\"row\"><p></p></div>";
+       tab+="<div class=\"row\">";
+        tab+="<div class=\"col-xs-2 withunderline\">";
+        tab+="<h4><span style=\"font-size:80%\" class=\"label label-success\">操 作 选 项</span></h4></div>";
+        tab+="</div>";
+        tab+="<div class=\"row\"><p></p></div>";
+        tab+="<div class=\"row\">";
+        tab+="<div style=\"width: 40%\" class=\"col-xs-2\">";
+        tab+="<label><h5><b>查看就绪项目:&nbsp;</b></h5></label></div>";
+        tab+="</div>";
+        tab+="<div class=\"row\">";
+        tab+="<div style=\"width: 40%\" class=\"col-xs-1\" id=\"sljyx\">";
+        tab+="<div class=\"\"><a class=\"btn btn-default btn-block\" href=\"{% url "就绪项目罗列页面" %}\">点 击 查 看</a></div></div>";
+        tab+="</div>";
+        tab+="</div>";
+        tishi.innerHTML=tab;
+    }else if((execute == 0)&&(ready == 0)&&(suspend > 0)&&(configuration == 0)){
+		var tab="<div class=\"text-danger\"><h4>当 前 有 <strong>"+ zt.暂停项目数量 + " 个 项 目</strong> 正 处 于 项 目 暂 停 阶 段，可 选 择 以 下 <strong>操 作 选 项</strong> 查 看 暂 停 项 目 详 情 <strong>！</strong></h4></div>";
+        tab+="<div class=\"\">";
+		tab+="<div class=\"row\"><p></p></div>";
+        tab+="<div class=\"row\">";
+        tab+="<div class=\"col-xs-2 withunderline\">";
+        tab+="<h4><span style=\"font-size:80%\" class=\"label label-success\">操 作 选 项</span></h4></div>";
+        tab+="</div>";
+        tab+="<div class=\"row\"><p></p></div>";
+        tab+="<div class=\"row\">";
+        tab+="<div style=\"width: 40%\" class=\"col-xs-2\">";
+        tab+="<label><h5><b>查看暂停项目:&nbsp;</b></h5></label></div>";
+        tab+="</div>";
+        tab+="<div class=\"row\">";
+        tab+="<div style=\"width: 40%\" class=\"col-xs-1\" id=\"sljyx\">";
+        tab+="<div class=\"\"><a class=\"btn btn-default btn-block\" href=\"{% url "暂停项目罗列页面" %}\">点 击 查 看</a></div></div>";
+        tab+="</div>";
+        tab+="</div>";
+        tishi.innerHTML=tab;
+    }else if((execute == 0)&&(ready == 0)&&(suspend == 0)&&(configuration > 0) ){
+		var tab="<div class=\"text-danger\"><h4>当 前 有 <strong>"+ zt.配置项目数量 + " 个 项 目</strong> 正 处 于 配 置 完 成 阶 段，可 选 择 以 下 <strong>操 作 选 项</strong> 查 看 配 置 项 目 详 情 <strong>！</strong></h4></div>";
+        tab+="<div class=\"\">";
+		tab+="<div class=\"row\"><p></p></div>";
+        tab+="<div class=\"row\">";
+        tab+="<div class=\"col-xs-2 withunderline\">";
+        tab+="<h4><span style=\"font-size:80%\" class=\"label label-success\">操 作 选 项</span></h4></div>";
+        tab+="</div>";
+        tab+="<div class=\"row\"><p></p></div>";
+        tab+="<div class=\"row\">";
+        tab+="<div style=\"width: 40%\" class=\"col-xs-2\">";
+        tab+="<label><h5><b>查看配置完成项目:&nbsp;</b></h5></label></div>";
+        tab+="</div>";
+        tab+="<div class=\"row\">";
+        tab+="<div style=\"width: 40%\" class=\"col-xs-1\" id=\"sljyx\">";
+        tab+="<div class=\"\"><a class=\"btn btn-default btn-block\" href=\"{% url "配置项目罗列页面" %}\">点 击 查 看</a></div></div>";
+        tab+="</div>";
+        tab+="</div>";
+        tishi.innerHTML=tab;
+    }else if((execute > 0)&&(ready > 0)&&(suspend == 0)&&(configuration == 0) ){
+        var tab="<div class=\"text-danger\"><h4>当 前 <strong>"+ zt.执行项目 + "项目</strong> 正 处 于 执 行 阶 段 及 <strong>"+ zt.就绪项目数量 + " 个 项 目</strong> 正 处 于 项 目 就 绪 阶 段，可 选 择 以 下 <strong>操 作 选 项</strong> 查 看 执 行 项 目 详 情 <strong>！</strong></h4></div>";
+        tab+="<div class=\"\">";
+		tab+="<div class=\"row\"><p></p></div>";
+        tab+="<div class=\"row\">";
+        tab+="<div class=\"col-xs-2 withunderline\">";
+        tab+="<h4><span style=\"font-size:80%\" class=\"label label-success\">操 作 选 项</span></h4></div>";
+        tab+="</div>";
+        tab+="<div class=\"row\"><p></p></div>";
+        tab+="<div class=\"row\">";
+        tab+="<div style=\"width: 50%\" class=\"col-xs-2\">";
+        tab+="<label><h5><b>查看执行项目:&nbsp;</b></h5></label></div>";
+		tab+="<div style=\"width: 50%\" class=\"col-xs-2\">";
+        tab+="<label><h5><b>查看就绪项目:&nbsp;</b></h5></label></div>";
+		tab+="</div>";
+		tab+="<div class=\"row\">";
+        tab+="<div style=\"width: 50%\" class=\"col-xs-1\" id=\"sljyx\">";
+        tab+="<div class=\"\"><a class=\"btn btn-default btn-block\" href=\"{% url "执行项目详情页面" %}\">点 击 查 看</a></div></div>";
+		tab+="<div style=\"width: 50%\" class=\"col-xs-1\" id=\"sljyx\">";
+        tab+="<div class=\"\"><a class=\"btn btn-default btn-block\" href=\"{% url "就绪项目罗列页面" %}\">点 击 查 看</a></div></div>";
+        tab+="</div>";
+		tab+="</div>";
+        tishi.innerHTML=tab;
+    }else if((execute > 0)&&(ready == 0)&&(suspend > 0)&&(configuration == 0) ){
+        var tab="<div class=\"text-danger\"><h4>当 前 <strong>"+ zt.执行项目 + "项目</strong> 正 处 于 执 行 阶 段 及 <strong>"+ zt.暂停项目数量 + " 个 项 目</strong> 正 处 于 项 目 暂 停 阶 段，可 选 择 以 下 <strong>操 作 选 项</strong> 查 看 执 行 项 目 详 情 <strong>！</strong></h4></div>";
+        tab+="<div class=\"\">";
+		tab+="<div class=\"row\"><p></p></div>";
+		tab+="<div class=\"row\">";
+        tab+="<div class=\"col-xs-2 withunderline\">";
+        tab+="<h4><span style=\"font-size:80%\" class=\"label label-success\">操 作 选 项</span></h4></div>";
+        tab+="</div>";
+        tab+="<div class=\"row\"><p></p></div>";
+        tab+="<div class=\"row\">";
+        tab+="<div style=\"width: 50%\" class=\"col-xs-2\">";
+        tab+="<label><h5><b>查看执行项目:&nbsp;</b></h5></label></div>";
+		tab+="<div style=\"width: 50%\" class=\"col-xs-2\">";
+        tab+="<label><h5><b>查看暂停项目:&nbsp;</b></h5></label></div>";
+		tab+="</div>";
+		tab+="<div class=\"row\">";
+        tab+="<div style=\"width: 50%\" class=\"col-xs-1\" id=\"sljyx\">";
+        tab+="<div class=\"\"><a class=\"btn btn-default btn-block\" href=\"{% url "执行项目详情页面" %}\">点 击 查 看</a></div></div>";
+		tab+="<div style=\"width: 50%\" class=\"col-xs-1\" id=\"sljyx\">";
+        tab+="<div class=\"\"><a class=\"btn btn-default btn-block\" href=\"{% url "暂停项目罗列页面" %}\">点 击 查 看</a></div></div>";
+        tab+="</div>";
+		tab+="</div>";
+        tishi.innerHTML=tab;
+    }else if((execute > 0)&&(ready == 0)&&(suspend == 0)&&(configuration > 0) ){
+        var tab="<div class=\"text-danger\"><h4>当 前 <strong>"+ zt.执行项目 + "项目</strong> 正 处 于 执 行 阶 段 及 <strong>"+ zt.配置项目数量 + " 个 项 目</strong> 正 处 于 配 置 完 成 阶 段，可 选 择 以 下 <strong>操 作 选 项</strong> 查 看 执 行 项 目 详 情 <strong>！</strong></h4></div>";
+        tab+="<div class=\"\">";
+		tab+="<div class=\"row\"><p></p></div>";
+        tab+="<div class=\"row\">";
+        tab+="<div class=\"col-xs-2 withunderline\">";
+        tab+="<h4><span style=\"font-size:80%\" class=\"label label-success\">操 作 选 项</span></h4></div>";
+        tab+="</div>";
+        tab+="<div class=\"row\"><p></p></div>";
+        tab+="<div class=\"row\">";
+        tab+="<div style=\"width: 50%\" class=\"col-xs-2\">";
+        tab+="<label><h5><b>查看执行项目:&nbsp;</b></h5></label></div>";
+		tab+="<div style=\"width: 50%\" class=\"col-xs-2\">";
+        tab+="<label><h5><b>查看配置项目:&nbsp;</b></h5></label></div>";
+		tab+="</div>";
+		tab+="<div class=\"row\">";
+        tab+="<div style=\"width: 50%\" class=\"col-xs-1\" id=\"sljyx\">";
+        tab+="<div class=\"\"><a class=\"btn btn-default btn-block\" href=\"{% url "执行项目详情页面" %}\">点 击 查 看</a></div></div>";
+		tab+="<div style=\"width: 50%\" class=\"col-xs-1\" id=\"sljyx\">";
+        tab+="<div class=\"\"><a class=\"btn btn-default btn-block\" href=\"{% url "配置项目罗列页面" %}\">点 击 查 看</a></div></div>";
+        tab+="</div>";
+		tab+="</div>";
+        tishi.innerHTML=tab;
+    }else if((execute == 0)&&(ready > 0)&&(suspend > 0)&&(configuration == 0) ){
+        var tab="<div class=\"text-danger\"><h4>当 前 有 <strong>"+ zt.就绪项目数量 + " 个 项 目</strong> 正 处 于 项 目 就 绪 阶 段 及 <strong>"+ zt.暂停项目数量 + " 个 项 目</strong> 正 处 于 项 目 暂 停 阶 段，可 选 择 以 下 <strong>操 作 选 项</strong> 查 看 执 行 项 目 详 情 <strong>！</strong></h4></div>";
+        tab+="<div class=\"\">";
+		tab+="<div class=\"row\"><p></p></div>";
+        tab+="<div class=\"row\">";
+        tab+="<div class=\"col-xs-2 withunderline\">";
+        tab+="<h4><span style=\"font-size:80%\" class=\"label label-success\">操 作 选 项</span></h4></div>";
+        tab+="</div>";
+        tab+="<div class=\"row\"><p></p></div>";
+        tab+="<div class=\"row\">";
+        tab+="<div style=\"width: 50%\" class=\"col-xs-2\">";
+        tab+="<label><h5><b>查看就绪项目:&nbsp;</b></h5></label></div>";
+		tab+="<div style=\"width: 50%\" class=\"col-xs-2\">";
+        tab+="<label><h5><b>查看暂停项目:&nbsp;</b></h5></label></div>";
+		tab+="</div>";
+		tab+="<div class=\"row\">";
+        tab+="<div style=\"width: 50%\" class=\"col-xs-1\" id=\"sljyx\">";
+        tab+="<div class=\"\"><a class=\"btn btn-default btn-block\" href=\"{% url "就绪项目罗列页面" %}\">点 击 查 看</a></div></div>";
+		tab+="<div style=\"width: 50%\" class=\"col-xs-1\" id=\"sljyx\">";
+        tab+="<div class=\"\"><a class=\"btn btn-default btn-block\" href=\"{% url "暂停项目罗列页面" %}\">点 击 查 看</a></div></div>";
+        tab+="</div>";
+		tab+="</div>";
+        tishi.innerHTML=tab;
+    }else if((execute == 0)&&(ready > 0)&&(suspend == 0)&&(configuration > 0) ){
+        var tab="<div class=\"text-danger\"><h4>当 前 有 <strong>"+ zt.就绪项目数量 + " 个 项 目</strong> 正 处 于 项 目 就 绪 阶 段 及 <strong>"+ zt.配置项目数量 + " 个 项 目</strong> 正 处 于 配 置 完 成 阶 段，可 选 择 以 下 <strong>操 作 选 项</strong> 查 看 执 行 项 目 详 情 <strong>！</strong></h4></div>";
+        tab+="<div class=\"\">";
+		tab+="<div class=\"row\"><p></p></div>";
+        tab+="<div class=\"row\">";
+        tab+="<div class=\"col-xs-2 withunderline\">";
+        tab+="<h4><span style=\"font-size:80%\" class=\"label label-success\">操 作 选 项</span></h4></div>";
+        tab+="</div>";
+        tab+="<div class=\"row\"><p></p></div>";
+        tab+="<div class=\"row\">";
+        tab+="<div style=\"width: 50%\" class=\"col-xs-2\">";
+        tab+="<label><h5><b>查看就绪项目:&nbsp;</b></h5></label></div>";
+		tab+="<div style=\"width: 50%\" class=\"col-xs-2\">";
+        tab+="<label><h5><b>查看配置项目:&nbsp;</b></h5></label></div>";
+		tab+="</div>";
+		tab+="<div class=\"row\">";
+        tab+="<div style=\"width: 50%\" class=\"col-xs-1\" id=\"sljyx\">";
+        tab+="<div class=\"\"><a class=\"btn btn-default btn-block\" href=\"{% url "就绪项目罗列页面" %}\">点 击 查 看</a></div></div>";
+		tab+="<div style=\"width: 50%\" class=\"col-xs-1\" id=\"sljyx\">";
+        tab+="<div class=\"\"><a class=\"btn btn-default btn-block\" href=\"{% url "配置项目罗列页面" %}\">点 击 查 看</a></div></div>";
+        tab+="</div>";
+		tab+="</div>";
+        tishi.innerHTML=tab;
+    }else if((execute == 0)&&(ready == 0)&&(suspend > 0)&&(configuration > 0) ){
+        var tab="<div class=\"text-danger\"><h4>当 前 有 <strong>"+ zt.暂停项目数量 + " 个 项 目</strong> 正 处 于 项 目 暂 停 阶 段 及 <strong>"+ zt.配置项目数量 + " 个 项 目</strong> 正 处 于 配 置 完 成 阶 段，可 选 择 以 下 <strong>操 作 选 项</strong> 查 看 执 行 项 目 详 情 <strong>！</strong></h4></div>";
+        tab+="<div class=\"\">";
+		tab+="<div class=\"row\"><p></p></div>";
+        tab+="<div class=\"row\">";
+        tab+="<div class=\"col-xs-2 withunderline\">";
+        tab+="<h4><span style=\"font-size:80%\" class=\"label label-success\">操 作 选 项</span></h4></div>";
+        tab+="</div>";
+        tab+="<div class=\"row\"><p></p></div>";
+        tab+="<div class=\"row\">";
+        tab+="<div style=\"width: 50%\" class=\"col-xs-2\">";
+        tab+="<label><h5><b>查看暂停项目:&nbsp;</b></h5></label></div>";
+		tab+="<div style=\"width: 50%\" class=\"col-xs-2\">";
+        tab+="<label><h5><b>查看配置项目:&nbsp;</b></h5></label></div>";
+		tab+="</div>";
+		tab+="<div class=\"row\">";
+        tab+="<div style=\"width: 50%\" class=\"col-xs-1\" id=\"sljyx\">";
+        tab+="<div class=\"\"><a class=\"btn btn-default btn-block\" href=\"{% url "暂停项目罗列页面" %}\">点 击 查 看</a></div></div>";
+		tab+="<div style=\"width: 50%\" class=\"col-xs-1\" id=\"sljyx\">";
+        tab+="<div class=\"\"><a class=\"btn btn-default btn-block\" href=\"{% url "配置项目罗列页面" %}\">点 击 查 看</a></div></div>";
+        tab+="</div>";
+		tab+="</div>";
+        tishi.innerHTML=tab;
+    }else if((execute > 0)&&(ready > 0)&&(suspend > 0)&&(configuration == 0) ){
+        var tab="<div class=\"text-danger\"><h4>当 前 <strong>"+ zt.执行项目 + "项目</strong> 正 处 于 执 行 阶 段，<strong>"+ zt.就绪项目数量 + " 个 项 目</strong> 正 处 于 项 目 就 绪 阶 段 及 <strong>"+ zt.暂停项目数量 + " 个 项 目</strong> 正 处 于 项 目 暂 停 阶 段，</h4></div>";
+        tab+="<div class=\"text-danger\"><h4>可 选 择 以 下 <strong>操 作 选 项</strong> 查 看 执 行 项 目 详 情 <strong>！</strong></h4></div>";
+		tab+="<div class=\"\">";
+		tab+="<div class=\"row\"><p></p></div>";
+        tab+="<div class=\"row\">";
+        tab+="<div class=\"col-xs-2 withunderline\">";
+        tab+="<h4><span style=\"font-size:80%\" class=\"label label-success\">操 作 选 项</span></h4></div>";
+        tab+="</div>";
+        tab+="<div class=\"row\"><p></p></div>";
+        tab+="<div class=\"row\">";
+        tab+="<div style=\"width: 33%\" class=\"col-xs-2\">";
+        tab+="<label><h5><b>查看执行项目:&nbsp;</b></h5></label></div>";
+		tab+="<div style=\"width: 33%\" class=\"col-xs-2\">";
+        tab+="<label><h5><b>查看就绪项目:&nbsp;</b></h5></label></div>";
+		tab+="<div style=\"width: 33%\" class=\"col-xs-2\">";
+        tab+="<label><h5><b>查看暂停项目:&nbsp;</b></h5></label></div>";
+		tab+="</div>";
+		tab+="<div class=\"row\">";
+        tab+="<div style=\"width: 33%\" class=\"col-xs-1\" id=\"sljyx\">";
+        tab+="<div class=\"\"><a class=\"btn btn-default btn-block\" href=\"{% url "执行项目详情页面" %}\">点 击 查 看</a></div></div>";
+		tab+="<div style=\"width: 33%\" class=\"col-xs-1\" id=\"sljyx\">";
+        tab+="<div class=\"\"><a class=\"btn btn-default btn-block\" href=\"{% url "就绪项目罗列页面" %}\">点 击 查 看</a></div></div>";
+		tab+="<div style=\"width: 33%\" class=\"col-xs-1\" id=\"sljyx\">";
+        tab+="<div class=\"\"><a class=\"btn btn-default btn-block\" href=\"{% url "暂停项目罗列页面" %}\">点 击 查 看</a></div></div>";
+        tab+="</div>";
+		tab+="</div>";
+        tishi.innerHTML=tab;
+    }else if((execute > 0)&&(ready > 0)&&(suspend == 0)&&(configuration > 0) ){
+        var tab="<div class=\"text-danger\"><h4>当 前 <strong>"+ zt.执行项目 + "项目</strong> 正 处 于 执 行 阶 段，<strong>"+ zt.就绪项目数量 + " 个 项 目</strong> 正 处 于 项 目 就 绪 阶 段 及 <strong>"+ zt.配置项目数量 + " 个 项 目</strong> 正 处 于 配 置 完 成 阶 段，</h4></div>";
+        tab+="<div class=\"text-danger\"><h4>可 选 择 以 下 <strong>操 作 选 项</strong> 查 看 执 行 项 目 详 情 <strong>！</strong></h4></div>";
+		tab+="<div class=\"\">";
+		tab+="<div class=\"row\"><p></p></div>";
+        tab+="<div class=\"row\">";
+        tab+="<div class=\"col-xs-2 withunderline\">";
+        tab+="<h4><span style=\"font-size:80%\" class=\"label label-success\">操 作 选 项</span></h4></div>";
+        tab+="</div>";
+        tab+="<div class=\"row\"><p></p></div>";
+        tab+="<div class=\"row\">";
+        tab+="<div style=\"width: 33%\" class=\"col-xs-2\">";
+        tab+="<label><h5><b>查看执行项目:&nbsp;</b></h5></label></div>";
+		tab+="<div style=\"width: 33%\" class=\"col-xs-2\">";
+        tab+="<label><h5><b>查看就绪项目:&nbsp;</b></h5></label></div>";
+		tab+="<div style=\"width: 33%\" class=\"col-xs-2\">";
+        tab+="<label><h5><b>查看配置项目:&nbsp;</b></h5></label></div>";
+		tab+="</div>";
+		tab+="<div class=\"row\">";
+        tab+="<div style=\"width: 33%\" class=\"col-xs-1\" id=\"sljyx\">";
+        tab+="<div class=\"\"><a class=\"btn btn-default btn-block\" href=\"{% url "执行项目详情页面" %}\">点 击 查 看</a></div></div>";
+		tab+="<div style=\"width: 33%\" class=\"col-xs-1\" id=\"sljyx\">";
+        tab+="<div class=\"\"><a class=\"btn btn-default btn-block\" href=\"{% url "就绪项目罗列页面" %}\">点 击 查 看</a></div></div>";
+		tab+="<div style=\"width: 33%\" class=\"col-xs-1\" id=\"sljyx\">";
+        tab+="<div class=\"\"><a class=\"btn btn-default btn-block\" href=\"{% url "配置项目罗列页面" %}\">点 击 查 看</a></div></div>";
+        tab+="</div>";
+		tab+="</div>";
+        tishi.innerHTML=tab;
+    }else if((execute == 0)&&(ready > 0)&&(suspend > 0)&&(configuration > 0) ){
+        var tab="<div class=\"text-danger\"><h4>当 前 有 <strong>"+ zt.就绪项目数量 + " 个 项 目</strong> 正 处 于 项 目 就 绪 阶 段， <strong>"+ zt.暂停项目数量 + " 个 项 目</strong> 正 处 于 项 目 暂 停 阶 段 及 <strong>"+ zt.配置项目数量 + " 个 项 目</strong> 正 处 于 配 置 完 成 阶 段，</h4></div>";
+        tab+="<div class=\"text-danger\"><h4>可 选 择 以 下 <strong>操 作 选 项</strong> 查 看 执 行 项 目 详 情 <strong>！</strong></h4></div>";
+		tab+="<div class=\"\">";
+		tab+="<div class=\"row\"><p></p></div>";
+        tab+="<div class=\"row\">";
+        tab+="<div class=\"col-xs-2 withunderline\">";
+        tab+="<h4><span style=\"font-size:80%\" class=\"label label-success\">操 作 选 项</span></h4></div>";
+        tab+="</div>";
+        tab+="<div class=\"row\"><p></p></div>";
+        tab+="<div class=\"row\">";
+        tab+="<div style=\"width: 33%\" class=\"col-xs-2\">";
+        tab+="<label><h5><b>查看就绪项目:&nbsp;</b></h5></label></div>";
+		tab+="<div style=\"width: 33%\" class=\"col-xs-2\">";
+        tab+="<label><h5><b>查看暂停项目:&nbsp;</b></h5></label></div>";
+		tab+="<div style=\"width: 33%\" class=\"col-xs-2\">";
+        tab+="<label><h5><b>查看配置项目:&nbsp;</b></h5></label></div>";
+		tab+="</div>";
+		tab+="<div class=\"row\">";
+        tab+="<div style=\"width: 33%\" class=\"col-xs-1\" id=\"sljyx\">";
+        tab+="<div class=\"\"><a class=\"btn btn-default btn-block\" href=\"{% url "就绪项目罗列页面" %}\">点 击 查 看</a></div></div>";
+		tab+="<div style=\"width: 33%\" class=\"col-xs-1\" id=\"sljyx\">";
+        tab+="<div class=\"\"><a class=\"btn btn-default btn-block\" href=\"{% url "暂停项目罗列页面" %}\">点 击 查 看</a></div></div>";
+		tab+="<div style=\"width: 33%\" class=\"col-xs-1\" id=\"sljyx\">";
+        tab+="<div class=\"\"><a class=\"btn btn-default btn-block\" href=\"{% url "配置项目罗列页面" %}\">点 击 查 看</a></div></div>";
+        tab+="</div>";
+		tab+="</div>";
+        tishi.innerHTML=tab;
+    }else if((execute > 0)&&(ready > 0)&&(suspend > 0)&&(configuration > 0) ){
+        var tab="<div class=\"text-danger\"><h4>当 前 <strong>"+ zt.执行项目 + "项目</strong> 正 处 于 执 行 阶 段，<strong>"+ zt.就绪项目数量 + " 个 项 目</strong> 正 处 于 项 目 就 绪 阶 段，<strong>"+ zt.暂停项目数量 + " 个 项 目</strong> 正 处 于 项 目 暂 停 阶 段 及 </h4></div>";
+        tab+="<div  class=\"text-danger\"><h4><strong>"+ zt.配置项目数量 + " 个 项 目</strong> 正 处 于 配 置 完 成 阶 段，可 选 择 以 下 <strong>操 作 选 项</strong> 查 看 执 行 项 目 详 情 <strong>！</strong></h4></div>";
+		tab+="<div class=\"\">";
+		tab+="<div class=\"row\"><p></p></div>";
+        tab+="<div class=\"row\">";
+        tab+="<div class=\"col-xs-2 withunderline\">";
+        tab+="<h4><span style=\"font-size:80%\" class=\"label label-success\">操 作 选 项</span></h4></div>";
+        tab+="</div>";
+        tab+="<div class=\"row\"><p></p></div>";
+        tab+="<div class=\"row\">";
+		tab+="<div style=\"width: 20%\" class=\"col-xs-2\">";
+        tab+="<label><h5><b>查看执行项目:&nbsp;</b></h5></label></div>";
+        tab+="<div style=\"width: 20%\" class=\"col-xs-2\">";
+        tab+="<label><h5><b>查看就绪项目:&nbsp;</b></h5></label></div>";
+		tab+="<div style=\"width: 20%\" class=\"col-xs-2\">";
+        tab+="<label><h5><b>查看暂停项目:&nbsp;</b></h5></label></div>";
+		tab+="<div style=\"width: 20%\" class=\"col-xs-2\">";
+        tab+="<label><h5><b>查看配置项目:&nbsp;</b></h5></label></div>";
+        tab+="<div style=\"width: 20%\" class=\"col-xs-2\">";
+        tab+="<label><h5><b>高级操作:&nbsp;</b></h5></label></div>";
+		tab+="</div>";
+		tab+="<div class=\"row\">";
+        tab+="<div style=\"width: 20%\" class=\"col-xs-1\" id=\"sljyx\">";
+        tab+="<div class=\"\"><a class=\"btn btn-default btn-block\" href=\"{% url "执行项目详情页面" %}\">点 击 查 看</a></div></div>";
+		tab+="<div style=\"width: 20%\" class=\"col-xs-1\" id=\"sljyx\">";
+        tab+="<div class=\"\"><a class=\"btn btn-default btn-block\" href=\"{% url "就绪项目罗列页面" %}\">点 击 查 看</a></div></div>";
+		tab+="<div style=\"width: 20%\" class=\"col-xs-1\" id=\"sljyx\">";
+        tab+="<div class=\"\"><a class=\"btn btn-default btn-block\" href=\"{% url "暂停项目罗列页面" %}\">点 击 查 看</a></div></div>";
+		tab+="<div style=\"width: 20%\" class=\"col-xs-1\" id=\"sljyx\">";
+        tab+="<div class=\"\"><a class=\"btn btn-default btn-block\" href=\"{% url "配置项目罗列页面" %}\">点 击 查 看</a></div></div>";
+        tab+="<div style=\"width: 20%\" class=\"col-xs-1\" id=\"sljyx\">";
+        tab+="<div class=\"\"><a class=\"btn btn-default btn-block\" href=\"{% url "项目高级操作页面" %}\">点 击 查 看</a></div></div>";
+        tab+="</div>";
+		tab+="</div>";
+        tishi.innerHTML=tab;
+    }else{
+        var tab="";
+        tishi.innerHTML=tab;
+    }
+
+
+    //动态成表
+        function dynamic_list(){
+			zx_num = String(zt.执行项目数量);
+            jx_num = String(zt.就绪项目数量);
+            zt_num = String(zt.暂停项目数量);
+            pz_num = String(zt.配置项目数量);
+			
+            tab="<table class=\"table table-striped table-bordered\">";
+            tab+=   "<thead>";
+            tab+=       "<tr>";
+            tab+=           "<th>编号</th>";
+            tab+=           "<th>项目状态</th>";
+            tab+=           "<th>项目数量</th>";
+            tab+=           "<th>查看详情</th>";
+            tab+=           "<th>高级操作</th>";
+            tab+=       "</tr>";
+            tab+=   "</thead>";
+            tab+=   "<tbody>";
+            tab+=       "<tr style=\"vertical-align: middle;text-align: center;\"> ";
+            tab+=           "<td>001</td>";
+            tab+=           "<td>执行状态</td>";
+            tab+=           "<td>"+ zx_num +"</td>";
+            tab+=           "<td><button type=\"button\" class=\"btn btn-xs btn-success\" onClick=\"javascript:skip_page1()\"><span class=\"glyphicon glyphicon-zoom-in\"></span></button></b>";
+            tab+=           "<td><button type=\"button\" class=\"btn btn-xs btn-primary\" onClick=\"javascript:skip_page2()\"><span class=\"glyphicon glyphicon-pawn\"></span></button></b>";
+            tab+=       "</tr>";
+            tab+=       "<tr style=\"vertical-align: middle;text-align: center;\">";
+            tab+=           "<td>002</td>";
+            tab+=           "<td>就绪状态</td>";
+            tab+=           "<td>"+ jx_num +"</td>";
+            tab+=           "<td><button type=\"button\" class=\"btn btn-xs btn-success\" onClick=\"javascript:skip_page3()\"><span class=\"glyphicon glyphicon-zoom-in\"></span></button></b>";
+            tab+=           "<td><button type=\"button\" class=\"btn btn-xs btn-primary\" onClick=\"javascript:skip_page4()\"><span class=\"glyphicon glyphicon-pawn\"></span></button></b>";
+            tab+=       "</tr>";
+            tab+=       "<tr style=\"vertical-align: middle;text-align: center;\">";
+            tab+=           "<td>003</td>";
+            tab+=           "<td>暂停状态</td>";
+            tab+=           "<td>"+ zt_num +"</td>";
+            tab+=           "<td><button type=\"button\" class=\"btn btn-xs btn-success\" onClick=\"javascript:skip_page5()\"><span class=\"glyphicon glyphicon-zoom-in\"></span></button></b>";
+            tab+=           "<td><button type=\"button\" class=\"btn btn-xs btn-primary\" onClick=\"javascript:skip_page6()\"><span class=\"glyphicon glyphicon-pawn\"></span></button></b>";
+            tab+=       "</tr>";
+            tab+=       "<tr style=\"vertical-align: middle;text-align: center;\">";
+            tab+=           "<td>004</td>";
+            tab+=           "<td>配置状态</td>";
+            tab+=           "<td>"+ pz_num +"</td>";
+            tab+=           "<td><button type=\"button\" class=\"btn btn-xs btn-success\" onClick=\"javascript:skip_page7()\"><span class=\"glyphicon glyphicon-zoom-in\"></span></button></b>";
+            tab+=           "<td><button type=\"button\" class=\"btn btn-xs btn-primary\" onClick=\"javascript:skip_page8()\"><span class=\"glyphicon glyphicon-pawn\"></span></button></b>";
+            tab+=       "</tr>";
+            tab+=   "</tbody>";
+            tab+="</table>";
+			tishi.innerHTML=tab;
+		}
+        
+        <form method="post" action="{{ request.path }}">
+                <div class="row">
+                    <div class="row">
+                        <div style="width: 50%" class="col-xs-2 withunderline">
+                            <h4><span style="font-size:80%" class="label label-success">配 置 阶 段</span></h4>
+                        </div>
+						<div style="width: 50%" class="col-xs-2 withunderline">
+                            <h4><span style="font-size:80%" class="label label-success">就 绪 阶 段</span></h4>
+                        </div>
+                    </div>
+
+                    <div class="row"><p></p></div>
+
+                    <div class="row" id="tj_headline">
+                        <div style="width: 25%" class="col-xs-2">
+                            <label>项目列表:&nbsp;</label>
+                        </div>
+						<div style="width: 25%" class="col-xs-2">
+                            <label>删除项目操作:&nbsp;</label>
+                        </div>
+						 <div style="width: 25%" class="col-xs-2">
+                            <label>项目列表:&nbsp;</label>
+                        </div>
+						<div style="width: 25%" class="col-xs-2">
+                            <label>删除项目操作:&nbsp;</label>
+                        </div>
+                    </div>
+                    <div class="row" id="tj_content">
+                        <div style="width: 25%" class="col-xs-2" id="pzjd">
+                            <div class="input-group">
+                                <select id="comparison_other1" style="padding: 6px 0px" class="form-control">
+                                    <option value="">请选择配置阶段项目</option>
+									<option value="wudx1">N/A</option>
+									<option value="bms.temp">cm.电池温度</option>
+									<option value="bms.voltage">cm.电压</option>
+									<option value="bms.max_temp">cm.最高温度</option>
+									<option value="bms.min_temp">cm.最低温度</option>
+									<option value="bms.allow">cm.允许加热</option>
+									<option value="newline.temp">newline.温度</option>
+									<option value="newline.flow">newline.流量</option>
+									<option value="self.loop">self.loop</option>
+									<option value="True">True</option>
+									<option value="False">False</option>
+									</select>
+                                <span class="input-group-addon" id="condition11">项目</span>
+                            </div>
+                        </div>
+						<div style="width: 25%" class="col-xs-2">
+                            <div class="">
+                                <a class="btn btn-default btn-block" href="{% url "删除项目确认页面" %}">点 击 删 除</a>
+                                <!--<a class="btn btn-default btn-block" onClick="javascript:add_process_editing1()">点 击 删 除</a>-->
+                            </div>
+                        </div>
+						<div style="width: 25%" class="col-xs-2" id="jxjd">
+                            <div class="input-group">
+                                <select id="comparison_other1" style="padding: 6px 0px" class="form-control">
+                                    <option value="">请选择就绪阶段项目</option>
+									<option value="wudx1">N/A</option>
+									<option value="bms.temp">cm.电池温度</option>
+									<option value="bms.voltage">cm.电压</option>
+									<option value="bms.max_temp">cm.最高温度</option>
+									<option value="bms.min_temp">cm.最低温度</option>
+									<option value="bms.allow">cm.允许加热</option>
+									<option value="newline.temp">newline.温度</option>
+									<option value="newline.flow">newline.流量</option>
+									<option value="self.loop">self.loop</option>
+									<option value="True">True</option>
+									<option value="False">False</option>
+									</select>
+                                <span class="input-group-addon" id="condition11">项目</span>
+                            </div>
+                        </div>
+						<div style="width: 25%" class="col-xs-2">
+                            <div class="">
+                                <a class="btn btn-default btn-block" href="{% url "删除项目确认页面" %}">点 击 删 除</a>
+                                <!--<a class="btn btn-default btn-block" onClick="javascript:add_process_editing1()">点 击 删 除</a>-->
+                            </div>
+                        </div>
+                    </div>
+					
+					<div class="row"><h6></h6></div>
+
+                    <div class="row">
+						<div style="width: 50%" class="col-xs-2 withunderline">
+                            <h4><span style="font-size:80%" class="label label-success">执 行 阶 段</span></h4>
+                        </div>
+						<div style="width: 50%" class="col-xs-2 withunderline">
+                            <h4><span style="font-size:80%" class="label label-success">暂 停 阶 段</span></h4>
+                        </div>
+                    </div>
+
+                    <div class="row"><p></p></div>
+
+					<div class="row" id="tj_headline">
+                        <div style="width: 25%" class="col-xs-2">
+                            <label>项目列表:&nbsp;</label>
+                        </div>
+						<div style="width: 25%" class="col-xs-2">
+                            <label>删除项目操作:&nbsp;</label>
+                        </div>
+						<div style="width: 25%" class="col-xs-2">
+                            <label>项目列表:&nbsp;</label>
+                        </div>
+						<div style="width: 25%" class="col-xs-2">
+                            <label>删除项目操作:&nbsp;</label>
+                        </div>
+                    </div>
+                    <div class="row" id="tj_content">
+                        <div style="width: 25%" class="col-xs-2" id="zxjd">
+                            <div class="input-group">
+                                <select id="comparison_other1" style="padding: 6px 0px" class="form-control">
+                                    <option value="">请选择执行阶段项目</option>
+									<option value="wudx1">N/A</option>
+									<option value="bms.temp">cm.电池温度</option>
+									<option value="bms.voltage">cm.电压</option>
+									<option value="bms.max_temp">cm.最高温度</option>
+									<option value="bms.min_temp">cm.最低温度</option>
+									<option value="bms.allow">cm.允许加热</option>
+									<option value="newline.temp">newline.温度</option>
+									<option value="newline.flow">newline.流量</option>
+									<option value="self.loop">self.loop</option>
+									<option value="True">True</option>
+									<option value="False">False</option>
+									</select>
+                                <span class="input-group-addon" id="condition11">项目</span>
+                            </div>
+                        </div>
+						<div style="width: 25%" class="col-xs-2">
+                            <div class="">
+                                <a class="btn btn-default btn-block" href="{% url "删除项目确认页面" %}">点 击 删 除</a>
+                                <!--<a class="btn btn-default btn-block" onClick="javascript:add_process_editing1()">点 击 删 除</a>-->
+                            </div>
+                        </div>
+						<div style="width: 25%" class="col-xs-2" id="ztjd">
+                            <div class="input-group">
+                                <select id="comparison_other1" style="padding: 6px 0px" class="form-control">
+                                    <option value="">请选择暂停阶段项目</option>
+									<option value="wudx1">N/A</option>
+									<option value="bms.temp">cm.电池温度</option>
+									<option value="bms.voltage">cm.电压</option>
+									<option value="bms.max_temp">cm.最高温度</option>
+									<option value="bms.min_temp">cm.最低温度</option>
+									<option value="bms.allow">cm.允许加热</option>
+									<option value="newline.temp">newline.温度</option>
+									<option value="newline.flow">newline.流量</option>
+									<option value="self.loop">self.loop</option>
+									<option value="True">True</option>
+									<option value="False">False</option>
+									</select>
+                                <span class="input-group-addon" id="condition11">项目</span>
+                            </div>
+                        </div>
+						<div style="width: 25%" class="col-xs-2">
+                            <div class="">
+                                <a class="btn btn-default btn-block" href="{% url "删除项目确认页面" %}">点 击 删 除</a>
+                                <!--<a class="btn btn-default btn-block" onClick="javascript:add_process_editing1()">点 击 删 除</a>-->
+                            </div>
+                        </div>
+                    </div>
+						
+                    <div class="row"><h6></h6></div>
+						
+                    <div class="row">
+                        <div class="col-xs-2 withunderline">
+                            <h4><span style="font-size:80%" class="label label-success">完 成 阶 段</span></h4>
+                        </div>
+                    </div>
+
+                    <div class="row"><p></p></div>
+
+                    <div class="row" id="tj_headline">
+                        <div style="width: 25%" class="col-xs-2">
+                            <label>项目列表:&nbsp;</label>
+                        </div>
+                        <div style="width: 25%" class="col-xs-2">
+                            <label>删除项目操作:&nbsp;</label>
+                        </div>
+                    </div>
+                    <div class="row" id="tj_content">
+                        <div style="width: 25%" class="col-xs-2" id="wcjd">
+                            <div class="input-group">
+                                <select id="comparison_other1" style="padding: 6px 0px" class="form-control">
+									<option value="">请选择完成阶段项目</option>
+									<option value="wudx1">N/A</option>
+									<option value="bms.temp">cm.电池温度</option>
+									<option value="bms.voltage">cm.电压</option>
+									<option value="bms.max_temp">cm.最高温度</option>
+									<option value="bms.min_temp">cm.最低温度</option>
+									<option value="bms.allow">cm.允许加热</option>
+									<option value="newline.temp">newline.温度</option>
+									<option value="newline.flow">newline.流量</option>
+									<option value="self.loop">self.loop</option>
+									<option value="True">True</option>
+									<option value="False">False</option>
+									</select>
+                                <span class="input-group-addon" id="condition11">项目</span>
+                            </div>
+                        </div>
+						<div style="width: 25%" class="col-xs-2">
+                            <div class="">
+                                <a class="btn btn-default btn-block" href="{% url "删除项目确认页面" %}">点 击 删 除</a>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+
+				<div class="row"><p></p></div>
+
+				<div id="div1"></div>
+
+            </form>
+       
+     //根据进入入口不同做区分
+        function display_prompt_message1() {
+            var sign = get_url_param("sign");
+            if((sign == "zsgc")||(sign == "xjxm")){
+                var tab="<div class=\"hidden col-xs-6\" id=\"tj_content\">";
+                tab+="<div class=\"input-group\">";
+                tab+="<span class=\"input-group-addon\">进入区分标志:</span>";
+                if(sign == "zsgc"){
+                     tab+="<input type=\"text\" name=\"bz_name\" value=\"zsgc\" class=\"form-control\" placeholder=\"\">";
+                }else{
+                    tab+="<input type=\"text\" name=\"bz_name\" value=\"xjxm\" class=\"form-control\" placeholder=\"\">";
+                }
+                tab+="</div>";
+                tab+="</div>";
+                tishi11.innerHTML=tab;
+
+                var id = get_url_param("id");
+                var tab1="<div class=\"input-group\">";
+                tab1+="<span class=\"input-group-addon\">项目ID</span>";
+                tab1+="<input type=\"text\" class=\"form-control\" readonly=\"readonly\" name=\"xm_id\" value="+ id +">";
+                tab1+="</div>";
+                rw_id.innerHTML=tab1;
+
+                var tab2="<div class=\"input-group\">";
+                tab2+="<span class=\"input-group-addon\">项目ID</span>";
+                tab2+="<input type=\"text\" class=\"form-control\" readonly=\"readonly\" name=\"xm_id\" value="+ id +">";
+                tab2+="</div>";
+                rw_id.innerHTML=tab2;
+            }else if(skip.设置页面 == "zsgc"){
+                var tab="<div class=\"hidden col-xs-6\" id=\"tj_content\">";
+                tab+="<div class=\"input-group\">";
+                tab+="<span class=\"input-group-addon\">进入区分标志:</span>";
+                tab+="<input type=\"text\" name=\"bz_name\" value=\"zsgc\" class=\"form-control\" placeholder=\"\">";
+                tab+="</div>";
+                tab+="</div>";
+                tishi11.innerHTML=tab;
+
+                var tab1="<div class=\"input-group\">";
+                tab1+="<span class=\"input-group-addon\">项目ID</span>";
+                tab1+="<input type=\"text\" class=\"form-control\" readonly=\"readonly\" name=\"xm_id\" value="+ {{ ID.项目ID }}+">";
+                tab1+="</div>";
+                rw_id.innerHTML=tab1;
+
+                var tab2="<div class=\"input-group\">";
+                tab2+="<span class=\"input-group-addon\">项目ID</span>";
+                tab2+="<input type=\"text\" class=\"form-control\" readonly=\"readonly\" name=\"xm_id\" value="+ {{ ID.项目ID }}+">";
+                tab2+="</div>";
+                rw_id1.innerHTML=tab2;
+            }else if(skip.设置页面 == "xjxm"){
+                var tab="<div class=\"hidden col-xs-6\" id=\"tj_content\">";
+                tab+="<div class=\"input-group\">";
+                tab+="<span class=\"input-group-addon\">进入区分标志:</span>";
+                tab+="<input type=\"text\" name=\"bz_name\" value=\"xjxm\" class=\"form-control\" placeholder=\"\">";
+                tab+="</div>";
+                tab+="</div>";
+                tishi11.innerHTML=tab;
+
+                var tab1="<div class=\"input-group\">";
+                tab1+="<span class=\"input-group-addon\">项目ID</span>";
+                tab1+="<input type=\"text\" class=\"form-control\" readonly=\"readonly\" name=\"xm_id\" value="+ {{ ID.项目ID }} +">";
+                tab1+="</div>";
+                rw_id.innerHTML=tab1;
+
+                var tab2="<div class=\"input-group\">";
+                tab2+="<span class=\"input-group-addon\">项目ID</span>";
+                tab2+="<input type=\"text\" class=\"form-control\" readonly=\"readonly\" name=\"xm_id\" value="+ {{ ID.项目ID }} +">";
+                tab2+="</div>";
+                rw_id1.innerHTML=tab2;
+            }
+        }
+//上传文件页面返回
+//返回，bms设备参数设置页面
+		function skip_page(){
+		    var id = ID.项目ID ;
+		    var sign = get_url_param("sign");
+            //if(sign == "jx"){
+            //    window.location.href = "/jxxmll/";
+            //}
+            if(sign == "pz"){
+                window.location.href = "/pzxmll/";
+            }
+            else if(skip.设置页面 == "zsgc"){
+                id = ID.项目ID ;
+                window.location.href = "/bms/?id="+String(id)+"&sign=zsgc";
+            }else if(skip.设置页面 == "xjxm"){
+                id = ID.项目ID ;
+                window.location.href = "/bms/?id="+String(id)+"&sign=xjxm";
+            }else if(sign == "zsgc"){
+                id = get_url_param("id");
+                window.location.href = "/bms/?id="+String(id)+"&sign=zsgc";
+            }else if(sign == "xjxm"){
+                id = get_url_param("id");
+                window.location.href = "/bms/?id="+String(id)+"&sign=xjxm";
+            }
+            //else if(skip.设置页面 == "pz"){
+            //    window.location.href = "/bms/?id="+String(id)+"&sign=pz";
+            //}
+        }
+//设备选型返回       
+        //返回，根据进入页面进行返回
+         function skip_page() {
+		    var sign = get_url_param("sign");
+            //if(sign == "pz"){
+            //    window.location.href = "/pzxmll/";
+            //}else
+            if(sign == "zsgc"){
+                window.location.href = "/xmmsr/?sign=zsgc";
+            }else if(sign == "xjxm"){
+                window.location.href = "/xmmsr/?sign=xjxm";
+            }else if(skip.设置页面 == "zsgc"){
+                window.location.href = "/xmmsr/?sign=zsgc";
+            }else if(skip.设置页面 == "xjxm"){
+                window.location.href = "/xmmsr/?sign=xjxm";
+            }
+         }
+//四遥
+<div class="row">
+                    <div class="col-xs-12">
+						<div class="row">	
+							<div style="width: 25%" class="col-xs-2">
+								<label><h5><b>水冷机遥信:&nbsp;</b></h5></label>
+							</div>
+							<div style="width: 25%" class="col-xs-2">
+								<label><h5><b>水冷机遥测:&nbsp;</b></h5></label>
+							</div>
+							<div style="width: 25%" class="col-xs-2">
+								<label><h5><b>水冷机遥调:&nbsp;</b></h5></label>
+							</div>
+							<div style="width: 25%" class="col-xs-2">
+								<label><h5><b>水冷机遥控:&nbsp;</b></h5></label>
+							</div>
+						</div>
+						<div class="row">
+							<div style="width: 25%" class="col-xs-1" id="sljyx">
+								<div class="">
+                                    <a class="btn btn-default btn-block" href="{% url "cm yx page" %}">点 击 进 入</a>
+								</div>
+							</div>
+							<div style="width: 25%" class="col-xs-1" id="sljyc">
+								<div class="">
+                                    <a class="btn btn-default btn-block" href="{% url "cm yc page" %}">点 击 进 入</a>
+								</div>
+							</div>
+							<div style="width: 25%" class="col-xs-1" id="sljyt">
+								<div class="">
+									 <a class="btn btn-default btn-block" href="{% url "cm yt page" %}">点 击 进 入</a>
+								</div>
+							</div>	
+							<div style="width: 25%" class="col-xs-1" id="sljyk">
+								<div class="">
+									 <a class="btn btn-default btn-block" href="{% url "cm yk page" %}">点 击 进 入</a>
+								</div>
+							</div>	
+						</div>
+						
+						<div class="row">	
+							<div style="width: 25%" class="col-xs-2">
+								<label><h5><b>环境箱遥信:&nbsp;</b></h5></label>
+							</div>
+							<div style="width: 25%" class="col-xs-2">
+								<label><h5><b>环境箱遥测:&nbsp;</b></h5></label>
+							</div>
+							<div style="width: 25%" class="col-xs-2">
+								<label><h5><b>环境箱遥调:&nbsp;</b></h5></label>
+							</div>
+							<div style="width: 25%" class="col-xs-2">
+								<label><h5><b>环境箱遥控:&nbsp;</b></h5></label>
+							</div>
+						</div>
+						<div class="row">
+							<div style="width: 25%" class="col-xs-1" id="hjxyx">
+								<div class="">
+									<a class="btn btn-default btn-block" href="{% url "ec yx page" %}">点 击 进 入</a>
+								</div>
+							</div>
+							<div style="width: 25%" class="col-xs-1" id="hjxyc">
+								<div class="">
+									<a class="btn btn-default btn-block" href="{% url "ec yc page" %}">点 击 进 入</a>
+								</div>
+							</div>
+							<div style="width: 25%" class="col-xs-1" id="hjxyt">
+								<div class="">
+									<a class="btn btn-default btn-block" href="{% url "ec yt page" %}">点 击 进 入</a>
+								</div>
+							</div>	
+							<div style="width: 25%" class="col-xs-1" id="hjxyk">
+								<div class="">
+									<a class="btn btn-default btn-block" href="{% url "ec yk page" %}">点 击 进 入</a>
+								</div>
+							</div>	
+						</div>
+						
+						<div class="row">	
+							<div style="width: 25%" class="col-xs-2">
+								<label><h5><b>充放电机遥信:&nbsp;</b></h5></label>
+							</div>
+							<div style="width: 25%" class="col-xs-2">
+								<label><h5><b>充放电机遥测:&nbsp;</b></h5></label>
+							</div>
+							<div style="width: 25%" class="col-xs-2">
+								<label><h5><b>充放电机遥调:&nbsp;</b></h5></label>
+							</div>
+							<div style="width: 25%" class="col-xs-2">
+								<label><h5><b>充放电机遥控:&nbsp;</b></h5></label>
+							</div>
+						</div>
+						<div class="row">
+							<div style="width: 25%" class="col-xs-1" id="cfdjyx">
+								<div class="">
+									<a class="btn btn-default btn-block" href="{% url "cd yx page" %}">点 击 进 入</a>
+								</div>
+							</div>
+							<div style="width: 25%" class="col-xs-1" id="cfdjyc">
+								<div class="">
+									<a class="btn btn-default btn-block" href="{% url "cd yc page" %}">点 击 进 入</a>
+								</div>
+							</div>
+							<div style="width: 25%" class="col-xs-1" id="cfdjyt">
+								<div class="">
+									<a class="btn btn-default btn-block" href="{% url "cd yt page" %}">点 击 进 入</a>
+								</div>
+							</div>	
+							<div style="width: 25%" class="col-xs-1" id="cfdjyk">
+								<div class="">
+									<a class="btn btn-default btn-block" href="{% url "cd yk page" %}">点 击 进 入</a>
+								</div>
+							</div>	
+						</div>
+						
+						<div class="row">	
+							<div style="width: 25%" class="col-xs-2">
+								<label><h5><b>BMS遥信:&nbsp;</b></h5></label>
+							</div>
+							<div style="width: 25%" class="col-xs-2">
+								<label><h5><b>BMS遥测:&nbsp;</b></h5></label>
+							</div>
+							<div style="width: 25%" class="col-xs-2">
+								<label><h5><b>BMS遥调:&nbsp;</b></h5></label>
+							</div>
+							<div style="width: 25%" class="col-xs-2">
+								<label><h5><b>BMS遥控:&nbsp;</b></h5></label>
+							</div>
+						</div>
+						<div class="row">
+							<div style="width: 25%" class="col-xs-1" id="bmsyx">
+								<div class="">
+									<a class="btn btn-default btn-block" href="{% url "bms yx page" %}">点 击 进 入</a>
+								</div>
+							</div>
+							<div style="width: 25%" class="col-xs-1" id="bmsyc">
+								<div class="">
+									<a class="btn btn-default btn-block" href="{% url "bms yc page" %}">点 击 进 入</a>
+								</div>
+							</div>
+							<div style="width: 25%" class="col-xs-1" id="hjxyt">
+								<div class="">
+									<button type="button" class="form-control" id="hjxyt1" onClick="javascript:skip_page1()"><center>点 击 进 入</center></button>
+                                    <!--<a class="btn btn-default btn-block" href="{% url "bms yt page" %}">点 击 进 入</a>-->
+								</div>
+							</div>	
+							<div style="width: 25%" class="col-xs-1" id="hjxyk">
+								<div class="">
+									<button type="button" class="form-control" id="hjxyk1" onClick="javascript:skip_page1()"><center>点 击 进 入</center></button>
+                                    <!--<a class="btn btn-default btn-block" href="{% url "bms yk page" %}">点 击 进 入</a>-->
+								</div>
+							</div>	
+						</div>
+					</div>	
+				</div>
+//高级操作页面
+ <div class="row">
+            <div style="width: 50%" class="col-xs-2">
+                <label><h4><b>项目修改操作:&nbsp;</b></h4></label>
+            </div>
+            <div style="width: 50%" class="col-xs-2">
+                <label><h4><b>项目删除操作:&nbsp;</b></h4></label>
+            </div>
+            <div style="width: 50%" class="col-xs-1" id="sljyc">
+                <div class="">
+                    <a class="btn btn-default btn-block" href="{% url "修改项目页面" %}">点 击 修 改</a>
+                </div>
+            </div>
+            <div style="width: 50%" class="col-xs-1" id="hjxyc">
+                <div class="">
+                    <a class="btn btn-default btn-block" href="{% url "删除项目页面" %}">点 击 删 除</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row"><p></p></div>
+
+        <div class="row">
+             <div style="width: 50%" class="col-xs-2">
+                <label><h4><b>项目新建操作:&nbsp;</b></h4></label>
+            </div>
+            <div style="width: 50%" class="col-xs-2">
+                <label><h4><b>设备信息查看:&nbsp;</b></h4></label>
+            </div>
+            <div style="width: 50%" class="col-xs-1" id="hjxyx">
+                <div class="">
+                    <!--<a class="btn btn-default btn-block" href="{% url "新建项目项目名输入页面" %}">点 击 新 建</a>-->
+                    <a class="btn btn-default btn-block" id="hjxyt1" onClick="javascript:skip_page1()">点 击 新 建</a>
+                </div>
+            </div>
+            <div style="width: 50%" class="col-xs-1" id="hjxyx">
+                <div class="">
+                    <a class="btn btn-default btn-block" href="{% url "设备四遥页面" %}">点 击 进 入</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row"><p></p></div>
+
+        <div class="row">
+            <div style="width: 50%" class="col-xs-2">
+                <label><h4><b>执行项目详情:&nbsp;</b></h4></label>
+            </div>
+        </div>
+        <div class="row">
+            <div style="width: 50%" class="col-xs-1" id="hjxyx">
+                <div class="">
+                    <!--<button type="button" class="form-control" id="hjxyt1" onClick="javascript:skip_page11()">点 击 进 入</button>-->
+                    <a class="btn btn-default btn-block" href="{% url "流程显示页面" %}">点 击 进 入</a>
+                </div>
+            </div>
+        </div>
+//执行确认页面的返回
+//返回，bms设备参数设置页面
+		function skip_page(){
+		    //var id = ID.项目ID ;
+		    var sign = get_url_param("sign");
+            //if(sign == "jx"){
+            //    window.location.href = "/jxxmll/";
+            //}
+            if(sign == "jx"){
+                window.location.href = "/jxxmll/";
+            }
+            else if(skip.下发页面 == "zsgc"){
+                id = skip.项目ID ;
+                window.location.href = "/xmwjsc/?id="+String(id)+"&sign=zsgc";
+            }else if(skip.下发页面 == "xjxm"){
+                id = skip.项目ID ;
+                window.location.href = "/xmwjsc/?id="+String(id)+"&sign=xjxm";
+            }else if(sign == "zsgc"){
+                id = get_url_param("id");
+                window.location.href = "/xmwjsc/?id="+String(id)+"&sign=zsgc";
+            }else if(sign == "xjxm"){
+                id = get_url_param("id");
+                window.location.href = "/xmwjsc/?id="+String(id)+"&sign=xjxm";
+            }
+            //else if(skip.设置页面 == "pz"){
+            //    window.location.href = "/bms/?id="+String(id)+"&sign=pz";
+            //}
+        }
+        
+//新建项目
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>新 建 项 目 页 面</title>
+	<link rel="stylesheet" href="/static/css/bootstrap.css" />
+	<script src="/static/js/wsapi.js"></script>
+	<script src="/static/js/newline.js"></script>
+	<script>
+
+		//返回，首页
+        function skip_page() {
+           window.location.href = "/";
+        }
+
+        //跳转，新建项目取名页面
+        function skip_page1(){
+           window.location.href = "/xmmsr/?sign=xjxm";
+        }
+
+	</script>
+</head>
+<body>
+    <div class="container">
+
+		<div class="row"><p></p></div>
+		
+		<div class="row">
+            <div style="width: 50%" class="col-xs-1">
+				<h2>
+                    <span class="glyphicon glyphicon-pencil text-danger"></span>
+                    &nbsp;需 新 建 项 目 页 面
+                </h2>
+			</div>
+			<div style="width:50%;text-align:right;" class="col-xs-1">
+				<h2>
+					<button type="button" style="height:35px;width:150px;" class="btn btn-info btn-success.focus" onclick="javascript:skip_page()"><span class="link glyphicon glyphicon-menu-left">&nbsp返 回</span></button>
+				</h2>
+			</div>
+		</div>
+
+        <div class="row"><hr></hr></div>
+
+        <!--<div class="text-danger"><h4><strong>提 示 :</strong></h4></div>-->
+
+        <div class="row">
+            <div class="col-xs-12" id="tishi">
+                <div class="text-danger">
+                    <h4><strong>提 示：</strong>欢 迎 第 一 次 使 用 自 动 化 流 程 集 成 控 制 软 件，下 面 我 们 开 始 根 据 步 骤 来 新 建 第 一 个 工 程 项 目 吧！</h4>
+                </div>
+
+                <div class="row"><p></p></div>
+
+                <div class="row">
+                    <div style="width: 50%" class="col-xs-2">
+                        <label><h4><b>新建项目:&nbsp;</b></h4></label>
+                    </div>
+                </div>
+                 <div class="row">
+                    <div style="width: 50%" class="col-xs-1" id="ckxm">
+                        <a class="btn btn-default btn-block" id="hjxyt" onClick="javascript:skip_page1()">点 击 新 建</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12" id="tishi1"></div>
+        </div>
+		
+    </div>
+</body>
+</html>		
+
+上传文件
+destination = open(os.path.join("C:\\Users\86182\Desktop\plane\project_flow_document", myFile.name), 'wb+')  # 打开特定的文件进行二进制的写操作
+            for chunk in myFile.chunks():  # 分块写入文件
+                destination.write(chunk)
+            destination.close()
+            #returnHttpResponse("upload over!")  #上传完成

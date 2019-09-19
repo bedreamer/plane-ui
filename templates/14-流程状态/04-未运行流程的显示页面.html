@@ -1,0 +1,64 @@
+<div class="row">
+    <div class="col-xs-offset-2 col-xs-8 col-md-offset-3 col-md-6">
+        <h3>选择一个流程执行</h3>
+    </div>
+</div>
+<br>
+<table class="table">
+    <caption>
+        <div class="row" style="font-size: 10px;">
+            <div class="col-xs-4">
+                现有流程
+            </div>
+            <div class="col-xs-8 text-right">
+                <a href="{% url '上传流程文件' %}?next={% url '执行项目详情页面' %}" target="_parent">
+                    <span class="glyphicon glyphicon-upload"></span>
+                    上传新流程
+                </a>
+                <a href="{% url 'pwf显示链接到项目的流程文件列表' project.id %}?next={% url '执行项目详情页面' %}" target="_parent">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    查看全部
+                </a>
+            </div>
+        </div>
+    </caption>
+    <tr>
+        <th>#</th>
+        <th>流程名</th>
+        <th>关联时间</th>
+        <th>可用状态</th>
+        <th>操作</th>
+    </tr>
+    {% for pwf in project_with_flow_files_list %}
+    <tr>
+        <th>{{ forloop.counter }}</th>
+        <td class="text-center">{{ pwf.flow.name }}</td>
+        <td class="text-center" style="padding-bottom: 0; padding-top: 0">
+            <span style="font-size: 10px; line-height: 10px;">{{ pwf.bind_datetime|date:'m月d日' }}</span><br>
+            <span style="font-size: 10px; line-height: 10px;">{{ pwf.bind_datetime|date:'H:i:s' }}</span>
+        </td>
+        <td class="text-center">
+            {% if device_driver_ready %}
+                <span class="glyphicon glyphicon-ok text-success"></span>
+                可用
+            {% else %}
+                <a data-toggle="tooltip" data-placement="left" title="设备驱动服务未就绪">
+                <span class="glyphicon glyphicon-ban-circle text-danger"></span>
+                不可用
+                </a>
+            {% endif %}
+        </td>
+        <td class="text-center">
+            {% if device_driver_ready %}
+            <a class="text-success" href="{% url '执行流程' project.id pwf.flow.id %}">
+                <span class="glyphicon glyphicon-play"></span>
+                执行
+            </a>
+            {% else %}
+                --
+            {% endif %}
+        </td>
+    </tr>
+    {% empty %}
+    {% endfor %}
+</table>

@@ -1,0 +1,86 @@
+{% extends "00-base/01-theme-basic/1-10-1.html" %}
+
+{% block page-title %}项目概要{% endblock %}
+
+{% block page-header %}
+    {% include "00-base/01-theme-basic/page-head.html" %}
+    {% include "00-base/01-theme-basic/global-message.html" %}
+{% endblock %}
+
+
+{% block page-body %}
+    <form action="{{ request.path }}{% if request.GET.next %}?next={{ request.GET.next}}{% endif %}" method="post">
+        <br>
+        <h3>
+        <div class="row">
+            <div class="col-xs-8">
+                {% if project.id %}
+                <span class="glyphicon glyphicon-edit text-success"></span> 修改项目-{{ project.name|truncatechars:30 }}(ID={{ project.id}})
+                {% else %}
+                <span class="glyphicon glyphicon-edit text-primary"></span> 新建项目
+                {% endif %}
+            </div>
+            <div class="col-xs-4 text-right">
+                <a class="btn btn-default" href="{% url "项目概要页面" as project_summary_url %}{{ request.GET.next|default:project_summary_url }}">
+                    <span class="glyphicon glyphicon-hand-left"></span>
+                    返回
+                </a>
+                {% if project.id %}
+                <button class="btn btn-success" type="submit">
+                    <span class="glyphicon glyphicon-save"></span>
+                    保 存
+                </button>
+                {% else %}
+                <button class="btn btn-primary" type="submit">
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                    创 建
+                </button>
+                {% endif %}
+            </div>
+        </div>
+        </h3>
+        <hr>
+        <div class="form-group" hidden>
+            <label for="id" hidden>id</label>
+            <input type="text" hidden class="form-control" id="id" name="id" value="{{ project.id }}">
+        </div>
+
+        <div class="form-group">
+            <label for="name">项目名称</label>
+            <input type="text" class="form-control" id="name" required name="name" value="{{ project.name }}">
+        </div>
+
+        <div class="form-group">
+            <label for="sn">实验室内部编号</label>
+            <input type="text" class="form-control" id="sn" name="sn" value="{{ project.sn }}">
+        </div>
+
+        <div class="form-group">
+            <label for="subscript">摘要</label>
+            <input type="text" class="form-control" id="subscript" required name="subscript" value="{{ project.subscript }}">
+        </div>
+
+        <div class="form-group">
+            <label for="description">详细说明</label>
+            <textarea class="form-control" id="description" name="description">{{ project.description }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="comment">备注</label>
+            <textarea class="form-control" id="comment" name="comment">{{ project.comment }}</textarea>
+        </div>
+    </form>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+

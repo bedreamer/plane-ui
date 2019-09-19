@@ -1,0 +1,70 @@
+{% extends "00-base/01-theme-basic/1-10-1.html" %}
+
+{% block page-title %}项目使用的设备{% endblock %}
+
+
+{% block page-header %}
+    {% include "00-base/01-theme-basic/page-head.html" %}
+    {% include "00-base/01-theme-basic/global-message.html" %}
+{% endblock %}
+
+
+{% block page-body %}
+    <div class="row">
+        <div class="col-xs-8">
+            <h1>
+                <span class="glyphicon glyphicon-list"></span>
+                项目(<u>{{ project.id }}</u>)使用的设备列表
+            </h1>
+        </div>
+        <div class="col-xs-4 text-right">
+            <h1>
+            <a class="btn btn-lg btn-default" href="{% url "项目概要页面" as project_summary_url %}{{ next|default:project_summary_url }}">
+                <span class="glyphicon glyphicon-hand-left"></span>
+                返回
+            </a>
+            </h1>
+        </div>
+    </div>
+    <table class="table table-condensed table-hover table-bordered table-striped">
+        <caption>
+            <div class="row">
+                <div class="col-xs-10">
+                    设备列表
+                </div>
+            </div>
+        </caption>
+        <tr>
+            <th>设备编号</th>
+            <th>类型</th>
+            <th>厂家</th>
+            <th>型号</th>
+            <th>版本</th>
+            <th>修改</th>
+        </tr>
+        {% for pwd in project_with_device %}
+        <tr>
+            <td class="text-center">{{ pwd.device.id }}</td>
+            <th class="text-center">{{ pwd.device.type.name }}({{ pwd.device.type.code }})</th>
+            <td class="text-center">{{ pwd.device.vendor }}</td>
+            <td class="text-center">{{ pwd.device.model }}</td>
+            <td class="text-center">{{ pwd.device.version }}</td>
+            <th>
+                <a href="{% url "按照设备类型修改页面" project.id pwd.device.type.code %}?next={{ request.path }}">
+                    <span class="glyphicon glyphicon-link"></span>
+                    重新关联设备
+                </a>
+            </th>
+        </tr>
+        {% empty %}
+            <th colspan="6">
+                项目`{{ project.name }}`还没有关联任何设备！
+                <a class="btn btn-xs btn-primary" href="{% url '按照设备类型修改页面' project.id 'bms' %}?next={{ request.path }}">
+                    <span class="glyphicon glyphicon-link"></span>
+                    去关联设备
+                </a>
+            </th>
+        {% endfor %}
+    </table>
+{% endblock %}
+

@@ -1,0 +1,36 @@
+{% if im_error_message_list|length > 0 or im_warn_message_list|length > 0 or im_info_message_list|length > 0 %}
+<br>
+<div class="container">
+    {% for error in im_error_message_list %}
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <a type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+                    <strong>{{ error.title }}</strong> {{ error.txt|safe }}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    {% for warn in im_warn_message_list %}
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="alert alert-warning alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>{{ warn.title }}</strong> {{ warn.txt|safe }}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    {% for info in im_info_message_list %}
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <a type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+                    <strong>{{ info.title }}</strong>
+                    {{ info.txt|safe }}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endif %}

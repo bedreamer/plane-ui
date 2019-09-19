@@ -1,0 +1,108 @@
+
+{% extends "00-base/01-theme-basic/1-10-1.html" %}
+
+{% block page-title %}执行项目-失败{% endblock %}
+
+
+{% block page-header %}
+    {% include "00-base/01-theme-basic/page-head.html" %}
+    {% include "00-base/01-theme-basic/global-message.html" %}
+{% endblock %}
+
+
+
+{% block inline-js-ahead %}
+	<script>
+       //显示暂停成功信息
+		function stop_succeed(){
+		    if(skip.执行页面 == "zt"){
+                var tab="<div class=\"text-danger col-xs-12\">";
+                tab+="<h3><strong>提示</strong>：执 行 该 项 目<strong> 失 败</strong> ，将 在 3 秒 后 返 回 项 目 暂 停 列 表 页 面 ，重 新 执 行 该 项 目 ！</h3>";
+                tab+="</div>";
+                tishi.innerHTML=tab;
+                setTimeout("skip_page()","3000");
+            }else if(skip.执行页面 == "wc"){
+                var tab="<div class=\"text-danger col-xs-12\">";
+                tab+="<h3><strong>提示</strong>：执 行 该 项 目<strong> 失 败</strong> ，将 在 3 秒 后 返 回 项 目 完 成 列 表 页 面 ，重 新 执 行 该 项 目 ！</h3>";
+                tab+="</div>";
+                tishi.innerHTML=tab;
+                setTimeout("skip_page1()","3000");
+            }
+		}
+	    //跳转，暂停项目罗列页面
+        function skip_page() {
+           window.location.href = "{% url '暂停项目罗列页面' %}";
+        }
+        //跳转，完成项目罗列页面
+        function skip_page1() {
+           window.location.href = "{% url '完成项目罗列页面' %}";
+        }
+	</script>
+{% endblock %}
+
+{% block page-body %}
+    <h3>
+        <div class="row">
+            <div class="col-xs-4">
+                <span class="glyphicon glyphicon-alert text-danger"></span>
+                    &nbsp;项 目 执 行 失 败 提 示 界 面
+            </div>
+            <div class="col-xs-8 text-right">
+                <a class="btn btn-lg btn-default" href="{% url "项目概要页面" as project_summary_url %}{{ request.GET.next|default:project_summary_url }}">
+                    <span class="glyphicon glyphicon-hand-left"></span>
+                    返回
+                </a>
+            </div>
+        </div>
+    </h3>
+    <hr>
+
+    <h3>{{ project }}</h3>
+
+        <!--<div class="row">
+            <div class="col-xs-12">
+                <div class="text-danger"><h3><strong>提 示：</strong>暂 停 <strong>{{ ID.项目名 }} 失 败</strong>！</h3></div>
+            </div>
+        </div>-->
+
+        <div class="row">
+            <div class="col-xs-12">
+                <h4><span style="font-size:100%" class="label label-success">失败原因：</span></h4>
+            </div>
+        </div>
+
+        <div class="row"><p></p></div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group" id="rw_id">
+                    <div class="input-group">
+                        <span class="input-group-addon">失败原因</span>
+                        <input type="text" class="form-control" readonly="readonly" name="sb_yy" value={{ ID.错误原因 }}>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row"><p></p></div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <!--<div class="text-danger"><h3><strong>说 明:</strong></h3></div>-->
+                <div class="text-danger"><h3><strong>提 示:</strong></h3></div>
+                <div class="row"><p></p></div>
+                <div class="text-danger"><h4>执 行 <strong>{{ ID.项目名 }} 失 败</strong>！</h4></div>
+                <div class="row"><p></p></div>
+                <div class="text-danger"><h4>可 <strong>点 击 返 回 按 钮 </strong>，返 回 项 目 总 览 页 面 <strong>重 新 进 行</strong> 执 行 操 作 ！</h4></div>
+            </div>
+        </div>
+
+		<div class="row" id="div1"></div>
+
+{% endblock %}
+
+
+
+
+
+

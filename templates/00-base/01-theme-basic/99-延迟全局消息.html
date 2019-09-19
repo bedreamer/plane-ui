@@ -1,0 +1,39 @@
+{% if error_message_list|length > 0 or warn_message_list|length > 0 or info_message_list|length > 0 %}
+<br>
+<div class="container">
+    {% for error in error_message_list %}
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <a type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+                    <strong>{{ error.title }}</strong> {{ error.txt|safe }}
+                </div>
+            </div>
+        </div>
+        <script>$.getJSON("{% url '清除消息' error.id %}");</script>
+    {% endfor %}
+    {% for warn in warn_message_list %}
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="alert alert-warning alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>{{ warn.title }}</strong> {{ warn.txt|safe }}
+                </div>
+            </div>
+        </div>
+        <script>$.getJSON("{% url '清除消息' warn.id %}");</script>
+    {% endfor %}
+    {% for info in info_message_list %}
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <a type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+                    <strong>{{ info.title }}</strong>
+                    {{ info.txt|safe }}
+                </div>
+            </div>
+        </div>
+        <script>$.getJSON("{% url '清除消息' info.id %}");</script>
+    {% endfor %}
+</div>
+{% endif %}

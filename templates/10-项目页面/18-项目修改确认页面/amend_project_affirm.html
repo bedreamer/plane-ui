@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>修 改 项 目 编 辑 页 面</title>
+	<link rel="stylesheet" href="/static/css/bootstrap.css" />
+	<script src="/static/js/wsapi.js"></script>
+	<script src="/static/js/newline.js"></script>
+    <style>
+        select {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 30px;
+        }
+
+        option {
+            text-align: right;
+        }
+    </style>
+	
+	<script>
+		///let zt = {{ zt }};
+        zt = {"修改项目": "充放电实验"};
+        // 这里可以像下面这样直接引用变量
+        //if (lc.流程运行状态 === '运行中') {
+			//  .....
+		//}
+        //获取ID函数
+        function get_url_param(key) {
+            var url = location.search; //获取url中"?"符后的字串
+            var theRequest = new Object();
+            if(url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("&");
+                for(var i = 0; i < strs.length; i ++) {
+                    theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+                }
+            }
+             return theRequest[key];
+        }
+        //提示
+		function display_prompt_message() {
+            var tab="<div class=\"text-danger col-xs-12\">";
+            tab+="<h4>确 定 修 改 <strong>"+ zt.修改项目 + "项目</strong> ？如 果 确 定 请 点 击 <strong>提 交 按 钮 </strong>修 改 该 项 目 ！</h4>";
+			tab+="</div>";
+            tishi.innerHTML=tab;
+        }
+		//提交修改项目请求，并且显示是否修改成功
+		function submission_cease_reasons(){
+		    //下发修改命令
+            var id = get_url_param("id");
+
+
+            var i=2;
+            if(i>1){
+                var tab="<div class=\"text-danger col-xs-12\">";
+                tab+="<h4><strong>提示</strong>：修 改 "+ zt.修改项目 + "项目<strong> 成 功</strong> ，将 在 3 秒 后 返 回 修 改 页 面 ！</h4>";
+                tab+="</div>";
+                data_feedback.innerHTML=tab;
+                setTimeout("skip_page1()","3000");
+            }else{
+                var tab="<div class=\"text-danger col-xs-12\">";
+                tab+="<h4><strong>提示</strong>：修 改 "+ zt.修改项目 + "项目<strong> 失 败</strong> ，请 重 新 尝 试 ！</h4>";
+                tab+="</div>";
+                data_feedback.innerHTML=tab;
+            }
+		}
+	    //跳转，高级操作页面
+		function skip_page1() {
+           window.location.href = "/zsgc/";
+        }
+		//返回，项目修改罗列页面
+		function skip_page() {
+           window.location.href = "/xgxm/";
+        }
+	</script>
+	
+</head>
+<body onload="javascript:display_prompt_message()">
+
+	<div class="container">
+        
+		<div class="row">
+			<div style="width: 50%" class="col-xs-2">
+				<h3>
+					<span class="glyphicon  glyphicon-edit text-primary"></span>
+					&nbsp;项 目 修 改 编 辑 页 面
+				</h3>
+			</div>
+			<div style="width:50%;text-align:right;" class="col-xs-2">
+				<h2>
+					<button type="button" style="height:35px;width:150px;" class="btn btn-info btn-success.focus" onclick="javascript:skip_page()"><span class="link glyphicon glyphicon-hand-left">&nbsp返 回</span></button>
+				</h2>
+			</div>
+		</div>
+	
+		<div class="row"><hr></hr></div>
+		
+		<div class="row">
+			<div class="text-danger col-xs-12"><h3><strong>提 示:</strong></h3></div>
+		</div>
+
+		<div class="row" id="tishi"></div>
+		
+		<div class="row">
+            <div style="width: 50%" class="col-xs-2 withunderline">
+                <h4><span style="font-size:80%" class="label label-success">操 作 选 项</span></h4>
+            </div>
+        </div>
+
+        <div class="row"><p></p></div>
+
+        <div class="row" id="tj_headline">
+			<div style="width: 25%" class="col-xs-2">
+                <label>提交修改命令:&nbsp;</label>
+            </div>
+        </div>
+		<div class="row" id="tj_headline">
+			<div style="width: 25%" class="col-xs-2">
+                <!--<a class="btn btn-default btn-block" href="{% url "项目高级操作页面" %}">点 击 确 定</a>-->
+                <a class="btn btn-default btn-block" onClick="javascript:submission_cease_reasons()">点 击 提 交</a>
+            </div>
+		</div>
+		
+		<div class="row"><p>&nbsp;</p></div>
+		
+		<div class="row" id="data_feedback"></div>
+		
+		<div class="row"><p></p></div>
+
+		<div id="div1"></div>
+
+    </div>
+</body>
+</html>		
+
+
+
+

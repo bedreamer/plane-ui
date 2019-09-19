@@ -1,0 +1,36 @@
+{% extends "00-base/01-theme-basic/1-10-1.html" %}
+
+{% block page-title %}操作错误{% endblock %}
+
+{% block page-header %}
+    {% include "00-base/01-theme-basic/page-head.html" %}
+    {% include "00-base/01-theme-basic/global-message.html" %}
+{% endblock %}
+
+
+{% block page-body %}
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>
+                <span class="glyphicon glyphicon-remove-circle text-danger"></span>
+                操作出错了
+            </h1>
+        </div>
+    </div>
+    <hr>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <pre>{{ reason }}</pre>
+        </div>
+    </div>
+
+    <h1>&nbsp;</h1>
+
+    <div class="row">
+        <div class="col-xs-offset-5 col-xs-2">
+            <a href="{{ next }}" class="btn btn-default btn-block">返回</a>
+        </div>
+    </div>
+
+{% endblock %}

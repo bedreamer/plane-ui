@@ -1,0 +1,5 @@
+<ul class="nav nav-tabs">
+    {% for dev_type in dev_type_list %}
+    <li role="presentation"{% if code == dev_type.code %} class="active"{% endif %}><a href="{% url "按照设备类型修改页面" project.id dev_type.code %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">{{ dev_type.name }}({{ dev_type.code }})</a></li>
+    {% endfor %}
+</ul>

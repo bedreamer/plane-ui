@@ -1,0 +1,74 @@
+{% extends "00-base/01-theme-basic/1-10-1.html" %}
+
+{% block page-title %}流程文件上传{% endblock %}
+
+
+{% block page-header %}
+    {% include "00-base/01-theme-basic/page-head.html" %}
+    {% include "00-base/01-theme-basic/global-message.html" %}
+{% endblock %}
+
+
+
+{% block inline-js-ahead %}
+{% endblock %}
+
+{% block page-body %}
+    <h3>
+    <div class="row">
+        <div class="col-xs-6">
+            <span class="glyphicon glyphicon-list text-danger"></span>
+            流程 {{ flow.name }} 版本列表
+        </div>
+        <div class="col-xs-6 text-right">
+            <a class="btn btn-default" href="{% url "流程文件列表" as flow_file_root_url %}{{ request.GET.next|default:flow_file_root_url }}">
+                <span class="glyphicon glyphicon-arrow-left"></span>
+                返回
+            </a>
+            <a class="btn btn-primary" href="{% url "更新流程文件" flow.id %}?next={{ request.path }}">
+                <span class="glyphicon glyphicon-upload"></span>
+                上传新版本
+            </a>
+            <a class="btn btn-danger" href="{% url "删除的流程文件" flow.id %}">
+                <span class="glyphicon glyphicon-remove-circle"></span>
+                删除这个流程文件
+            </a>
+        </div>
+    </div>
+    </h3>
+    <hr>
+
+    <table class="table table-bordered table-striped">
+        <caption>该流程共有{{ version_list|length }}个版本记录！</caption>
+        <tr>
+            <th>版本</th>
+            <th>创建时间</th>
+            <th>存储路径</th>
+            <th>操作</th>
+        </tr>
+        {% for version in version_list %}
+            <tr>
+                <th>{{ version.id }}</th>
+                <td class="text-center">{{ flow.update_datetime|date:'Y-m-d H:i:s' }}</td>
+                <td class="text-center">{{ flow.get_flow_file_as_abs_path }}</td>
+                <td class="text-center">
+                    <a href="{% url '按照版本删除流程文件' flow.id version.id %}">
+                        <span class="glyphicon glyphicon-remove-circle"></span>
+                        删除
+                    </a>
+                    |
+                    <a target="_blank" href="{% url '按照版本下载流程文件' flow.id version.id %}" title="按照版本下载流程文件 {{ flow.name }}">
+                        <span class="glyphicon glyphicon-download"></span>
+                        下载该流程文件
+                    </a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr class="text-center">
+                <td colspan="5">没有记录!</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+
+

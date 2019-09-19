@@ -1,0 +1,87 @@
+
+{% extends "00-base/01-theme-basic/1-10-1.html" %}
+
+{% block page-title %}信息提示-失败{% endblock %}
+
+
+{% block page-header %}
+    {% include "00-base/01-theme-basic/page-head.html" %}
+    {% include "00-base/01-theme-basic/global-message.html" %}
+{% endblock %}
+
+
+
+{% block inline-js-ahead %}
+	<script>
+
+		//跳转，水冷机遥调页面
+		function skip_page(){
+           window.location.href = "{% url 'cm yt page' %}";
+        }
+	</script>
+{% endblock %}
+
+{% block page-body %}
+    <h3>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="col-xs-8">
+                    <span class="glyphicon glyphicon-alert text-danger"></span>
+                        &nbsp;通 讯 故 障 提 示 界 面
+                </div>
+
+                <div class="col-xs-4 text-right">
+                    <a class="btn btn-lg btn-default" href="{% url "项目概要页面" as project_summary_url %}{{ request.GET.next|default:project_summary_url }}">
+                        <span class="glyphicon glyphicon-hand-left"></span>
+                        返回
+                    </a>
+                </div>
+            </div>
+        </div>
+    </h3>
+    <hr>
+
+    <h3>{{ project }}</h3>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <h4><span style="font-size:100%" class="label label-success">失败原因：</span></h4>
+            </div>
+        </div>
+
+        <div class="row"><p></p></div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group" id="rw_id">
+                    <div class="input-group">
+                        <span class="input-group-addon">失败原因</span>
+                        <input type="text" class="form-control" name="sb_yy" value={{ reason.错误原因 }}>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		<div class="row"><p></p></div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="text-danger"><h3><strong>提 示:</strong></h3></div>
+                <div class="row"><p></p></div>
+                <div class="text-danger"><h4>已<strong>多次</strong>尝试重新连接服务器，但并<strong>未连接成功！</strong></h4></div>
+                <div class="row"><p></p></div>
+                <div class="text-danger"><h4>可检查<strong>网络</strong>或者<strong>线路</strong>，点击<strong>返回</strong>尝试重新连接，必要时可<strong>重启设备！</strong></h4></div>
+            </div>
+        </div>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+

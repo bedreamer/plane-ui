@@ -1,0 +1,104 @@
+{% extends "00-base/01-theme-basic/1-10-1.html" %}
+
+{% block page-title %}充放电机设备信息-遥测{% endblock %}
+
+
+{% block page-header %}
+    {% if request.GET.next == "/project/summary/" or request.GET.next == "/project/running/list/" or request.GET.next == "/project/ready/list/" or request.GET.next == "/project/pause/list/" or request.GET.next == "/project/configure/list/" or request.GET.next == "/project/done/list/" or request.GET.next == "/project/abort/list/" %}
+         {% include "00-base/01-theme-basic/page-head.html" %}
+    {% else %}
+        <br>
+        {% include "00-base/01-theme-basic/global-message.html" %}
+    {% endif %}
+{% endblock %}
+
+
+{% block inline-js-ahead %}
+	<script>
+    	 //跳转编辑页面(已改完)
+		function skip_page() {
+		    window.location.href = "{% url '设备四遥页面' %}";
+        }
+        //刷新页面，拿遥信数据
+        function myrefresh(){
+            window.location.reload();
+        }
+        setTimeout('myrefresh()',10000); //指定10秒刷新一次
+	</script>
+{% endblock %}
+
+
+{% block page-body %}
+    {% if request.GET.next == "/project/summary/" or request.GET.next == "/project/running/list/" or request.GET.next == "/project/ready/list/" or request.GET.next == "/project/pause/list/" or request.GET.next == "/project/configure/list/" or request.GET.next == "/project/done/list/" or request.GET.next == "/project/abort/list/" %}
+         {% include "10-项目页面/01-项目设备信息筛选tabs.html" %}
+    {% else %}
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="col-xs-4">
+                    <span class="glyphicon glyphicon-th-list text-danger"></span>
+                        &nbsp;设备信息
+                </div>
+
+                <div class="col-xs-8 text-right">
+                    <a class="btn btn-lg btn-default" href="{% url "项目概要页面" as project_summary_url %}{{ request.GET.next|default:project_summary_url }}">
+                        <span class="glyphicon glyphicon-hand-left"></span>
+                        返回
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <br>
+    <form method="post" action="{{ request.path }}">
+        <div class="row">
+            <div class="col-xs-12">
+                <table class="table table-striped table-bordered">
+                    <caption>
+                        <div class="row">
+                            <div class="col-xs-9">充放电机遥测信息</div>
+                        </div>
+                    </caption>
+                    <thead>
+                        <tr>
+                            <th>供液流量</th>
+                            <th>供液压力</th>
+                            <th>回液压力</th>
+                            <th>供液温度</th>
+                            <!--<th colspan="2" class="text-center">循环泵运行状态</th>-->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="vertical-align: middle;text-align: center;">
+                            <td class="warning">{{ cd_yc.供液流量|default:20 }}</td>
+                            <td class="warning">{{ cd_yc.供液压力|default:0.5 }}</td>
+                            <td class="warning">{{ cd_yc.回液压力|default:0.5 }}</td>
+                            <td class="warning">{{ cd_yc.供液温度|default:20 }}</td>
+                        </tr>
+                    </tbody>
+                    <thead>
+                        <tr>
+                            <th>回液温度</th>
+                            <th>阀门开度</th>
+                            <th>电池平均温度</th>
+                            <th>电池平均温度</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="vertical-align: middle;text-align: center;">
+                            <td class="warning">{{ cd_yc.回液温度|default:20 }}</td>
+                            <td class="warning">{{ cd_yc.阀门开度|default:5 }}</td>
+                            <td class="warning">{{ cd_yc.电池平均温度|default:25 }}</td>
+                            <td class="warning">{{ cd_yc.最高电池温度|default:30 }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+
+    <div class="row"><p></p></div>
+
+    <div class="row" id="div1"></div>
+
+{% endblock %}

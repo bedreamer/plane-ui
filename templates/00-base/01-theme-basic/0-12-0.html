@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block page-title %}{% endblock %}</title>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.js"></script>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.css">
+    <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.js"></script>
+    {% block include-js %}{% endblock %}
+    {% block include-css %}{% endblock %}
+
+    {% block inline-js-ahead %}{% endblock %}
+    {% block inline-css-ahead %}{% endblock %}
+</head>
+<body>
+    {% block page-header %}{% endblock %}
+    <div class="container-fluid">{% block page-body %}{% endblock %}</div>
+    {% block inline-js-behind %}{% endblock %}
+    {% block inline-css-behind %}{% endblock %}
+</body>
+</html>

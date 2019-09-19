@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>项 目 操 作 选 择 页 面</title>
+	<link rel="stylesheet" href="/static/css/bootstrap.css" />
+    <script src="/static/js/jquery.js"></script>
+	<script src="/static/js/wsapi.js"></script>
+	<!--script src="/static/js/newline.js"></script-->
+
+	<script>
+		let ID = {{ ID | safe }};
+
+        //根据各种情况，显示项目ID，页面标志
+		function display_prompt_message() {
+            var tab="<div class=\"input-group\">";
+            tab+="<span class=\"input-group-addon\">项目ID</span>";
+            tab+="<input type=\"text\" class=\"form-control\" readonly=\"readonly\" name=\"xm_id\" value="+ {{ ID.项目ID }}+">";
+            tab+="</div>";
+            rw_id.innerHTML=tab;
+
+            var tab1="<div class=\"input-group\">";
+            tab1+="<span class=\"input-group-addon\">项目ID</span>";
+            tab1+="<input type=\"text\" class=\"form-control\" readonly=\"readonly\" name=\"xm_id\" value="+ {{ ID.项目ID }}+">";
+            tab1+="</div>";
+            rw_id1.innerHTML=tab1;
+
+            var tab2="<div class=\"input-group\">";
+            tab2+="<span class=\"input-group-addon\">项目ID</span>";
+            tab2+="<input type=\"text\" class=\"form-control\" readonly=\"readonly\" name=\"xm_id\" value="+ {{ ID.项目ID }}+">";
+            tab2+="</div>";
+            rw_id2.innerHTML=tab2;
+        }
+	</script>
+
+</head>
+<body onload="javascript:display_prompt_message()">	<!--界面一打开调用前面2个函数-->
+    <div class="container">
+
+        <div class="row">
+            <div style="width: 50%" class="col-xs-2">
+                <h2>
+                    <span class="glyphicon glyphicon-edit text-primary"></span>
+                    &nbsp;项 目 操 作 选 择 页 面
+                </h2>
+            </div>
+        </div>
+
+        <div class="row"><hr></hr></div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <h3><span class="label label-success">项 目 操 作 列 表</span></h3>
+            </div>
+        </div>
+
+        <div class="row"><p>&nbsp;</p></div>
+        <div class="row"><p>&nbsp;</p></div>
+
+        <form method="post" action="{% url "项目流程文件上传页面" %}">
+            <div class="hidden row">
+                <div class="col-xs-4">
+                    <div class="form-group" id="rw_id"></div>
+                </div>
+            </div>
+
+            <div class="col-xs-4">
+                <table class="table">
+                    <tbody>
+                        <tr style='vertical-align: middle;text-align: center;'>
+                            <td class="success"><input class="btn btn-link" type="submit" value="继 续 上 传"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+
+        <form method="post" action="{% url "新建执行项目确认页面" %}">
+            <div class="hidden row">
+                <div class="col-xs-4">
+                    <div class="form-group" id="rw_id1"></div>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <table class="table">
+                    <tbody>
+                        <tr style='vertical-align: middle;text-align: center;'>
+                            <td class="warning"><input class="btn btn-link" type="submit" value="执 行 项 目"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+
+        <form method="post" action="{% url "完成配置成功页面" %}">
+            <div class="hidden row">
+                <div class="col-xs-4">
+                    <div class="form-group" id="rw_id2"></div>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <table class="table">
+                    <tbody>
+                        <tr style='vertical-align: middle;text-align: center;'>
+                            <td class="danger"><input class="btn btn-link" type="submit" value="完 成 配 置"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+
+        <div class="row" id="div1"></div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+

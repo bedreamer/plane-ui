@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>项 目 增 删 改 查 页 面</title>
+	<link rel="stylesheet" href="/static/css/bootstrap.css" />
+    <script src="/static/js/jquery.js"></script>
+	<script src="/static/js/wsapi.js"></script>
+	<!--script src="/static/js/newline.js"></script-->
+    <style>
+        select {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 30px;
+        }
+
+        option {
+            text-align: right;
+        }
+    </style>
+	
+	<script>
+		//var api = WsApi('/newline/step/', 'onlwe.com:8888');
+        //var newline = NewLine(api);	
+		//
+        //返回，项目概要页面
+        function skip_page(){
+           window.location.href = "{% url "项目概要页面" %}";
+        }
+        //跳转，新建项目取名页面
+        function skip_page1(){
+           window.location.href = "/xmmsr/?sign=zsgc";
+        }
+	</script>
+	
+</head>
+<body>	<!--界面一打开调用前面2个函数-->
+    <div class="container">
+
+        <div class="row">
+            <div style="width: 50%" class="col-xs-2">
+                <h2>
+                    <span class="glyphicon glyphicon-edit text-primary"></span>
+                    &nbsp;项 目 操 作 页 面
+                </h2>
+            </div>
+            <div style="width:50%;text-align:right;" class="col-xs-2">
+                <h2>
+                    <button type="button" style="height:35px;width:150px;" class="btn btn-info btn-success.focus" onclick="javascript:skip_page()"><span class="link glyphicon glyphicon-hand-left">&nbsp返 回</span></button>
+                </h2>
+            </div>
+        </div>
+
+        <div class="row"><hr></hr></div>
+
+        <div class="row">
+            <h3><span class="label label-success">项 目 操 作 列 表</span></h3>
+        </div>
+
+        <div class="row"><p></p></div>
+
+        <div class="row" id="tishi">
+            <table class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th>操作列表</th>
+                    <th>执行列表</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr style="vertical-align: middle;text-align: center;">
+                        <td class="text-primary">项目修改</td>
+                        <td><a class="btn btn-xs btn-danger" ><span class="glyphicon glyphicon-wrench"></span></a></td>
+                    </tr>
+                    <tr style="vertical-align: middle;text-align: center;">
+                        <td class="text-primary">新建项目</td>
+                        <td><a class="btn btn-xs btn-success" onClick="javascript:skip_page1()"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                    </tr>
+                    <tr style="vertical-align: middle;text-align: center;">
+                        <td class="text-primary">设备信息查看</td>
+                        <td><a class="btn btn-xs btn-info" href="{% url "bms yx page" %}"><span class="glyphicon glyphicon-zoom-in"></span></a></td>
+                    </tr>
+                    <tr style="vertical-align: middle;text-align: center;">
+                        <td class="text-primary">执行信息查看</td>
+                        <td><a class="btn btn-xs btn-info" href="{% url "流程显示页面" %}"><span class="glyphicon glyphicon-zoom-in"></span></a></td>
+                    </tr>
+                    <tr style="vertical-align: middle;text-align: center;">
+                        <td class="text-primary">历史数据查看</td>
+                        <td><a class="btn btn-xs btn-info" href="{% url "流程显示页面" %}"><span class="glyphicon glyphicon-zoom-in"></span></a></td>
+                    </tr>
+                    <tr style="vertical-align: middle;text-align: center;">
+                        <td class="text-primary">历史曲线查看</td>
+                        <td><a class="btn btn-xs btn-info" href="{% url "流程显示页面" %}"><span class="glyphicon glyphicon-zoom-in"></span></a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row" id="div1"></div>
+
+    </div>
+</body>
+</html>		
+
+
+

@@ -1,0 +1,50 @@
+{% extends "00-base/01-theme-basic/1-10-1.html" %}
+
+{% block page-title %}流程的关联项目列表{% endblock %}
+
+
+{% block page-header %}
+    {% include "00-base/01-theme-basic/page-head.html" %}
+    {% include "00-base/01-theme-basic/global-message.html" %}
+{% endblock %}
+
+
+
+{% block inline-js-ahead %}
+{% endblock %}
+
+{% block page-body %}
+    <h3>
+    <div class="row">
+        <div class="col-xs-6">
+            <span class="glyphicon glyphicon-equalizer text-danger"></span>
+            流程的关联项目列表
+        </div>
+        <div class="col-xs-6 text-right">
+            <a class="btn btn-default" href="{% url "项目概要页面" as project_summary_url %}{{ request.GET.next|default:project_summary_url }}">
+                <span class="glyphicon glyphicon-arrow-left"></span>
+                返回
+            </a>
+        </div>
+    </div>
+    </h3>
+    <hr>
+
+    <table class="table table-bordered table-striped">
+        <caption>关联至流程的项目，共{{ pwf|length }}个记录</caption>
+        <tr>
+            <th>序号</th>
+        </tr>
+        {% for p in pwf %}
+            <tr>
+                <th>{{ p.flow.id }}</th>
+            </tr>
+        {% empty %}
+            <tr class="text-center">
+                <td colspan="6">没有关联记录!</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+
+

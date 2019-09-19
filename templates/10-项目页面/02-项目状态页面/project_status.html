@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>项 目 所 处 状 态 基 页 面</title>
+	<link rel="stylesheet" href="/static/css/bootstrap.css" />
+	<script src="/static/js/wsapi.js"></script>
+	<script src="/static/js/newline.js"></script>
+</head>
+<body>
+    <div class="container">
+
+		<div class="row"><p></p></div>
+		
+		<div class="row">
+            <div style="width: 50%" class="col-xs-1">
+				<h3>
+                    <span class="glyphicon glyphicon-th-list text-danger"></span>
+                    &nbsp;项 目 所 处 状 态 提 示 页 面
+                </h3>
+			</div>
+			<div style="width:50%;text-align:right;" class="col-xs-1">
+				<h2>
+                    <a style="height:35px;width:150px;" class="btn btn-info btn-success.focus" href="{% url "系统首页" %}"><span class="link glyphicon glyphicon-hand-left">&nbsp返 回</span></a>
+				</h2>
+			</div>
+		</div>
+        
+        <div class="row"><hr></hr></div>
+
+        <div class="row">
+            <h4><span style="font-size:100%" class="label label-success">项 目 状 态 列 表</span></h4>
+        </div>
+        
+        <div class="row"><p></p></div>
+
+        <div class="row" id="tishi">
+        
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>项目状态</th>
+                        <th>项目数量</th>
+                        <th>查看详情</th>
+                        <th>项目操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="vertical-align: middle;text-align: center;">
+                        <td class="text-primary">001</td>
+                        <td>执行状态</td>
+                        <td>{{zt.执行项目数量}}</td>
+                        <td><a class="btn btn-xs btn-success" href="{% url "执行项目详情页面" %}"><span class="glyphicon glyphicon-zoom-in"></span></a></tb>
+                        <td><a class="btn btn-xs btn-primary" href="{% url "项目高级操作页面" %}"><span class="glyphicon glyphicon-pawn"></span></a></tb>
+                    </tr>
+                    <tr style="vertical-align: middle;text-align: center;">
+                        <td class="text-primary">002</td>
+                        <td>就绪状态</td>
+                        <td>{{zt.就绪项目数量}}</td>
+                        <td><a class="btn btn-xs btn-success" href="{% url "就绪项目罗列页面" %}"><span class="glyphicon glyphicon-zoom-in"></span></a></tb>
+                        <td><a class="btn btn-xs btn-primary" href="{% url "项目高级操作页面" %}"><span class="glyphicon glyphicon-pawn"></span></a></tb>
+                    </tr>
+                    <tr style="vertical-align: middle;text-align: center;">
+                        <td class="text-primary">003</td>
+                        <td>暂停状态</td>
+                        <td>{{zt.暂停项目数量}}</td>
+                        <td><a class="btn btn-xs btn-success" href="{% url "暂停项目罗列页面" %}"><span class="glyphicon glyphicon-zoom-in"></span></a></tb>
+                        <td><a class="btn btn-xs btn-primary" href="{% url "项目高级操作页面" %}"><span class="glyphicon glyphicon-pawn"></span></a></tb>
+                    </tr>
+                    <tr style="vertical-align: middle;text-align: center;">
+                        <td class="text-primary">004</td>
+                        <td>配置状态</td>
+                        <td>{{zt.配置项目数量}}</td>
+                        <td><a class="btn btn-xs btn-success" href="{% url "配置项目罗列页面" %}"><span class="glyphicon glyphicon-zoom-in"></span></a></tb>
+                        <td><a class="btn btn-xs btn-primary" href="{% url "项目高级操作页面" %}"><span class="glyphicon glyphicon-pawn"></span></a></tb>
+                    </tr>
+                    <tr style="vertical-align: middle;text-align: center;">
+                        <td class="text-primary">005</td>
+                        <td>完成状态</td>
+                        <td>{{zt.完成项目数量}}</td>
+                        <td><a class="btn btn-xs btn-success" href="{% url "完成项目罗列页面" %}"><span class="glyphicon glyphicon-zoom-in"></span></a></tb>
+                        <td><a class="btn btn-xs btn-primary" href="{% url "项目高级操作页面" %}"><span class="glyphicon glyphicon-pawn"></span></a></tb>
+                    </tr>
+                </tbody>
+            </table>
+        
+        </div>
+
+        <div class="row"><p></p></div>
+
+		<div class="row text-danger" id="div1"></div>
+		
+    </div>
+</body>
+</html>		
+
+
+
+
+
+
+
+
+
+
+

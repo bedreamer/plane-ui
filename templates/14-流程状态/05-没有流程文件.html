@@ -1,0 +1,22 @@
+<h1>&nbsp;</h1>
+<h1>&nbsp;</h1>
+<div class="row">
+    <div class="col-xs-offset-2 col-xs-8 col-md-offset-3 col-md-6">
+        <a href="{% url 'pwf显示链接到项目的流程文件列表' project.id %}?next={{ request.path }}" class="btn btn-primary btn-lg btn-block">
+            <span class="glyphicon glyphicon-link"></span>
+            <span style="font-size: 25px;">|</span>
+            <span style="font-size: 25px">链接已有流程</span>
+            <br>
+            <span style="font-size: 10px">项目还未链接任何流程文件</span>
+        </a>
+    </div>
+</div>
+<br>
+<div class="row text-center" style="font-size: 10px;">
+    <div class="col-xs-offset-2 col-xs-8">
+        <a href="{% url '上传流程文件' %}?next={% url 'pwf显示链接到项目的流程文件列表' project.id %}?next={{ request.path }}">
+            <span class="glyphicon glyphicon-upload"></span>
+            上传并链接流程
+        </a>
+    </div>
+</div>

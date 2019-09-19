@@ -1,0 +1,7 @@
+echo [----平台安装程序----]
+echo ====================
+version
+copyright
+# 迁移数据库模型
+python manage.py makemigrations
+python manage.py migrate

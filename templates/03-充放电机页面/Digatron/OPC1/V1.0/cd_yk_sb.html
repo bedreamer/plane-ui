@@ -1,0 +1,85 @@
+
+{% extends "00-base/01-theme-basic/1-10-1.html" %}
+
+{% block page-title %}充放电机设备遥控-失败{% endblock %}
+
+
+{% block page-header %}
+    {% include "00-base/01-theme-basic/page-head.html" %}
+    {% include "00-base/01-theme-basic/global-message.html" %}
+{% endblock %}
+
+
+
+{% block inline-js-ahead %}
+	<script>
+         let skip = {{ skip | safe }};
+
+		//跳转，充放电机遥控
+		function skip_page(){
+           window.location.href = "{% url 'cd yk page' %}";
+        }
+	</script>
+{% endblock %}
+
+{% block page-body %}
+    <h3>
+        <div class="row">
+            <div class="col-xs-8">
+                <span class="glyphicon glyphicon-alert text-danger"></span>
+					&nbsp;充 放 电 机 设 备 遥 控 失 败 提 示 页 面
+            </div>
+            <div class="col-xs-4 text-right">
+                <a class="btn btn-lg btn-default" href="{% url "cd yk page" as project_summary_url %}{{ request.GET.next|default:project_summary_url }}">
+                    <span class="glyphicon glyphicon-hand-left"></span>
+                    返回
+                </a>
+            </div>
+        </div>
+    </h3>
+    <hr>
+
+    <h3>{{ project }}</h3>
+
+        <!--<div class="row">
+            <div class="col-xs-12">
+                <div class="text-danger"><h3><strong>提 示：</strong>水 冷 机 设 备 遥 控 <strong>{{ skip.数据点 }}</strong> 数 据 点<strong> 失 败</strong>！</h3></div>
+            </div>
+        </div>-->
+
+        <div class="row">
+            <div class="col-xs-12">
+                <h4><span style="font-size:100%" class="label label-success">失败原因：</span></h4>
+            </div>
+        </div>
+
+        <div class="row"><p></p></div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group" id="rw_id">
+                    <div class="input-group">
+                        <span class="input-group-addon">失败原因</span>
+                        <input type="text" class="form-control" readonly="readonly" name="sb_yy" value={{ skip.错误原因 }}>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		<div class="row"><p></p></div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="text-danger"><h3><strong>说 明:</strong></h3></div>
+                <div class="row"><p></p></div>
+                <div class="text-danger"><h4>充 放 电 机 设 备 遥 控 <strong>{{ skip.数据点 }}</strong> 数 据 点<strong> 失 败</strong>！</h4></div>
+                <div class="row"><p></p></div>
+                <div class="text-danger"><h4>可 <strong>点 击 返 回 按 钮 </strong>，返 回 设 备 遥 控 页 面 <strong>重 新 进 行</strong> 遥 控 操 作 ！</h4></div>
+            </div>
+        </div>
+
+{% endblock %}
+
+
+
+

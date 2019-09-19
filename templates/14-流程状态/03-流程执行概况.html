@@ -1,0 +1,7 @@
+{% if active_pwf %}
+    {% include '14-流程状态/04-运行流程的页面.html' %}
+{% elif project_with_flow_files_list|length == 0 %}
+    {% include '14-流程状态/05-没有流程文件.html' %}
+{% else %}
+    {% include '14-流程状态/04-未运行流程的显示页面.html' %}
+{% endif %}

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>设备四遥选择页面</title>
+	<link rel="stylesheet" href="/static/css/bootstrap.css" />
+    <script src="/static/js/jquery.js"></script>
+	<script src="/static/js/wsapi.js"></script>
+	<!--script src="/static/js/newline.js"></script-->
+    <style>
+        select {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 30px;
+        }
+
+        option {
+            text-align: right;
+        }
+    </style>
+	
+	<script>
+		//var api = WsApi('/newline/step/', 'onlwe.com:8888');
+        //var newline = NewLine(api);	
+		//
+
+	</script>
+	
+</head>
+<body>	<!--界面一打开调用前面2个函数-->
+
+    <div class="container">
+
+        {% if request.GET.e %}
+        <div class="row">
+            <div class="col-xs-offset-1 col-xs-10">
+                <div class="alert alert-warning alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Warning!</strong>&nbsp;&nbsp;&nbsp;<span>{{ request.GET.e }}</span>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="container">
+            <div class="row">
+                <div style="width: 50%" class="col-xs-1">
+                    <h3>
+                        <span class="glyphicon glyphicon-tags text-primary"></span>
+                        &nbsp;设 备 操 作 页 面
+                    </h3>
+                </div>
+                <div style="width:50%;text-align:right;" class="col-xs-1">
+                    <h2>
+                        <a style="height:35px;width:150px;" class="btn btn-info btn-success.focus" href="{% url "项目高级操作页面" %}"><span class="link glyphicon glyphicon-hand-left">&nbsp返 回</span></a>
+                    </h2>
+                </div>
+            </div>
+
+            <div class="row"><hr></hr></div>
+
+            <form method="post" action="{{ request.path }}">
+                <div class="row">
+                    <div class="withunderline">
+                        <h3><span class="label label-success">设 备 四 遥 列 表</span></h3>
+                    </div>
+                </div>
+
+                <div class="row"><p></p></div>
+
+                <div class="row" id="tishi">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>设备列表</th>
+                                <th>设备遥信</th>
+                                <th>设备遥测</th>
+                                <th>设备遥调</th>
+                                <th>设备遥控</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="vertical-align: middle;text-align: center;">
+                                <td class="text-primary">水冷机</td>
+                                <td><a class="btn btn-xs btn-success" href="{% url "cm yx page" %}"><span class="glyphicon glyphicon-envelope"></span></a></td>
+                                <td><a class="btn btn-xs btn-info" href="{% url "cm yc page" %}"><span class="glyphicon  glyphicon-bullhorn"></span></a></td>
+                                <td><a class="btn btn-xs btn-warning" href="{% url "cm yt page" %}"><span class="glyphicon glyphicon-wrench"></span></a></td>
+                                <td><a class="btn btn-xs btn-danger" href="{% url "cm yk page" %}"><span class="glyphicon glyphicon-edit"></span></a></td>
+                            </tr>
+                            <tr style="vertical-align: middle;text-align: center;">
+                                <td class="text-primary">环境箱</td>
+                                 <td><a class="btn btn-xs btn-success" href="{% url "ec yx page" %}"><span class="glyphicon glyphicon-envelope"></span></a></td>
+                                <td><a class="btn btn-xs btn-info" href="{% url "ec yc page" %}"><span class="glyphicon  glyphicon-bullhorn"></span></a></td>
+                                <td><a class="btn btn-xs btn-warning" href="{% url "ec yt page" %}"><span class="glyphicon glyphicon-wrench"></span></a></td>
+                                <td><a class="btn btn-xs btn-danger" href="{% url "ec yk page" %}"><span class="glyphicon glyphicon-edit"></span></a></td>
+                            </tr>
+                            <tr style="vertical-align: middle;text-align: center;">
+                                <td class="text-primary">充放电机</td>
+                                 <td><a class="btn btn-xs btn-success" href="{% url "cd yx page" %}"><span class="glyphicon glyphicon-envelope"></span></a></td>
+                                <td><a class="btn btn-xs btn-info" href="{% url "cd yc page" %}"><span class="glyphicon  glyphicon-bullhorn"></span></a></td>
+                                <td><a class="btn btn-xs btn-warning" href="{% url "cd yt page" %}"><span class="glyphicon glyphicon-wrench"></span></a></td>
+                                <td><a class="btn btn-xs btn-danger" href="{% url "cd yk page" %}"><span class="glyphicon glyphicon-edit"></span></a></td>
+                            </tr>
+                            <tr style="vertical-align: middle;text-align: center;">
+                                <td class="text-primary">BMS</td>
+                                 <td><a class="btn btn-xs btn-success" href="{% url "bms yx page" %}"><span class="glyphicon glyphicon-envelope"></span></a></td>
+                                <td><a class="btn btn-xs btn-info" href="{% url "bms yc page" %}"><span class="glyphicon  glyphicon-bullhorn"></span></a></td>
+                                <td><a class="btn btn-xs btn-warning" ><span class="glyphicon glyphicon-wrench"></span></a></td>
+                                <td><a class="btn btn-xs btn-danger" ><span class="glyphicon glyphicon-edit"></span></a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="row"><h6></h6></div>
+				
+				<div id="div1"></div>
+
+            </form>
+        </div>
+    </div>
+</body>
+</html>		
+
+
+

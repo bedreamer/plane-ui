@@ -1,0 +1,124 @@
+{% extends "00-base/01-theme-basic/1-10-1.html" %}
+
+{% block page-title %}BMS设备信息-遥信{% endblock %}
+
+
+{% block page-header %}
+    {% if request.GET.next == "/project/summary/" or request.GET.next == "/project/running/list/" or request.GET.next == "/project/ready/list/" or request.GET.next == "/project/pause/list/" or request.GET.next == "/project/configure/list/" or request.GET.next == "/project/done/list/" or request.GET.next == "/project/abort/list/" %}
+         {% include "00-base/01-theme-basic/page-head.html" %}
+    {% else %}
+        <br>
+        {% include "00-base/01-theme-basic/global-message.html" %}
+    {% endif %}
+{% endblock %}
+
+
+{% block inline-js-ahead %}
+	<script>
+    	 //跳转编辑页面(已改完)
+		function skip_page() {
+		    window.location.href = "{% url '设备四遥页面' %}";
+        }
+        //刷新页面，拿遥信数据
+        function myrefresh(){
+            window.location.reload();
+        }
+        setTimeout('myrefresh()',10000); //指定10秒刷新一次
+	</script>
+{% endblock %}
+
+
+{% block page-body %}
+   {% if request.GET.next == "/project/summary/" or request.GET.next == "/project/running/list/" or request.GET.next == "/project/ready/list/" or request.GET.next == "/project/pause/list/" or request.GET.next == "/project/configure/list/" or request.GET.next == "/project/done/list/" or request.GET.next == "/project/abort/list/" %}
+         {% include "10-项目页面/01-项目设备信息筛选tabs.html" %}
+   {% else %}
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="col-xs-4">
+                    <span class="glyphicon glyphicon-th-list text-danger"></span>
+                        &nbsp;设备信息
+                </div>
+
+                <div class="col-xs-8 text-right">
+                    <a class="btn btn-lg btn-default" href="{% url "项目概要页面" as project_summary_url %}{{ request.GET.next|default:project_summary_url }}">
+                        <span class="glyphicon glyphicon-hand-left"></span>
+                        返回
+                    </a>
+                </div>
+            </div>
+        </div>
+   {% endif %}
+
+    <br>
+    <form method="post" action="{{ request.path }}">
+        <div class="row">
+            <div class="col-xs-12">
+                <table class="table table-striped table-bordered">
+                    <caption>
+                        <div class="row">
+                            <div class="col-xs-9">BMS遥信信息</div>
+                        </div>
+                    </caption>
+                    <thead>
+                        <tr>
+                            <th>加热器运行状态</th>
+                            <th>压缩机运行状态</th>
+                            <th>循环泵运行状态</th>
+                            <!--<th colspan="2" class="text-center">循环泵运行状态</th>-->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="vertical-align: middle;text-align: center;">
+                            {% if bms_yx.加热器运行状态 == '告警' %}
+                                <td class="danger">告警</td>
+                             {% else %}
+                                <td class="success">正常</td>
+                            {% endif %}
+                            {% if bms_yx.压缩机运行状态 == '告警' %}
+                                <td class="danger">告警</td>
+                             {% else %}
+                                <td class="success">正常</td>
+                            {% endif %}
+                            {% if bms_yx.循环泵运行状态 == '告警' %}
+                                <td class="danger">告警</td>
+                             {% else %}
+                                <td class="success">正常</td>
+                            {% endif %}
+                        </tr>
+                    </tbody>
+                    <thead>
+                        <tr>
+                            <th>加热允许状态</th>
+                            <th>制冷允许状态</th>
+                            <th>冷却液存量状态</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="vertical-align: middle;text-align: center;">
+                            {% if bms_yx.加热允许状态 == '告警' %}
+                                <td class="danger">告警</td>
+                             {% else %}
+                                <td class="success">正常</td>
+                            {% endif %}
+                            {% if bms_yx.制冷允许状态 == '告警' %}
+                                <td class="danger">告警</td>
+                             {% else %}
+                                <td class="success">正常</td>
+                            {% endif %}
+                            {% if bms_yx.冷却液存量状态 == '告警' %}
+                                <td class="danger">告警</td>
+                             {% else %}
+                                <td class="success">正常</td>
+                            {% endif %}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+
+    <div class="row"><p></p></div>
+
+    <div class="row" id="div1"></div>
+
+{% endblock %}

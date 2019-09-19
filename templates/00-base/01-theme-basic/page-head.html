@@ -1,0 +1,46 @@
+<style>
+    .page-head {
+        width: 100%;
+        top: 0;
+        height: 50px;
+        margin: 0;
+        border-radius: 0;
+        position: fixed;
+        background-color: rgb(151, 150, 151);
+    }
+    .software-name {
+        position: absolute;
+        left: 58px;
+        top: -13px;
+        font-size: 18px;
+        color: rgb(85, 83, 84);
+    }
+    .version-text {
+        font-size: 14px;
+        color: rgb(61, 61, 61);
+    }
+</style>
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 col-xs-3">
+                <a href="/" style="line-height: 50px; font-size: 20px; font-weight: bold">
+                    <img src="{{ STATIC_URL }}imgs/logo.png" style="display: inline-block; height: 50px;" alt="{{ software_name|default:"自动化流程集成控制软件" }}" height="40px">
+                    <span class="software-name">{{ software_name|default:"自动化流程集成控制软件" }}</span>
+                </a>
+            </div>
+            <div class="col-md-6 col-xs-9 text-right">
+                <div class="version-text">{{ build_version|default:"null" }}</div>
+                {% if service_code %}
+                <span style="font-size: 15px; font-weight: bold">服务编码：</span>
+                <span style="font-size: 20px; font-weight: bold" class="text-success">{{ service_code }}</span>
+                {% else %}
+                <span style="font-size: 20px; font-weight: bold" class="text-warning">试用版</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>
+
+<h3>&nbsp;</h3>

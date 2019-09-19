@@ -1,0 +1,89 @@
+{% if project.status == PRJ_STATUS_CONFIGURE %}
+    {% if project_with_device|length > 0 %}
+    <a href="{% url '项目转就绪' project.id %}?next={{ request.path }}" class="btn btn-success">
+        <span class="glyphicon glyphicon-ok"></span>
+        |
+        完成配置
+    </a>
+    {% else %}
+    <a href="{% url '按照设备类型修改页面' project.id 'bms' %}?next={{ request.path }}" title="给这个项目关联设备" class="text-danger" style="font-size: 10px">
+        <span class="glyphicon glyphicon-info-sign"></span>
+        <span>还没有为这个项目关联设备！</span>
+    </a>
+    {% endif %}
+    <a href="{% url '按照设备类型修改页面' project.id 'bms' %}?next={{ request.path }}" class="btn btn-primary">
+        <span class="glyphicon glyphicon-cog"></span>
+        |
+        继续配置
+    </a>
+    <a href="{% url '项目转中止' project.id %}?next={{ request.path }}" class="btn btn-danger">
+        <span class="glyphicon glyphicon-ban-circle"></span>
+        中止
+    </a>
+{% elif project.status == PRJ_STATUS_READY %}
+    <a href="{% url '按照设备类型修改页面' project.id 'bms' %}?next={{ request.path }}" class="btn btn-success">
+        <span class="glyphicon glyphicon-cog"></span>
+        |
+        继续配置
+    </a>
+    {% if running_project_list|length == 0 %}
+    <a href="{% url '项目转执行' project.id %}?next={{ request.path }}" class="btn btn-danger">
+        <span class="glyphicon glyphicon-play"></span>
+        执行
+    </a>
+    {% endif %}
+    <a href="{% url '项目转中止' project.id %}?next={{ request.path }}" class="btn btn-danger">
+        <span class="glyphicon glyphicon-ban-circle"></span>
+        中止
+    </a>
+{% elif project.status == PRJ_STATUS_RUNNING %}
+    <span style="font-size: 16px"><b>服务:</b>
+        <a href="{% url '启动项目服务' project.id %}?next={{ request.path }}" class="text-success">
+            <span class="glyphicon glyphicon-play-circle"></span>
+            启动
+        </a>
+        <a href="{% url '停止项目服务' project.id %}?next={{ request.path }}" class="text-danger">
+            <span class="glyphicon glyphicon-stop"></span>
+            停止
+        </a>
+        <a href="{% url '重启项目服务' project.id %}?next={{ request.path }}">
+            <span class="glyphicon glyphicon-repeat"></span>
+            重启
+        </a>
+        <a href="{% url '项目服务状态' project.id %}?next={{ request.path }}">
+            <span class="glyphicon glyphicon-tasks"></span>
+            查看
+        </a>
+        <span>&nbsp;&nbsp;</span>
+        <b>项目:</b>
+        <a href="{% url '项目转完成' project.id %}?next={{ request.path }}" class="text-success">
+            <span class="glyphicon glyphicon-ok"></span>
+            结束
+        </a>
+        <a href="{% url '项目转中止' project.id %}?next={{ request.path }}" class="text-danger">
+            <span class="glyphicon glyphicon-ban-circle"></span>
+            中止
+        </a>
+        <a href="{% url '项目转暂停' project.id %}?next={{ request.path }}" class="text-warning">
+            <span class="glyphicon glyphicon-pause"></span>
+            暂停
+        </a>
+    </span>
+{% elif project.status == PRJ_STATUS_PAUSE %}
+    {% if running_project_list|length == 0 %}
+    <a href="{% url '项目转执行' project.id %}?next={{ request.path }}" class="btn btn-primary">
+        <span class="glyphicon glyphicon-play"></span>
+        恢复
+    </a>
+    {% else %}
+    <a href="{% url '项目详细信息展示页面' running_project_list.first.id %}" class="text-danger" style="font-size: 10px">
+        <span class="glyphicon glyphicon-info-sign"></span>
+        <span>已有项目正在执行，点击查看！</span>
+    </a>
+    {% endif %}
+    <a href="{% url '项目转中止' project.id %}?next={{ request.path }}" class="btn btn-danger">
+        <span class="glyphicon glyphicon-ban-circle"></span>
+        中止
+    </a>
+{% elif project.status == PRJ_STATUS_DONE %}
+{% endif %}

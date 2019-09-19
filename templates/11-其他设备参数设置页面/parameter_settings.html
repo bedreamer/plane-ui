@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>实 验 室 设 备 选 择 页 面</title>
+	<link rel="stylesheet" href="/static/css/bootstrap.css" />
+	<script src="/static/js/wsapi.js"></script>
+	<script src="/static/js/newline.js"></script>
+    <style></style>
+
+    <script>
+		 //获取ID函数
+        function get_url_param(key) {
+            var url = location.search; //获取url中"?"符后的字串
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("&");
+                for (var i = 0; i < strs.length; i++) {
+                    theRequest[strs[i].split("=")[0]] = (strs[i].split("=")[1]);
+                }
+            }
+            return theRequest[key];
+        }
+		//返回，完成项目罗列页面
+		function skip_page() {
+            var sign = get_url_param("sign");
+            if(sign == "zsgc"){
+                window.location.href = "/zsgc/";
+            }else if(sign == "xjxm"){
+                window.location.href = "/xjxm/";
+            }
+        }
+        //根据进入入口不同做区分
+        function display_prompt_message() {
+            var sign = get_url_param("sign");
+            if(sign == "zsgc"){
+                var tab="<div class=\"hidden col-xs-6\" id=\"tj_content\">";
+                tab+="<div class=\"input-group\">";
+                tab+="<span class=\"input-group-addon\">进入区分标志:</span>";
+                tab+="<input type=\"text\" name=\"bz_name\" value=\"zsgc\" class=\"form-control\" placeholder=\"\">";
+                tab+="</div>";
+                tab+="</div>";
+                tishi22.innerHTML=tab;
+            }else if(sign == "xjxm"){
+                var tab="<div class=\"hidden col-xs-6\" id=\"tj_content\">";
+                tab+="<div class=\"input-group\">";
+                tab+="<span class=\"input-group-addon\">进入区分标志:</span>";
+                tab+="<input type=\"text\" name=\"bz_name\" value=\"xjxm\" class=\"form-control\" placeholder=\"\">";
+                tab+="</div>";
+                tab+="</div>";
+                tishi22.innerHTML=tab;
+            }
+        }
+         //水冷机设备ID
+        function cm_project(cm_id) {
+            var tab="<span class=\"input-group-addon\">设备ID</span>";
+            tab+="<input type=\"text\" class=\"form-control\" readonly=\"readonly\" name=\"cm_id\" value="+ cm_id +">";
+            cmid.innerHTML=tab;
+        }
+         //环境箱设备ID
+        function ec_project(ec_id) {
+            var tab="<span class=\"input-group-addon\">设备ID</span>";
+            tab+="<input type=\"text\" class=\"form-control\" readonly=\"readonly\" name=\"ec_id\" value="+ ec_id +">";
+            ecid.innerHTML=tab;
+        }
+         //水充放电机设备ID
+        function cd_project(cd_id) {
+            var tab="<span class=\"input-group-addon\">设备ID</span>";
+            tab+="<input type=\"text\" class=\"form-control\" readonly=\"readonly\" name=\"cd_id\" value="+ cd_id +">";
+            cdid.innerHTML=tab;
+        }
+	</script>	
+</head>
+<body onload="javascript:display_prompt_message()">
+
+    <div class="container">
+
+        <div class="row">
+            <div style="width: 50%" class="col-xs-1">
+                <h2>
+                    <span class="glyphicon glyphicon-cog text-primary"></span>
+                    &nbsp;实 验 室 设 备 选 择 页 面
+                </h2>
+            </div>
+            <div style="width:50%;text-align:right;" class="col-xs-1">
+                <h2>
+                    <button type="button" style="height:35px;width:150px;" class="btn btn-info btn-success.focus" onclick="javascript:skip_page()"><span class="link glyphicon glyphicon-hand-left">&nbsp返 回</span></button>
+                </h2>
+            </div>
+        </div>
+
+        <div class="row"><hr></hr></div>
+
+        <form method="post" action="{% url "其他设备参数设置失败页面" %}">
+            
+            <div class="row">
+                <h4><span style="font-size:80%" class="label label-success">水 冷 机 设 备 选 择 列 表</span></h4>
+            </div>
+            
+            <div class="row"><p></p></div>
+            
+            <div class="row">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>设备ID</th>
+                            <th>设备厂家</th>
+                            <th>设备型号</th>
+                            <th>设备程序版本号</th>
+                            <th>设备类型</th>
+                            <th>设备注册时间</th>
+                            <th>任务操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cm in cm_list %}
+                            <tr style="vertical-align: middle;text-align: center;">
+                                <td class="text-primary">{{cm.id}}</td>
+                                <td>{{cm.vendor}}</td>
+                                <td>{{cm.model}}</td>
+                                <td>{{cm.version}}</td>
+                                <td>{{cm.type_id}}</td>
+                                <td>{{cm.create_datetime}}</td>
+                                <td><button type="button" class="btn btn-xs btn-success" onClick="javascript:cm_project({{cm.id}})"><span class="glyphicon glyphicon-ok"></span></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="row">
+                <h4><span style="font-size:80%" class="label label-success">环 境 箱 设 备 选 择 列 表</span></h4>
+            </div>
+            
+            <div class="row"><p></p></div>
+            
+            <div class="row">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>设备ID</th>
+                            <th>设备厂家</th>
+                            <th>设备型号</th>
+                            <th>设备程序版本号</th>
+                            <th>设备类型</th>
+                            <th>设备注册时间</th>
+                            <th>任务操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ec in ec_list %}
+                            <tr style="vertical-align: middle;text-align: center;">
+                                <td class="text-primary">{{ec.id}}</td>
+                                <td>{{ec.vendor}}</td>
+                                <td>{{ec.model}}</td>
+                                <td>{{ec.version}}</td>
+                                <td>{{ec.type_id}}</td>
+                                <td>{{ec.create_datetime}}</td>
+                                <td><button type="button" class="btn btn-xs btn-success" onClick="javascript:ec_project({{ec.id}})"><span class="glyphicon glyphicon-ok"></span></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="row">
+                <h4><span style="font-size:80%" class="label label-success">充 放 电 机 设 备 选 择 列 表</span></h4>
+            </div>
+            
+            <div class="row"><p></p></div>
+            
+            <div class="row">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>设备ID</th>
+                            <th>设备厂家</th>
+                            <th>设备型号</th>
+                            <th>设备程序版本号</th>
+                            <th>设备类型</th>
+                            <th>设备注册时间</th>
+                            <th>任务操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cd in cd_list %}
+                            <tr style="vertical-align: middle;text-align: center;">
+                                <td class="text-primary">{{cd.id}}</td>
+                                <td>{{cd.vendor}}</td>
+                                <td>{{cd.model}}</td>
+                                <td>{{cd.version}}</td>
+                                <td>{{cd.type_id}}</td>
+                                <td>{{cd.create_datetime}}</td>
+                                <td><button type="button" class="btn btn-xs btn-success" onClick="javascript:cd_project({{cd.id}})"><span class="glyphicon glyphicon-ok"></span></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="row" id="tishi11">
+                <div class="row col-xs-12">
+                    <h4><span style="font-size:80%" class="label label-success">设 备 I D</span></h4>
+                </div>
+
+                <div class="row"><p></p></div>
+
+                <div class="row">
+                     <div style="width: 33%" class="col-xs-12">
+                        <label><h4>水冷机设备ID:&nbsp;</h4></label>
+                    </div>
+                    <div style="width: 33%" class="col-xs-12">
+                        <label><h4>环境箱设备ID:&nbsp;</h4></label>
+                    </div>
+                    <div style="width: 34%" class="col-xs-12">
+                        <label><h4>充放电机设备ID:&nbsp;</h4></label>
+                    </div>
+                    <div style="width: 33%" class="col-xs-1" id="hjxyx">
+                         <div class="input-group" id="cmid">
+                            <span class="input-group-addon">设备ID</span>
+                            <input type="text" class="form-control" readonly="readonly" name="cm_id" value="请选择水冷机设备">
+                        </div>
+                     </div>
+                    <div style="width: 33%" class="col-xs-1" id="hjxyx">
+                        <div class="input-group" id="ecid">
+                            <span class="input-group-addon">设备ID</span>
+                            <input type="text" class="form-control" readonly="readonly" name="ec_id" value="请选择环境箱设备">
+                        </div>
+                    </div>
+                    <div style="width: 34%" class="col-xs-1" id="hjxyx">
+                        <div class="input-group" id="cdid">
+                            <span class="input-group-addon">设备ID</span>
+                            <input type="text" class="form-control" readonly="readonly" name="cd_id" value="请选择充放电机设备">
+                        </div>
+                    </div>
+                </div>
+           </div>
+
+            <div class="row" id="tishi22"><p></p></div>
+
+            <div class="row">
+				<div class="col-xs-12">
+					<div class="text-danger"><h4><strong>说 明:</strong></h4></div>
+					<div class="text-danger"><strong>任务操作：</strong>选 择 实 验 室 连 接 设 备 ！</div>
+                    <div class="row"><p></p></div>
+					<div class="text-danger"><strong>点击提交：</strong>保 存 选 择 的 实 验 室 连 接 设 备 ！</div>
+				</div>
+			</div>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<br>
+<div class="row">
+    <div class="col-xs-6">
+        <b>项目名：</b> <a href="{% url '项目详细信息展示页面' project_list.first.id %}?next={{ request.path }}">{{ project_list.first.name }}</a>
+    </div>
+    <div class="col-xs-6 text-right">
+        <b>服务:</b>
+        <a href="{% url '启动项目服务' project_list.first.id %}?next={{ request.path }}" class="text-success">
+            <span class="glyphicon glyphicon-play-circle"></span>
+            启动
+        </a>
+        <a href="{% url '停止项目服务' project_list.first.id %}?next={{ request.path }}" class="text-danger">
+            <span class="glyphicon glyphicon-stop"></span>
+            停止
+        </a>
+        <a href="{% url '重启项目服务' project_list.first.id %}?next={{ request.path }}">
+            <span class="glyphicon glyphicon-repeat"></span>
+            重启
+        </a>
+        <a href="{% url '项目服务状态' project_list.first.id %}?next={{ request.path }}">
+            <span class="glyphicon glyphicon-tasks"></span>
+            查看
+        </a>
+        <span>&nbsp;&nbsp;</span>
+        <b>项目:</b>
+        <a href="{% url '项目转完成' project_list.first.id %}?next={{ request.path }}" class="text-success">
+            <span class="glyphicon glyphicon-ok"></span>
+            结束
+        </a>
+        <a href="{% url '项目转中止' project_list.first.id %}?next={{ request.path }}" class="text-danger">
+            <span class="glyphicon glyphicon-ban-circle"></span>
+            中止
+        </a>
+        <a href="{% url '项目转暂停' project_list.first.id %}?next={{ request.path }}" class="text-warning">
+            <span class="glyphicon glyphicon-pause"></span>
+            暂停
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-6">
+        <iframe src="{% url '显示项目关联设备概要' project_list.first.id %}" width="100%" height="500px" frameborder="0"></iframe>
+    </div>
+    <div class="col-xs-6">
+        {% include "14-流程状态/03-流程执行概况.html" %}
+    </div>
+</div>

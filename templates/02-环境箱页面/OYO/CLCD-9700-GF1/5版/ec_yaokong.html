@@ -1,0 +1,165 @@
+
+{% extends "00-base/01-theme-basic/1-10-1.html" %}
+
+{% block page-title %}环境箱设备信息-遥控{% endblock %}
+
+
+{% block page-header %}
+    {% include "00-base/01-theme-basic/page-head.html" %}
+    {% include "00-base/01-theme-basic/global-message.html" %}
+{% endblock %}
+
+
+{% block inline-js-ahead %}
+	<script>
+    	 //跳转编辑页面(已改完)
+		function skip_page() {
+		    window.location.href = "{% url '设备四遥页面' %}";
+        }
+        //刷新页面，拿遥信数据
+        //function myrefresh(){
+        //    window.location.reload();
+        //}
+        //setTimeout('myrefresh()',10000); //指定10秒刷新一次
+	</script>
+{% endblock %}
+
+
+{% block page-body %}
+    {% include "10-项目页面/01-项目设备信息筛选tabs.html" %}
+
+    <br>
+    <div class="row">
+        <div class="col-xs-12">
+
+            <div class="row">
+                <div class="col-xs-4">
+                    <label><h5><b>加热器运行状态:&nbsp;</b></h5></label>
+                </div>
+                <div class="col-xs-4">
+                    <label><h5><b>压缩机运行状态:&nbsp;</b></h5></label>
+                </div>
+                <div class="col-xs-4">
+                    <label><h5><b>循环泵运行状态:&nbsp;</b></h5></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-2" id="jrqzt_h">
+                    <div class="">
+                        <form method="post" action="{% url "ec设备遥控成功页面" %}">
+                            <input class="btn btn-block{% if ec_yk.加热器运行状态 == '打开' %} btn-success{% else %} btn-default{% endif %}" name="加热器运行状态_打开" type="submit" value="打 开">
+                        </form>
+                    </div>
+                </div>
+                <div class="col-xs-2" id="jrqzt_f">
+                    <div class="">
+                        <form method="post" action="{% url "ec设备遥控成功页面" %}">
+                            <input class="btn btn-block{% if ec_yk.加热器运行状态 == '关闭' %} btn-danger{% else %} btn-default{% endif %}" name="加热器运行状态_关闭" type="submit" value="关 闭">
+                        </form>
+                    </div>
+                </div>
+                <div class="col-xs-2" id="ysjzt_h">
+                    <div class="">
+                        <form method="post" action="{% url "ec设备遥控成功页面" %}">
+                            <input class="btn btn-block{% if ec_yk.压缩机运行状态 == '断开' %} btn-success{% else %} btn-default{% endif %}" name="压缩机运行状态_断开" type="submit" value="断 开">
+                        </form>
+                    </div>
+                </div>
+                <div class="col-xs-2" id="ysjzt_f">
+                    <div class="">
+                        <form method="post" action="{% url "ec设备遥控成功页面" %}">
+                            <input class="btn btn-block{% if ec_yk.压缩机运行状态 == '闭合' %} btn-danger{% else %} btn-default{% endif %}" name="压缩机运行状态_闭合" type="submit" value="闭 合">
+                        </form>
+                    </div>
+                </div>
+                <div class="col-xs-2" id="xhbzt_h">
+                    <div class="">
+                        <form method="post" action="{% url "ec设备遥控成功页面" %}">
+                            <input class="btn btn-block{% if ec_yk.循环泵运行状态 == '打开' %} btn-success{% else %} btn-default{% endif %}" name="循环泵运行状态_打开" type="submit" value="打 开">
+                        </form>
+                    </div>
+                </div>
+                <div class="col-xs-2" id="xhbzt_f">
+                    <div class="">
+                        <form method="post" action="{% url "ec设备遥控成功页面" %}">
+                            <input class="btn btn-block{% if ec_yk.循环泵运行状态 == '关闭' %} btn-danger{% else %} btn-default{% endif %}" name="循环泵运行状态_关闭" type="submit" value="关 闭">
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row"><p></p></div>
+
+            <div class="row">
+                <div class="col-xs-4">
+                    <label><h5><b>加热允许状态:&nbsp;</b></h5></label>
+                </div>
+                <div class="col-xs-4">
+                    <label><h5><b>制冷允许状态:&nbsp;</b></h5></label>
+                </div>
+                <div class="col-xs-4">
+                    <label><h5><b>冷却液存量状态:&nbsp;</b></h5></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-2" id="jryxzt_h">
+                    <div class="">
+                        <form method="post" action="{% url "ec设备遥控成功页面" %}">
+                            <input class="btn btn-block{% if ec_yk.加热允许状态 == '断开' %} btn-success{% else %} btn-default{% endif %}" name="加热允许状态_断开" type="submit" value="断 开">
+                        </form>
+                    </div>
+                </div>
+                <div class="col-xs-2" id="jryxzt_f">
+                    <div class="">
+                        <form method="post" action="{% url "ec设备遥控成功页面" %}">
+                            <input class="btn btn-block{% if ec_yk.加热允许状态 == '闭合' %} btn-danger{% else %} btn-default{% endif %}" name="加热允许状态_闭合" type="submit" value="闭 合">
+                        </form>
+                    </div>
+                </div>
+                <div class="col-xs-2" id="zlyxzt_h">
+                    <div class="">
+                        <form method="post" action="{% url "ec设备遥控成功页面" %}">
+                            <input class="btn btn-block{% if ec_yk.制冷允许状态 == '打开' %} btn-success{% else %} btn-default{% endif %}" name="制冷允许状态_打开" type="submit" value="打 开">
+                        </form>
+                    </div>
+                </div>
+                <div class="col-xs-2" id="zlyxzt_f">
+                    <div class="">
+                        <form method="post" action="{% url "ec设备遥控成功页面" %}">
+                            <input class="btn btn-block{% if ec_yk.制冷允许状态 == '关闭' %} btn-danger{% else %} btn-default{% endif %}" name="制冷允许状态_关闭" type="submit" value="关 闭">
+                        </form>
+                    </div>
+                </div>
+                <div class="col-xs-2" id="lqyclzt_h">
+                    <div class="">
+                        <form method="post" action="{% url "ec设备遥控成功页面" %}">
+                            <input class="btn btn-block{% if ec_yk.冷却液存量状态 == '断开' %} btn-success{% else %} btn-default{% endif %}" name="冷却液存量状态_断开" type="submit" value="断 开">
+                        </form>
+                    </div>
+                </div>
+                <div  class="col-xs-2" id="lqyclzt_f">
+                    <div class="">
+                        <form method="post" action="{% url "ec设备遥控成功页面" %}">
+                            <input class="btn btn-block{% if ec_yk.冷却液存量状态 == '闭合' %} btn-danger{% else %} btn-default{% endif %}" name="冷却液存量状态_闭合" type="submit" value="闭 合">
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row"><h6></h6></div>
+
+        </div>
+
+    </div>
+
+    <div id="div1"></div>
+
+    <div class="row"><p></p></div>
+
+    <div class="row" id="div1"></div>
+
+{% endblock %}
+
+
+
+

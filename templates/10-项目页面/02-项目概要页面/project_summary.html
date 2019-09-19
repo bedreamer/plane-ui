@@ -1,0 +1,41 @@
+{% extends "00-base/01-theme-basic/1-10-1.html" %}
+
+{% block page-title %}项目概要{% endblock %}
+
+
+{% block page-header %}
+    {% include "00-base/01-theme-basic/page-head.html" %}
+    {% include "00-base/01-theme-basic/global-message.html" %}
+{% endblock %}
+
+
+
+{% block page-body %}
+    <div class="row"><p></p></div>
+
+
+    <div class="row">
+        <div style="width: 50%" class="col-xs-1">
+            <h3>
+                <span class="glyphicon glyphicon-th-list text-danger"></span>
+                &nbsp;项目列表
+            </h3>
+        </div>
+    </div>
+    <div class="row"><hr></hr></div>
+    <div class="row">
+        <div class="col-xs-12" style="padding: 0">
+            {% include "10-项目页面/00-项目状态筛选tabs.html" %}
+        </div>
+    </div>
+
+    <br>
+
+{% endblock %}
+
+
+
+
+
+
+

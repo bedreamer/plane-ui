@@ -1,0 +1,95 @@
+{% extends "00-base/01-theme-basic/1-10-1.html" %}
+
+{% block page-title %}项目使用的设备{% endblock %}
+
+
+{% block page-header %}
+    {% include "00-base/01-theme-basic/page-head.html" %}
+    {% include "00-base/01-theme-basic/global-message.html" %}
+{% endblock %}
+
+
+
+{% block page-body %}
+    <form action="{{ request.path }}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}" method="post">
+        <div class="row">
+            <div class="col-xs-8">
+                <h1><span class="glyphicon glyphicon-edit text-success"></span> 项目关联设备配置(ID={{ project.id}})</h1>
+            </div>
+            <div class="col-xs-4 text-right">
+                <h1>
+                <a class="btn btn-lg btn-default" href="{% url "项目概要页面" as project_summary_url %}{{ request.GET.next|default:project_summary_url }}">
+                    <span class="glyphicon glyphicon-hand-left"></span>
+                    返回
+                </a>
+                <button class="btn btn-lg btn-success" type="submit">
+                    <span class="glyphicon glyphicon-save"></span>
+                    保 存
+                </button>
+                </h1>
+            </div>
+        </div>
+        <hr>
+        {% include "10-项目页面/03-项目编辑表单/project-with-device-nav.html" %}
+        <table class="table table-condensed table-hover table-bordered table-striped">
+            <caption>
+                <div class="row">
+                    <div class="col-xs-10">
+                        {{ dtype.name }}({{ dtype.code }})
+                    </div>
+                </div>
+            </caption>
+            <tr>
+                <th>#</th>
+                <th>ID</th>
+                <th>厂家</th>
+                <th>型号</th>
+                <th>版本</th>
+                <th>
+                    <label for="{{ code }}_{{ device.id }}">不使用</label>
+                    <input id="{{ code }}_{{ device.id }}" type="radio" name="{{ code }}" value="-1"{% if not prj_select_device %} checked{% endif %}>
+                </th>
+            </tr>
+            {% for device in all_device %}
+            <tr>
+                <th>{{ forloop.counter }}</th>
+                <td class="text-center">{{ device.id }}</td>
+                <td class="text-center">{{ device.vendor }}</td>
+                <td class="text-center">{{ device.model }}</td>
+                <td class="text-center">{{ device.version }}</td>
+                <td class="text-center">
+                    <label for="{{ code }}_{{ device.id }}">关联</label>
+                    <input id="{{ code }}_{{ device.id }}" type="radio" name="{{ code }}" value="{{ device.id }}"{% if device.id == prj_select_device.id %} checked{% endif %}>
+                </td>
+            </tr>
+            {% empty %}
+                <th colspan="6">系统还没有注册过这一类设备！</th>
+            {% endfor %}
+        </table>
+    </form>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="text-danger"><h4><strong>说 明:</strong></h4></div>
+            <div class="text-danger"><strong>任务操作：</strong>选择实验需要的 <b>{{ dtype.name }}</b> 设备！</div>
+            <div class="row"><p></p></div>
+            <div class="text-danger"><strong>点击不使用：</strong>该实验不需要这一类设备！</div>
+            <div class="row"><p></p></div>
+            <div class="text-danger"><strong>点击关联：</strong>实验需要这个设备 ！</div>
+            <div class="row"><p></p></div>
+            <div class="text-danger"><strong>跳过配置：</strong>继 续 编 辑 项 目 时，当 前 页 面 已 经 是 编 辑 完 成 的，可 以 选 择 跳 过 编 辑 ！</div>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+

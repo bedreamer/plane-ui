@@ -1,0 +1,147 @@
+<br>
+<h3>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="col-xs-4">
+                <span class="glyphicon glyphicon-th-list text-danger"></span>
+                    &nbsp;设备信息
+            </div>
+
+            <div class="col-xs-8 text-right">
+                <a class="btn btn-lg btn-default" href="{% url "项目概要页面" as project_summary_url %}{{ request.GET.next|default:project_summary_url }}">
+                    <span class="glyphicon glyphicon-hand-left"></span>
+                    返回
+                </a>
+            </div>
+        </div>
+    </div>
+</h3>
+<hr>
+<div class="row">
+    <div class="col-xs-12">
+        <ul class="nav nav-tabs">
+            <li class="active dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    水 冷 机 <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{% url 'cm yx page' %}?next=/project/summary/" type="button" class="btn{% url "cm yx page" as this_url %}{% if request.path == this_url %} btn-success{% else %} btn-default{% endif %}">
+                            水冷机遥信
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="{% url 'cm yc page' %}?next=/project/summary/" type="button" class="btn{% url "cm yc page" as this_url %}{% if request.path == this_url %} btn-success{% else %} btn-default{% endif %}">
+                            水冷机遥测
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="{% url 'cm yt page' %}?next=/project/summary/" type="button" class="btn{% url "cm yt page" as this_url %}{% if request.path == this_url %} btn-success{% else %} btn-default{% endif %}">
+                            水冷机遥调
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="{% url 'cm yk page' %}?next=/project/summary/" type="button" class="btn{% url "cm yk page" as this_url %}{% if request.path == this_url %} btn-success{% else %} btn-default{% endif %}">
+                            水冷机遥控
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    环 境 箱 <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{% url 'ec yx page' %}?next=/project/summary/" type="button" class="btn{% url "ec yx page" as this_url %}{% if request.path == this_url %} btn-success{% else %} btn-default{% endif %}">
+                            环境箱遥信
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="{% url 'ec yc page' %}?next=/project/summary/" type="button" class="btn{% url "ec yc page" as this_url %}{% if request.path == this_url %} btn-success{% else %} btn-default{% endif %}">
+                            环境箱遥测
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="{% url 'ec yt page' %}?next=/project/summary/" type="button" class="btn{% url "ec yt page" as this_url %}{% if request.path == this_url %} btn-success{% else %} btn-default{% endif %}">
+                            环境箱遥调
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="{% url 'ec yk page' %}?next=/project/summary/" type="button" class="btn{% url "ec yk page" as this_url %}{% if request.path == this_url %} btn-success{% else %} btn-default{% endif %}">
+                            环境箱遥控
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    充 放 电 机 <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{% url 'cd yx page' %}?next=/project/summary/" type="button" class="btn{% url "cd yx page" as this_url %}{% if request.path == this_url %} btn-success{% else %} btn-default{% endif %}">
+                            充放电机遥信
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="{% url 'cd yc page' %}?next=/project/summary/" type="button" class="btn{% url "cd yc page" as this_url %}{% if request.path == this_url %} btn-success{% else %} btn-default{% endif %}">
+                            充放电机遥测
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="{% url 'cd yt page' %}?next=/project/summary/" type="button" class="btn{% url "cd yt page" as this_url %}{% if request.path == this_url %} btn-success{% else %} btn-default{% endif %}">
+                            充放电机遥调
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="{% url 'cd yk page' %}?next=/project/summary/" type="button" class="btn{% url "cd yk page" as this_url %}{% if request.path == this_url %} btn-success{% else %} btn-default{% endif %}">
+                            充放电机遥控
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    B M S <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{% url 'bms yx page' %}?next=/project/summary/" type="button" class="btn{% url "bms yx page" as this_url %}{% if request.path == this_url %} btn-success{% else %} btn-default{% endif %}">
+                            BMS遥信
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="{% url 'bms yc page' %}?next=/project/summary/" type="button" class="btn{% url "bms yc page" as this_url %}{% if request.path == this_url %} btn-success{% else %} btn-default{% endif %}">
+                            BMS遥测
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>    <!--href="{% url 'bms yt page' %}"-->
+                        <a type="button" class="btn{% url "bms yt page" as this_url %}{% if request.path == this_url %} btn-success{% else %} btn-default{% endif %}">
+                            BMS遥调
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>    <!--href="{% url 'bms yk page' %}"-->
+                        <a type="button" class="btn{% url "bms yk page" as this_url %}{% if request.path == this_url %} btn-success{% else %} btn-default{% endif %}">
+                            BMS遥控
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <!--<li><a href="{% url '项目高级操作页面' %}">返 回</a></li>-->
+        </ul>
+    </div>
+</div>
+

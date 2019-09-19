@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>设 备 型 号 下 发 失 败 提 示 页 面</title>
+	<link rel="stylesheet" href="/static/css/bootstrap.css" />
+	<script src="/static/js/wsapi.js"></script>
+	<script src="/static/js/newline.js"></script>
+	<script>
+
+        let ID = {{ ID | safe }};
+        let reason = {{ reason | safe }};
+		//显示执行失败信息
+		function stop_succeed(){
+            var tab2="<div class=\"input-group\">";
+            tab2+="<span class=\"input-group-addon\">项目ID</span>";
+            tab2+="<input type=\"text\" class=\"form-control\" readonly=\"readonly\" name=\"xm_id\" value="+ {{ ID.项目ID }} +">";
+            tab2+="</div>";
+            rw_id1.innerHTML=tab2;
+		}
+	</script>
+</head>
+<body onload="javascript:stop_succeed()">
+    <div class="container">
+
+		<div class="row"><p></p></div>
+
+		<div class="row">
+			<div class="col-xs-12">
+				<h3>
+					<span class="glyphicon glyphicon-alert text-danger"></span>
+					&nbsp;设 备 型 号 下 发 失 败 提 示 页 面
+				</h3>
+			</div>
+		</div>
+
+        <div class="row"><hr></hr></div>
+
+        <form method="post" action="{% url "bms参数设置页面" %}">
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="text-danger"><h3><strong>提示</strong>：设 备 型 号 信 息 下 发<strong> 失 败</strong> ！</h3></div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <h4><span style="font-size:80%" class="label label-success">失败原因：</span></h4>
+                </div>
+            </div>
+
+            <div class="row"><p></p></div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group" id="rw_id">
+                        <div class="input-group">
+                            <span class="input-group-addon">失败原因</span>
+                            <input type="text" class="form-control" readonly="readonly" name="sb_yy" value={{ reason.错误原因 }}>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hidden row">
+                <div class="col-xs-6">
+                    <div class="form-group" id="rw_id1"></div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <h4><span style="font-size:80%" class="label label-success">操作选项：</span></h4>
+                </div>
+            </div>
+
+            <div class="row"><p></p></div>
+
+            <div class="row">
+                <div class="col-xs-4">
+                    <input class="btn btn-info btn-block" type="submit" value="继 续 编 辑">
+                </div>
+            </div>
+
+        </form>
+
+        <div class="row"><p></p></div>
+
+		<div class="row" id="div1"></div>
+		
+    </div>
+</body>
+</html>		
+
+
+
+
+
+
+
+
+
+
+

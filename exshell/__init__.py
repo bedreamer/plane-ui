@@ -1,0 +1,18 @@
+# -*- coding: utf8 -*-
+__name__ = ['flow',
+            'log',
+            'cm',
+            'ec',
+            'cd',
+            'bms',
+            'debug',
+            'scan',
+            'ps',
+            'kill',
+            'system',
+            'redis',
+            'project',
+            'device',
+            'plane',
+            'python',
+            ]

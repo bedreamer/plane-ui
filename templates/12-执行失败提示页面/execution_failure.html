@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>项 目 执 行 失 败 提 示 页 面</title>
+	<link rel="stylesheet" href="/static/css/bootstrap.css" />
+	<script src="/static/js/wsapi.js"></script>
+	<script src="/static/js/newline.js"></script>
+	<script>
+        let reason = {{ reason | safe }};
+		
+		//跳转编辑页面(已改完)
+		function skip_page() {
+           window.location.href = "{% url "项目概要页面" %}";
+        }
+	
+	</script>
+</head>
+<body>
+    <div class="container">	
+	
+		<div class="row"><p></p></div>
+		
+		<div class="row">
+			<div style="width: 50%" class="col-xs-1">
+				<h2>
+					<span class="glyphicon glyphicon-alert text-danger"></span>
+					&nbsp;项 目 执 行 失 败 提 示 界 面
+				</h2>
+			</div>
+			<div style="width:50%;text-align:right;" class="col-xs-1">
+				<h2>
+					<button type="button" style="height:35px;width:150px;" class="btn btn-info btn-success.focus" onclick="javascript:skip_page()"><span class="link glyphicon glyphicon-menu-left">&nbsp返 回</span></button>
+				</h2>
+			</div>
+		</div>
+		
+		<div class="row"><hr></hr></div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="text-danger"><h3><strong>提 示：</strong>{{ reason.项目名 }} 项 目 <strong>未 能 成 功</strong> 执 行！</h3></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <h4><span style="font-size:100%" class="label label-success">失败原因：</span></h4>
+            </div>
+        </div>
+
+        <div class="row"><p></p></div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group" id="rw_id">
+                    <div class="input-group">
+                        <span class="input-group-addon">失败原因</span>
+                        <input type="text" class="form-control" readonly="readonly" name="sb_yy" value={{ reason.错误原因 }}>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		<div class="row"><p></p></div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="text-danger"><h3><strong>说 明:</strong></h3></div>
+                <div class="row"><p></p></div>
+                <div class="text-danger"><h4>项目流程<strong>未能成功</strong>执行，该项目已保存到项目就绪状态！</h4></div>
+                <div class="row"><p></p></div>
+                <div class="text-danger"><h4>可<strong>点击返回按钮</strong>，在项目概要页面的就绪状态中重新找到该项目，点击编辑按钮<strong>重新编辑</strong>该项目！</h4></div>
+            </div>
+        </div>
+
+		<div class="row" id="step_check_fail_reason"></div>
+		
+		<div class="row"><p></p></div>
+		
+    </div>
+</body>
+</html>		
+
+
+
+
+
+
+
+
+
+
+

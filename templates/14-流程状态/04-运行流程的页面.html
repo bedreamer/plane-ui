@@ -1,0 +1,35 @@
+<h3>流程执行状态</h3>
+<div class="row">
+    <div class="col-xs-8">
+        流程 {{ active_pwf.flow.name }} 正在执行中
+    </div>
+    <div class="col-xs-4 text-right">
+        <a title="下载最新的流程文件-{{ active_pwf.flow.name }}" href="{% url '下载最新的流程文件' active_pwf.flow.id %}">
+            <span class="glyphicon glyphicon-download text-success"></span>
+            下载
+        </a>
+        <a title="停止流程{{ active_pwf.flow.name }}" href="{% url '停止流程' active_pwf.project.id active_pwf.flow.id %}">
+            <span class="glyphicon glyphicon-stop text-danger"></span>
+            停止
+        </a>
+    </div>
+</div>
+<table class="table table-bordered">
+    <caption></caption>
+    <tr>
+        <th>PID</th><td>{{ flowd.pid }}</td>
+        <th>工作目录</th><td>{{ flowd.工作目录 }}</td>
+    </tr>
+    <tr>
+        <th>流程位置</th>
+        <td colspan="3">{{ flowd.流程解析路径 }}</td>
+    </tr>
+    <tr>
+        <th>步骤数量</th><td>{{ flowd.流程数量 }}</td>
+        <th>步骤入口</th><td>{{ flowd.流程入口 }}</td>
+    </tr>
+    <tr>
+        <th rowspan="2">步骤名列表</th>
+        <td rowspan="2" colspan="3">{{ flowd.入口列表 }}</td>
+    </tr>
+</table>

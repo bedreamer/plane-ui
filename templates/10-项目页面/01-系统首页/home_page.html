@@ -1,0 +1,77 @@
+{% extends "00-base/01-theme-basic/0-12-0.html" %}
+
+{% block page-title %}系统开始页面{% endblock %}
+
+
+{% block inline-js-ahead %}
+    <script>
+        $(document).ready(function () {
+            $('img').click(function () {
+                window.location.href = "{% url "项目概要页面" %}";
+            });
+        });
+    </script>
+{% endblock %}
+
+
+{% block inline-css-ahead %}
+    <style>
+        img {
+            cursor: pointer;
+        }
+        body {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+{% endblock %}
+
+{% block page-body %}
+    <br>
+    <div class="row">
+        <div class="col-xs-6">
+            版本信息：
+            <span class="version-text">{{ build_version|default:"V1.9 build 2019-11-09" }}</span>
+        </div>
+        <div class="col-xs-6 text-right">
+            <a href="{{ STATIC_URL }}contributor.txt" target="_blank">光荣榜</a>
+            |
+            <a href="{{ STATIC_URL }}copyright.txt" target="_blank">版权信息</a>
+        </div>
+    </div>
+    <hr>
+
+    <p>&nbsp</p>
+    <p>&nbsp</p>
+    <p>&nbsp</p>
+    <p>&nbsp</p>
+    <p>&nbsp</p>
+
+    <div class="row">
+        <div class="col-xs-12 text-center">
+            <img src="{{ STATIC_URL }}imgs/logo-huge.jpg" width="400px" class="img-rounded" alt="{{ software_name|default:"自动化流程集成控制软件" }}"/>
+        </div>
+    </div>
+
+    <div class="row entry">
+        <div class="col-xs-12">
+            <h1>
+                <p class="text-primary text-center"><strong><em>{{ software_name|default:"自动化流程集成控制软件" }}</em></strong></p>
+            </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 text-center">
+            <span>点击图片任意区域进入</span>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
