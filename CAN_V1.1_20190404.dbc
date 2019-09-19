@@ -1,0 +1,112 @@
+VERSION "HIPBNYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY/4/%%%/4/'%**4YYY///"
+
+
+NS_ : 
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+
+BS_:
+
+BU_: PC Chiller
+
+
+BO_ 2147485521 ReadMessage: 8 Chiller
+ SG_ Out_Temperature1_PV : 0|8@1+ (1,-50) [0|200] "?" Vector__XXX
+ SG_ Out_Pressure1_PV : 32|8@1+ (0.1,0) [0|40] "10kPa" Vector__XXX
+ SG_ Out_Flow1_PV : 16|8@1+ (1,0) [0|60] "L/min" Vector__XXX
+ SG_ Working_Status : 48|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Integrated_Alarm : 49|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Emergency_Status : 50|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Pressure1_Overload_Alarm : 55|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Level1_Alarm : 51|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Flow1_Overload_Alarm : 54|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Temperature1_Overload_Alarm : 53|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Phase_Alarm : 52|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Chiller_Life1 : 56|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Out_Temperature1_SP : 8|8@1+ (1,-50) [0|200] "?" Vector__XXX
+ SG_ Out_Flow1_SP : 24|8@1+ (1,0) [0|60] "L/min" Vector__XXX
+ SG_ Out_Pressure1_SP : 40|8@1+ (0.1,0) [0|40] "10kPa" Vector__XXX
+
+BO_ 2147485523 WriteMessage: 8 PC
+ SG_ Setting_Temperature1 : 0|8@1+ (1,-50) [0|200] "?" Vector__XXX
+ SG_ Setting_Flow1 : 8|8@1+ (1,0) [0|60] "L/min" Vector__XXX
+ SG_ Setting_Pressure1 : 16|8@1+ (0.1,0) [0|40] "10kPa" Vector__XXX
+ SG_ Setting_Working_Status : 24|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Setting_Cycle_Mode : 32|1@1+ (1,0) [0|1] "" Vector__XXX
+
+BO_ 2147485522 ReadMessage2: 8 Chiller
+ SG_ In_Pressure1_PV : 8|8@1+ (0.1,0) [0|40] "10kPa" Vector__XXX
+ SG_ In_Temperature1_PV : 0|8@1+ (1,-50) [0|200] "?" Vector__XXX
+ SG_ Chiller_Life2 : 56|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Cooling_Water_Flow_Alarm : 48|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Compressor_High_Pressure_Alarm : 49|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Compressor_Low_Pressure_Alarm : 50|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Compressor_Overload_Alarm : 51|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Pump_Overload_Alarm : 52|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ External_Pump_VVVF_ALarm : 53|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Internal_Pump_VVVF_Alarm : 54|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Level1_Danger : 55|1@1+ (1,0) [0|1] "" Vector__XXX
+
+
+BA_DEF_ BO_  "GenMsgSendType" ENUM  "cyclic","spontaneous";
+BA_DEF_ BO_  "GenMsgCycleTime" INT 2 50000;
+BA_DEF_ BO_  "GenMsgAutoGenSnd" ENUM  "No","Yes";
+BA_DEF_ BO_  "GenMsgAutoGenDsp" ENUM  "No","Yes";
+BA_DEF_ SG_  "GenSigAutoGenSnd" ENUM  "No","Yes";
+BA_DEF_ SG_  "GenSigAutoGenDsp" ENUM  "No","Yes";
+BA_DEF_ SG_  "GenSigEnvVarType" ENUM  "int","float","undef";
+BA_DEF_ SG_  "GenSigEVName" STRING ;
+BA_DEF_ BU_  "GenNodAutoGenSnd" ENUM  "No","Yes";
+BA_DEF_ BU_  "GenNodAutoGenDsp" ENUM  "No","Yes";
+BA_DEF_  "GenEnvVarEndingDsp" STRING ;
+BA_DEF_  "GenEnvVarEndingSnd" STRING ;
+BA_DEF_  "GenEnvVarPrefix" STRING ;
+BA_DEF_DEF_  "GenMsgSendType" "spontaneous";
+BA_DEF_DEF_  "GenMsgCycleTime" 100;
+BA_DEF_DEF_  "GenMsgAutoGenSnd" "Yes";
+BA_DEF_DEF_  "GenMsgAutoGenDsp" "Yes";
+BA_DEF_DEF_  "GenSigAutoGenSnd" "";
+BA_DEF_DEF_  "GenSigAutoGenDsp" "";
+BA_DEF_DEF_  "GenSigEnvVarType" "undef";
+BA_DEF_DEF_  "GenSigEVName" "";
+BA_DEF_DEF_  "GenNodAutoGenSnd" "Yes";
+BA_DEF_DEF_  "GenNodAutoGenDsp" "Yes";
+BA_DEF_DEF_  "GenEnvVarEndingDsp" "Dsp";
+BA_DEF_DEF_  "GenEnvVarEndingSnd" "Snd";
+BA_DEF_DEF_  "GenEnvVarPrefix" "Env";
+VAL_ 2147485521 Working_Status 0 "Stop" 1 "Run" ;
+VAL_ 2147485521 Integrated_Alarm 0 "Normal" 1 "Alarm" ;
+VAL_ 2147485521 Emergency_Status 0 "Normal" 1 "Response" ;
+VAL_ 2147485521 Pressure1_Overload_Alarm 0 "Normal" 1 "Alarm" ;
+VAL_ 2147485521 Level1_Alarm 0 "Normal" 1 "Alarm" ;
+VAL_ 2147485521 Flow1_Overload_Alarm 0 "Normal" 1 "Alarm" ;
+VAL_ 2147485521 Temperature1_Overload_Alarm 0 "Normal" 1 "Alarm" ;
+VAL_ 2147485521 Phase_Alarm 0 "Noamal" 1 "Alarm" ;
+VAL_ 2147485523 Setting_Working_Status 0 "Stop" 1 "Start" ;
+VAL_ 2147485523 Setting_Cycle_Mode 0 "Flow Mode" 1 "Pressure Mode" ;
+VAL_ 2147485522 Cooling_Water_Flow_Alarm 0 "Normal" 1 "Alarm" ;
+VAL_ 2147485522 Compressor_High_Pressure_Alarm 0 "Normal" 1 "Alarm" ;
+VAL_ 2147485522 Compressor_Low_Pressure_Alarm 0 "Normal" 1 "Alarm" ;
+VAL_ 2147485522 Compressor_Overload_Alarm 0 "Normal" 1 "Alarm" ;
+VAL_ 2147485522 Pump_Overload_Alarm 0 "Normal" 1 "Alarm" ;
+VAL_ 2147485522 External_Pump_VVVF_ALarm 0 "Normal" 1 "Alarm" ;
+VAL_ 2147485522 Internal_Pump_VVVF_Alarm 0 "Normal" 1 "Alarm" ;
+VAL_ 2147485522 Level1_Danger 0 "Normal" 1 "Danger" ;

@@ -1,0 +1,488 @@
+VERSION ""
+
+
+NS_ : 
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_: ABSESP Vehicle_CAN DCDC GSM GW_VCM MCU OBC SRS
+
+
+BO_ 3221225472 VECTOR__INDEPENDENT_SIG_MSG: 0 Vector__XXX
+ SG_ VCM_CableCapacity : 0|2@0+ (1,0) [0|2] "" Vector__XXX
+
+BO_ 512 ABS1: 8 Vector__XXX
+ SG_ vehicle_speed : 15|13@0+ (0.05625,0) [0|270] "km/h" Vector__XXX
+
+BO_ 912 VCM1: 8 GW_VCM
+ SG_ VCM1_Status_CableCapacity : 23|3@0+ (1,0) [0|7] "" Vector__XXX
+
+BO_ 576 MCU3: 8 Vector__XXX
+ SG_ MCU_Ready : 26|1@0+ (1,0) [0|1] ""  Vehicle_CAN
+
+BO_ 321 MCU2: 8 MCU
+ SG_ MCU_DCLinkVoltage : 7|16@0+ (0.1,0) [0|1000] "V"  GW_VCM,Vehicle_CAN
+
+BO_ 328 DCDC1: 8 DCDC
+ SG_ DCDC_Checksum : 7|8@0+ (1,0) [0|255] ""  GW_VCM,Vehicle_CAN
+ SG_ DCDC_FrameCounter : 19|4@0+ (1,0) [0|15] ""  GW_VCM,Vehicle_CAN
+
+BO_ 530 VCM2: 8 GW_VCM
+ SG_ VCM_CableCapacity : 62|2@0+ (1,0) [0|2] ""  Vehicle_CAN
+ SG_ VCM_CCStatus : 58|1@0+ (1,0) [0|1] ""  MCU,OBC,Vehicle_CAN,GSM
+ SG_ VCM_CC2Status : 59|1@0+ (1,0) [0|1] ""  MCU,Vehicle_CAN,GSM
+ SG_ VCM_ChargerAllow : 63|1@0+ (1,0) [0|1] ""  Vehicle_CAN
+
+BO_ 534 VCM3: 7 GW_VCM
+ SG_ VCM_Ready : 33|2@0+ (1,0) [0|3] "" Vector__XXX
+ SG_ VCM_OnePedalMode : 54|1@0+ (1,0) [0|1] ""  Vehicle_CAN
+ SG_ VCM_PRAMainRelayPLStatus : 40|1@0+ (1,0) [0|1] ""  MCU,DCDC,Vehicle_CAN
+ SG_ VCM_PRAMainRelayMIStatus : 41|1@0+ (1,0) [0|1] ""  MCU,DCDC,Vehicle_CAN
+ SG_ VCM_PreChargeRelayStatus : 42|1@0+ (1,0) [0|1] ""  MCU,Vehicle_CAN
+ SG_ VCM_OBCRelayStatus : 44|1@0+ (1,0) [0|1] ""  Vehicle_CAN
+ SG_ VCM_QChargingRelayPLStatus : 45|1@0+ (1,0) [0|1] ""  Vehicle_CAN
+ SG_ VCM_QChargingRelayMIStatus : 46|1@0+ (1,0) [0|1] ""  Vehicle_CAN
+ SG_ VCM_BatteryHeaterRelayStatus : 47|1@0+ (1,0) [0|1] ""  Vehicle_CAN
+ SG_ VCM_PowerOff : 49|1@0+ (1,0) [0|1] ""  Vehicle_CAN
+
+BO_ 616 OBC1: 8 OBC
+ SG_ OBC_Status : 11|2@0+ (1,0) [0|3] ""  GW_VCM,MCU,Vehicle_CAN
+ SG_ OBC_CPStatus : 13|2@0+ (1,0) [0|2] ""  GW_VCM,Vehicle_CAN
+ SG_ OBC_OutputVoltage : 7|10@0+ (1,0) [0|500] "V"  Vehicle_CAN
+ SG_ OBC_OutputCurrent : 19|12@0+ (0.01,0) [0|40.94] "A"  Vehicle_CAN
+
+BO_ 622 BMS7: 8 Vehicle_CAN
+ SG_ BMS_BatteryChargeStatus : 13|2@0+ (1,0) [0|3] ""  GW_VCM,MCU,OBC
+ SG_ BMS_ChargerWorkingEnable : 14|1@0+ (1,0) [0|1] ""  OBC
+ SG_ BMS_QcsRCT : 7|9@0+ (1,0) [0|355] "min"  GW_VCM
+ SG_ BMS_ChargeCurrentRequest : 11|12@0+ (0.01,0) [0|40.94] "A"  OBC
+ SG_ BMS_ChargeVoltageRequest : 31|10@0+ (1,0) [0|500] "V"  OBC
+ SG_ BMS_CVEndCurrent : 47|8@0+ (0.5,-20) [-20|20] "A"  OBC
+ SG_ BMS_ObcRCT : 55|11@0+ (1,0) [0|1500] "min"  GW_VCM
+
+BO_ 623 BMS6: 7 Vehicle_CAN
+ SG_ BMS6_Status_CellTotNum : 55|8@0+ (1,0) [0|255] "" Vector__XXX
+ SG_ BMS6_Status_TempSensTotNum : 47|8@0+ (1,0) [0|255] "" Vector__XXX
+ SG_ BMS6_Flag_ICDispModeForSOC : 39|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ BMS6_Status_SOCForICDisp : 38|7@0+ (1,0) [0|100] "" Vector__XXX
+ SG_ BMS_MinCellVoltageNum : 7|8@0+ (1,0) [0|104] ""  GW_VCM
+ SG_ BMS_Batt_TempMinNum : 21|6@0+ (1,0) [0|62] ""  GW_VCM
+ SG_ BMS_Batt_TempMaxNum : 29|6@0+ (1,0) [0|62] ""  GW_VCM
+ SG_ BMS_MaxCellVoltageNum : 15|8@0+ (1,0) [0|104] ""  GW_VCM
+
+BO_ 796 SRS1: 8 SRS
+ SG_ Crash_Output_Sts : 31|8@0+ (1,0) [0|16] ""  GW_VCM,Vehicle_CAN
+
+BO_ 864 BMS1: 8 Vehicle_CAN
+ SG_ BMS1_SOC_DOD : 46|3@0+ (1,0) [0|7] ""  GW_VCM
+ SG_ BMS_AvailableIntputPower : 23|16@0+ (10,0) [0|150000] "W"  GW_VCM
+ SG_ BMS_PowerConsumption : 43|20@0- (1,0) [-250000|250000] "W" Vector__XXX
+ SG_ BMS_AvailableOutputPower : 7|16@0+ (10,0) [0|150000] "W"  GW_VCM
+
+BO_ 865 BMS2: 8 Vehicle_CAN
+ SG_ BMS2_Status_HVCULostCom : 11|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ BMS2_Status_CSULostCom : 12|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ BMS2_Status_CellAFESelfChkFail : 10|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ BMS2_Status_BMULostCom : 13|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ BMS2_Status_BMSTempTooLow : 31|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ BMS2_Status_CellTempOvrRng : 9|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ BMS2_Status_CellVltgOvrRng : 8|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ BMS_SOC : 7|10@0+ (0.1,0) [0|100] "%"  GW_VCM,OBC
+ SG_ BMS_SOH : 23|8@0+ (0.5,0) [0|100] "%"  GW_VCM
+ SG_ BMS_ChargingStop : 25|2@0+ (1,0) [0|1] ""  GW_VCM,OBC
+ SG_ BMS_DischargingStop : 27|2@0+ (1,0) [0|1] ""  GW_VCM
+ SG_ BMS_MIL : 29|2@0+ (1,0) [0|1] ""  GW_VCM
+ SG_ BMS_RelayOffReq : 30|1@0+ (1,0) [0|1] ""  GW_VCM
+ SG_ BMS_AC_HVPathReq : 32|1@0+ (1,0) [0|1] ""  GW_VCM
+ SG_ BMS_DC_HVPathReq : 33|1@0+ (1,0) [0|1] ""  GW_VCM
+ SG_ BMS_StatusCellVoltageSensorOpen : 35|1@0+ (1,0) [0|1] ""  GW_VCM
+ SG_ BMS_StatusCurrentSensorOpen : 36|1@0+ (1,0) [0|1] ""  GW_VCM
+ SG_ BMS_StatusTempSensorFault : 37|1@0+ (1,0) [0|1] ""  GW_VCM
+ SG_ BMS_CellBalancingFET : 38|1@0+ (1,0) [0|1] ""  GW_VCM
+ SG_ BMS_StatusCellVolHigh_Fault : 40|1@0+ (1,0) [0|1] ""  GW_VCM
+ SG_ BMS_StatusCellVolLow_Fault : 41|1@0+ (1,0) [0|1] ""  GW_VCM
+ SG_ BMS_StatusCellVolDevHigh_Fault : 42|1@0+ (1,0) [0|1] ""  GW_VCM
+ SG_ BMS_StatusPackVolHigh : 43|1@0+ (1,0) [0|1] ""  GW_VCM
+ SG_ BMS_StatusPackVolLow : 44|1@0+ (1,0) [0|1] ""  GW_VCM
+ SG_ BMS_StatusDischargeCurrentHi : 45|1@0+ (1,0) [0|1] ""  GW_VCM
+ SG_ BMS_StatusChargeCurrentHi : 46|1@0+ (1,0) [0|1] ""  GW_VCM
+ SG_ BMS_StatusTempHigh_Fault : 47|1@0+ (1,0) [0|1] ""  GW_VCM
+ SG_ BMS_StatusTempDevHigh_Fault : 48|1@0+ (1,0) [0|1] ""  GW_VCM
+ SG_ BMS_DCChargingFault : 49|1@0+ (1,0) [0|1] ""  GW_VCM
+ SG_ BMS_CANCommBusOff : 50|1@0+ (1,0) [0|1] ""  GW_VCM
+ SG_ BMS_SOCHigh : 51|1@0+ (1,0) [0|1] ""  GW_VCM
+ SG_ BMS_SOCLow : 52|1@0+ (1,0) [0|1] ""  GW_VCM
+ SG_ BMS_VCMLostComm : 53|1@0+ (1,0) [0|1] ""  GW_VCM
+ SG_ BMS_MCULostComm : 54|1@0+ (1,0) [0|1] ""  GW_VCM
+ SG_ BMS_StatusIsolationFault : 56|1@0+ (1,0) [0|1] ""  GW_VCM
+ SG_ BMS_StatusCAN2Fault : 58|1@0+ (1,0) [0|1] ""  GW_VCM
+ SG_ BMS_StatusValid : 59|1@0+ (1,0) [0|1] ""  GW_VCM
+ SG_ BMS_StatusHVIL : 60|1@0+ (1,0) [0|1] ""  GW_VCM,OBC
+ SG_ BMS_StatusCellBalancing : 61|1@0+ (1,0) [0|1] ""  GW_VCM
+
+BO_ 866 BMS3: 8 Vehicle_CAN
+ SG_ BMS_Negative_IsolationValue : 23|16@0+ (1,0) [0|50000] "k?"  GW_VCM
+ SG_ BMS_BatteryCurrent : 39|16@0+ (0.1,-500) [-500|500] "A"  GW_VCM,OBC
+ SG_ BMS_Positive_IsolationValue : 7|16@0+ (1,0) [0|50000] "k?"  GW_VCM
+
+BO_ 867 BMS4: 8 Vehicle_CAN
+ SG_ BMS_MaxCellVoltage : 23|16@0+ (1,0) [0|5000] "mV"  GW_VCM
+ SG_ BMS_AveCellVoltage : 39|16@0+ (1,0) [0|5000] "mV"  GW_VCM
+ SG_ BMS_SumVoltage : 55|16@0+ (0.1,0) [0|450] "V"  GW_VCM
+ SG_ BMS_MinCellVoltage : 7|16@0+ (1,0) [0|5000] "mV"  GW_VCM
+
+BO_ 868 BMS5: 8 Vehicle_CAN
+ SG_ BMS_PackVoltage : 23|16@0+ (0.1,0) [0|450] "V"  GW_VCM
+ SG_ BMS_Batt_TempMin : 39|8@0+ (1,-40) [-40|214] "??C"  GW_VCM
+ SG_ BMS_Batt_TempMax : 47|8@0+ (1,-40) [-40|214] "??C"  GW_VCM
+ SG_ BMS_Batt_TempAver : 55|8@0+ (1,-40) [-40|214] "??C"  GW_VCM
+ SG_ BMS_DCLinkVoltage : 7|16@0+ (0.1,0) [0|450] "V"  GW_VCM,MCU
+
+BO_ 928 VCM5: 8 GW_VCM
+ SG_ VCM_ChargingStopRequest : 11|2@0+ (1,0) [0|3] ""  OBC,Vehicle_CAN
+ SG_ VCM_QuickChargingStopRequest : 13|2@0+ (1,0) [0|3] ""  Vehicle_CAN
+ SG_ VCM_BookingReqStatus : 22|2@0+ (1,0) [0|3] ""  Vehicle_CAN
+
+BO_ 81 OBC_ChargingStopResp: 8 OBC
+ SG_ OBC_ChargingStopResponse : 3|2@0+ (1,0) [0|3] ""  GW_VCM,Vehicle_CAN
+
+BO_ 1423 BMS8: 8 Vehicle_CAN
+ SG_ BMS_InternalVersion : 7|16@0+ (1,0) [0|65535] "" Vector__XXX
+ SG_ BMS_USOC_T : 55|16@0- (0.01,0) [-327.68|327.67] "%" Vector__XXX
+ SG_ BMS_BSOC : 39|16@0- (0.01,0) [-327.68|327.67] "%" Vector__XXX
+ SG_ BMS_Software_Version : 23|16@0+ (1,0) [0|39321] "" Vector__XXX
+
+
+
+CM_ " ";
+CM_ BO_ 3221225472 "This is a message for not used signals, created by Vector CANdb++ DBC OLE DB Provider.";
+CM_ SG_ 512 vehicle_speed "vehicle reference speed";
+CM_ SG_ 912 VCM1_Status_CableCapacity "AC Charging Cable Capacity";
+CM_ SG_ 321 MCU_DCLinkVoltage "Input voltage";
+CM_ SG_ 328 DCDC_Checksum "byte7??OR byte6??OR byte5??OR byte4??OR byte3??OR byte2??OR byte1";
+CM_ SG_ 328 DCDC_FrameCounter "Message counter";
+CM_ SG_ 530 VCM_CCStatus "CC Status for normal charge";
+CM_ SG_ 530 VCM_CC2Status "CC2 Status for quick charge";
+CM_ SG_ 530 VCM_ChargerAllow "allow to charger";
+CM_ SG_ 534 VCM_Ready "Motor enable status";
+CM_ SG_ 534 VCM_OnePedalMode "????????OPM????????1: Valid??????????0: Invalid";
+CM_ SG_ 534 VCM_PRAMainRelayPLStatus "PRA Main Relay (+) Status";
+CM_ SG_ 534 VCM_PRAMainRelayMIStatus "PRA Main Relay (-) Status";
+CM_ SG_ 534 VCM_PreChargeRelayStatus "Precharge Relay Status";
+CM_ SG_ 534 VCM_OBCRelayStatus "OBC Relay (+) Status";
+CM_ SG_ 534 VCM_QChargingRelayPLStatus "Quick Charging Relay (+) Status";
+CM_ SG_ 534 VCM_QChargingRelayMIStatus "Quick Charging Relay (-) Status";
+CM_ SG_ 534 VCM_BatteryHeaterRelayStatus "Battery Heater  Relay (+) Status";
+CM_ SG_ 534 VCM_PowerOff "Power off indication for BMS";
+CM_ SG_ 616 OBC_Status "Charger status";
+CM_ SG_ 616 OBC_CPStatus "CP status";
+CM_ SG_ 616 OBC_OutputVoltage "Charger output voltage";
+CM_ SG_ 616 OBC_OutputCurrent "Charger output current";
+CM_ SG_ 622 BMS_BatteryChargeStatus "BMS charge status";
+CM_ SG_ 622 BMS_ChargerWorkingEnable "Charger working enable (Charging command)";
+CM_ SG_ 622 BMS_QcsRCT "Remaining charging time for QCS
+Chargind time base on SOC
+0~80%: Max. 300min
+80~95%: 55min
+Total: 355min";
+CM_ SG_ 622 BMS_ChargeCurrentRequest "Charge current request";
+CM_ SG_ 622 BMS_ChargeVoltageRequest "The output voltage limit of charger for protection";
+CM_ SG_ 622 BMS_CVEndCurrent "CV mode end current";
+CM_ SG_ 622 BMS_ObcRCT "Remaining charging time for OBC";
+CM_ SG_ 623 BMS6_Status_CellTotNum "The Total Number of Battery Pack Cell in Series";
+CM_ SG_ 623 BMS6_Status_TempSensTotNum "The Total Number of Temperature Sensor";
+CM_ SG_ 623 BMS6_Flag_ICDispModeForSOC "Instrument Cluster display mode selection for SOC ";
+CM_ SG_ 623 BMS6_Status_SOCForICDisp "SOC for Instrument Cluster Display ";
+CM_ SG_ 623 BMS_MinCellVoltageNum "Minimum Cell Voltage Number";
+CM_ SG_ 623 BMS_Batt_TempMinNum "BMS Battery Temperature Min Number";
+CM_ SG_ 623 BMS_Batt_TempMaxNum "BMS Battery Temperature Max Number";
+CM_ SG_ 623 BMS_MaxCellVoltageNum "Maximum Cell Voltage Number";
+CM_ SG_ 796 Crash_Output_Sts "Indicate airbag or belt deployment status. When there is a deployed crash event, the Airbag ECU shall transmit the message which contains the signal Crash Status at 20ms interval for 10  times. When there is no crash, message cycle is 500ms, Crash_Output_Sts=0.";
+CM_ SG_ 864 BMS_AvailableIntputPower "AvailableIntputPower";
+CM_ SG_ 864 BMS_PowerConsumption "Power consumption";
+CM_ SG_ 864 BMS_AvailableOutputPower "AvailableOutputPower";
+CM_ SG_ 865 BMS2_Status_HVCULostCom "Relay on/off request for AC charging";
+CM_ SG_ 865 BMS2_Status_CSULostCom "Relay on/off request for AC charging";
+CM_ SG_ 865 BMS2_Status_CellAFESelfChkFail "Relay on/off request for AC charging";
+CM_ SG_ 865 BMS2_Status_BMULostCom "Relay on/off request for AC charging";
+CM_ SG_ 865 BMS2_Status_BMSTempTooLow "Relay on/off request for AC charging";
+CM_ SG_ 865 BMS2_Status_CellTempOvrRng "Relay on/off request for AC charging";
+CM_ SG_ 865 BMS2_Status_CellVltgOvrRng "Relay on/off request for AC charging";
+CM_ SG_ 865 BMS_SOC "User State Of Charge";
+CM_ SG_ 865 BMS_SOH "State of Health";
+CM_ SG_ 865 BMS_ChargingStop "BMS charging stop signal";
+CM_ SG_ 865 BMS_DischargingStop "BMS discharging stop signal";
+CM_ SG_ 865 BMS_MIL "BMS status MIL signal";
+CM_ SG_ 865 BMS_RelayOffReq "Main contact Relay off request";
+CM_ SG_ 865 BMS_AC_HVPathReq "Relay on/off request for AC charging";
+CM_ SG_ 865 BMS_DC_HVPathReq "Relay on/off request for DC charging";
+CM_ SG_ 865 BMS_StatusCellVoltageSensorOpen "BMS status";
+CM_ SG_ 865 BMS_StatusCurrentSensorOpen "BMS status";
+CM_ SG_ 865 BMS_StatusTempSensorFault "BMS status";
+CM_ SG_ 865 BMS_CellBalancingFET "BMS status";
+CM_ SG_ 865 BMS_StatusCellVolHigh_Fault "BMS status";
+CM_ SG_ 865 BMS_StatusCellVolLow_Fault "BMS status";
+CM_ SG_ 865 BMS_StatusCellVolDevHigh_Fault "BMS status";
+CM_ SG_ 865 BMS_StatusPackVolHigh "BMS status";
+CM_ SG_ 865 BMS_StatusPackVolLow "BMS status";
+CM_ SG_ 865 BMS_StatusDischargeCurrentHi "BMS status";
+CM_ SG_ 865 BMS_StatusChargeCurrentHi "BMS status";
+CM_ SG_ 865 BMS_StatusTempHigh_Fault "BMS status";
+CM_ SG_ 865 BMS_StatusTempDevHigh_Fault "BMS status";
+CM_ SG_ 865 BMS_DCChargingFault "Indication of DC Charging Fault";
+CM_ SG_ 865 BMS_CANCommBusOff "Indication of CAN Bus Off";
+CM_ SG_ 865 BMS_SOCHigh "BMS status";
+CM_ SG_ 865 BMS_SOCLow "BMS status";
+CM_ SG_ 865 BMS_VCMLostComm "Indication of VCM Lost Communication";
+CM_ SG_ 865 BMS_MCULostComm "Indication of MCU Lost Communication";
+CM_ SG_ 865 BMS_StatusIsolationFault "BMS status";
+CM_ SG_ 865 BMS_StatusCAN2Fault "CAN communication error extra information of BMS Master and Slave";
+CM_ SG_ 865 BMS_StatusValid "BMS status";
+CM_ SG_ 865 BMS_StatusHVIL "BMS status";
+CM_ SG_ 865 BMS_StatusCellBalancing "BMS status";
+CM_ SG_ 866 BMS_Negative_IsolationValue "Vehicle Negative Isolation Resistor Value (HV- to Chassis GND)";
+CM_ SG_ 866 BMS_BatteryCurrent "Battery Current";
+CM_ SG_ 866 BMS_Positive_IsolationValue "Vehicle Positive Isolation Resistor Value (HV+ to Chassis GND)";
+CM_ SG_ 867 BMS_MaxCellVoltage "Maximum Cell Voltage";
+CM_ SG_ 867 BMS_AveCellVoltage "Average Cell Voltage";
+CM_ SG_ 867 BMS_SumVoltage "Sum Voltage";
+CM_ SG_ 867 BMS_MinCellVoltage "Minimum Cell Voltage";
+CM_ SG_ 868 BMS_PackVoltage "Real Pack Voltage";
+CM_ SG_ 868 BMS_Batt_TempMin "BMS Battery Temperature Min";
+CM_ SG_ 868 BMS_Batt_TempMax "BMS Battery Temperature Max";
+CM_ SG_ 868 BMS_Batt_TempAver "BMS Battery Temperature Average";
+CM_ SG_ 868 BMS_DCLinkVoltage "BMS DC Link Voltage";
+CM_ SG_ 928 VCM_ChargingStopRequest "Charging stop request to Charger";
+CM_ SG_ 928 VCM_QuickChargingStopRequest "Quick Charging stop request to BMS";
+CM_ SG_ 928 VCM_BookingReqStatus "VCM feedback booking status";
+CM_ SG_ 81 OBC_ChargingStopResponse "Response for VCM_Charging stop request";
+CM_ SG_ 1423 BMS_InternalVersion "User State Of Charge";
+CM_ SG_ 1423 BMS_USOC_T "User State Of Charge";
+CM_ SG_ 1423 BMS_BSOC "User State Of Charge";
+CM_ SG_ 1423 BMS_Software_Version "Software Version, eg: 0x0123 (01.23) ,the first two number(01) is release, the rest number(23) is represent Software version. ";
+BA_DEF_ BO_  "NmMessage" ENUM  "No","Yes";
+BA_DEF_ BO_  "DiagState" ENUM  "No","Yes";
+BA_DEF_ BO_  "DiagRequest" ENUM  "No","Yes";
+BA_DEF_ BO_  "DiagResponse" ENUM  "No","Yes";
+BA_DEF_ BO_  "GenMsgSendType" ENUM  "Cycle","NoSendType","IfActive";
+BA_DEF_ BO_  "GenMsgCycleTime" INT 0 0;
+BA_DEF_ SG_  "GenSigSendType" ENUM  "Cycle","OnChange","OnWrite","IfActive","OnChangeWithRepetition","OnWriteWithRepetition","IfActiveWithRepetition";
+BA_DEF_ SG_  "GenSigStartValue" INT 0 0;
+BA_DEF_ SG_  "GenSigInactiveValue" INT 0 0;
+BA_DEF_ BO_  "GenMsgCycleTimeFast" INT 0 0;
+BA_DEF_ BO_  "GenMsgNrOfRepetition" INT 0 0;
+BA_DEF_ BO_  "GenMsgDelayTime" INT 0 0;
+BA_DEF_  "DBName" STRING ;
+BA_DEF_ BU_  "NodeLayerModules" STRING ;
+BA_DEF_ SG_  "GenSigTimeoutValue" INT 0 1000000000;
+BA_DEF_ BO_  "GenMsgCycleTimeActive" INT 0 0;
+BA_DEF_ BU_  "ILUsed" ENUM  "No","Yes";
+BA_DEF_ BU_  "DiagStationAddress" HEX 0 255;
+BA_DEF_ BU_  "NmNode" ENUM  "Not","Yes";
+BA_DEF_ BU_  "NmStationAddress" HEX 0 65535;
+BA_DEF_ BU_  "NmCAN" INT 0 2;
+BA_DEF_  "Manufacturer" STRING ;
+BA_DEF_  "NmType" STRING ;
+BA_DEF_  "NmBaseAddress" HEX 0 2047;
+BA_DEF_  "NmMessageCount" INT 0 255;
+BA_DEF_ BO_  "_Cdb_Sc_CTm_FAW_v3_0" INT 0 0;
+BA_DEF_ BO_  "_Cdb_Sc_CTm_FAW_v2_3" INT 0 0;
+BA_DEF_ BO_  "_Cdb_Sc_CTm_FAW_v3_1" INT 0 0;
+BA_DEF_ BO_  "_Cdb_Sc_CTm_FAW_v2_2" INT 0 0;
+BA_DEF_ BO_  "_Cdb_Sc_CTm_FAW_v2_1" INT 0 0;
+BA_DEF_ BO_  "GenMsgILSupport" ENUM  "No","Yes";
+BA_DEF_ BO_  "GenMsgStartDelayTime" INT 0 65535;
+BA_DEF_  "BusType" STRING ;
+BA_DEF_DEF_  "NmMessage" "No";
+BA_DEF_DEF_  "DiagState" "No";
+BA_DEF_DEF_  "DiagRequest" "No";
+BA_DEF_DEF_  "DiagResponse" "No";
+BA_DEF_DEF_  "GenMsgSendType" "Cycle";
+BA_DEF_DEF_  "GenMsgCycleTime" 0;
+BA_DEF_DEF_  "GenSigSendType" "Cycle";
+BA_DEF_DEF_  "GenSigStartValue" 0;
+BA_DEF_DEF_  "GenSigInactiveValue" 0;
+BA_DEF_DEF_  "GenMsgCycleTimeFast" 0;
+BA_DEF_DEF_  "GenMsgNrOfRepetition" 0;
+BA_DEF_DEF_  "GenMsgDelayTime" 0;
+BA_DEF_DEF_  "DBName" "";
+BA_DEF_DEF_  "NodeLayerModules" "CANoeILNLVector.dll";
+BA_DEF_DEF_  "GenSigTimeoutValue" 0;
+BA_DEF_DEF_  "GenMsgCycleTimeActive" 0;
+BA_DEF_DEF_  "ILUsed" "No";
+BA_DEF_DEF_  "DiagStationAddress" 0;
+BA_DEF_DEF_  "NmNode" "Not";
+BA_DEF_DEF_  "NmStationAddress" 0;
+BA_DEF_DEF_  "NmCAN" 0;
+BA_DEF_DEF_  "Manufacturer" "";
+BA_DEF_DEF_  "NmType" "";
+BA_DEF_DEF_  "NmBaseAddress" 1024;
+BA_DEF_DEF_  "NmMessageCount" 128;
+BA_DEF_DEF_  "_Cdb_Sc_CTm_FAW_v3_0" 0;
+BA_DEF_DEF_  "_Cdb_Sc_CTm_FAW_v2_3" 0;
+BA_DEF_DEF_  "_Cdb_Sc_CTm_FAW_v3_1" 0;
+BA_DEF_DEF_  "_Cdb_Sc_CTm_FAW_v2_2" 0;
+BA_DEF_DEF_  "_Cdb_Sc_CTm_FAW_v2_1" 0;
+BA_DEF_DEF_  "GenMsgILSupport" "No";
+BA_DEF_DEF_  "GenMsgStartDelayTime" 0;
+BA_DEF_DEF_  "BusType" "CAN";
+BA_ "DBName" "PTCAN";
+BA_ "GenMsgCycleTime" BO_ 512 100;
+BA_ "GenMsgCycleTime" BO_ 912 10;
+BA_ "GenMsgILSupport" BO_ 576 1;
+BA_ "GenMsgCycleTime" BO_ 576 50;
+BA_ "GenMsgCycleTime" BO_ 321 10;
+BA_ "GenMsgCycleTime" BO_ 328 100;
+BA_ "GenMsgCycleTime" BO_ 530 10;
+BA_ "GenMsgCycleTime" BO_ 534 10;
+BA_ "GenMsgCycleTime" BO_ 616 100;
+BA_ "GenMsgCycleTime" BO_ 622 100;
+BA_ "GenMsgCycleTime" BO_ 623 100;
+BA_ "GenMsgCycleTime" BO_ 796 500;
+BA_ "GenMsgCycleTime" BO_ 864 100;
+BA_ "GenMsgCycleTime" BO_ 865 100;
+BA_ "GenMsgCycleTime" BO_ 866 100;
+BA_ "GenMsgCycleTime" BO_ 867 100;
+BA_ "GenMsgCycleTime" BO_ 868 100;
+BA_ "GenMsgCycleTime" BO_ 928 200;
+BA_ "GenMsgSendType" BO_ 81 1;
+BA_ "GenMsgCycleTimeFast" BO_ 81 20;
+BA_ "GenMsgNrOfRepetition" BO_ 81 3;
+BA_ "GenMsgDelayTime" BO_ 81 20;
+BA_ "GenMsgCycleTime" BO_ 1423 1000;
+BA_ "GenSigStartValue" SG_ 512 vehicle_speed 8190;
+BA_ "GenSigStartValue" SG_ 616 OBC_OutputVoltage 330;
+BA_ "GenSigStartValue" SG_ 622 BMS_QcsRCT 30;
+BA_ "GenSigStartValue" SG_ 622 BMS_CVEndCurrent 40;
+BA_ "GenSigStartValue" SG_ 622 BMS_ObcRCT 540;
+BA_ "GenSigSendType" SG_ 796 Crash_Output_Sts 4;
+BA_ "GenSigStartValue" SG_ 866 BMS_BatteryCurrent 5000;
+BA_ "GenSigStartValue" SG_ 868 BMS_Batt_TempMin 40;
+BA_ "GenSigStartValue" SG_ 868 BMS_Batt_TempMax 40;
+BA_ "GenSigStartValue" SG_ 868 BMS_Batt_TempAver 40;
+BA_ "GenSigSendType" SG_ 81 OBC_ChargingStopResponse 1;
+VAL_ 3221225472 VCM_CableCapacity 7 "Invalid" 6 "Reserved" 5 "Reserved" 4 "63A" 3 "10A" 2 "32A" 1 "16A" 0 "none" ;
+VAL_ 512 vehicle_speed 8191 "Invalid" ;
+VAL_ 912 VCM1_Status_CableCapacity 7 "Invalid" 6 "Reserved" 5 "Reserved" 4 "63A" 3 "10A" 2 "32A" 1 "16A" 0 "none" ;
+VAL_ 576 MCU_Ready 1 "MCU Enable to run" 0 "MCU disable to run" ;
+VAL_ 321 MCU_DCLinkVoltage 65535 "Invalid" ;
+VAL_ 530 VCM_CableCapacity 7 "Invalid" 6 "Reserved" 5 "Reserved" 4 "63A" 3 "10A" 2 "32A" 1 "16A" 0 "none" ;
+VAL_ 530 VCM_CCStatus 1 "Connected" 0 "Disconnected" ;
+VAL_ 530 VCM_CC2Status 1 "Connected" 0 "Disconnected" ;
+VAL_ 530 VCM_ChargerAllow 0 "Not allow                                 0x1: allow" ;
+VAL_ 534 VCM_Ready 3 "Invalid" 2 "Error" 1 "Ready" 0 "No Ready" ;
+VAL_ 534 VCM_OnePedalMode 1 "Valid" 0 "Invalid" ;
+VAL_ 534 VCM_PRAMainRelayPLStatus 1 "Relay (+) On" 0 "Relay (+)Off" ;
+VAL_ 534 VCM_PRAMainRelayMIStatus 1 "Relay (-) On" 0 "Relay (-)Off" ;
+VAL_ 534 VCM_PreChargeRelayStatus 1 "Relay On" 0 "Relay Off" ;
+VAL_ 534 VCM_OBCRelayStatus 1 "Relay On" 0 "Relay Off" ;
+VAL_ 534 VCM_QChargingRelayPLStatus 1 "Relay On" 0 "Relay Off" ;
+VAL_ 534 VCM_QChargingRelayMIStatus 1 "Relay On" 0 "Relay Off" ;
+VAL_ 534 VCM_BatteryHeaterRelayStatus 1 "Relay On" 0 "Relay Off" ;
+VAL_ 534 VCM_PowerOff 1 "Power Off" 0 "Power On" ;
+VAL_ 616 OBC_Status 3 "Charger Fault" 2 "Working" 1 "Ready" 0 "idle" ;
+VAL_ 616 OBC_CPStatus 2 "CP Abnormal (Charge Mode 2, 3)" 1 "CP Normal (Charge Mode 2, 3)" 0 "No CP Signal (Charge Mode 1)" ;
+VAL_ 616 OBC_OutputVoltage 1023 "Invalid" ;
+VAL_ 616 OBC_OutputCurrent 4095 "Invalid" ;
+VAL_ 622 BMS_BatteryChargeStatus 3 "Abnormal Charge Fault" 2 "Normal Charge Finish" 1 "Charging" 0 "Idle" ;
+VAL_ 622 BMS_ChargerWorkingEnable 1 "Enable" 0 "Not Enable" ;
+VAL_ 622 BMS_QcsRCT 511 "Invalid" ;
+VAL_ 622 BMS_ChargeCurrentRequest 4095 "Invalid" ;
+VAL_ 622 BMS_ChargeVoltageRequest 1023 "Invalid" ;
+VAL_ 622 BMS_CVEndCurrent 255 "Invalid" ;
+VAL_ 622 BMS_ObcRCT 2047 "Invalid" ;
+VAL_ 623 BMS6_Flag_ICDispModeForSOC 1 "New mode" 0 "Old mode" ;
+VAL_ 623 BMS6_Status_SOCForICDisp 256 "100%" 152 "98%" 149 "95%" 2 "2%" 1 "1%" 0 "0%" ;
+VAL_ 623 BMS_MinCellVoltageNum 255 "Invalid" ;
+VAL_ 623 BMS_Batt_TempMinNum 15 "Invalid" ;
+VAL_ 623 BMS_Batt_TempMaxNum 15 "Invalid" ;
+VAL_ 623 BMS_MaxCellVoltageNum 255 "Invalid" ;
+VAL_ 796 Crash_Output_Sts 1 "deployed crash" 0 "no crash" ;
+VAL_ 864 BMS1_SOC_DOD 7 "Original Value" 6 "????" 5 "????" 4 "????" 3 "????" 2 "10%-100%" 1 "15%-95%" 0 "5%-95%" ;
+VAL_ 864 BMS_AvailableIntputPower 65535 "Invalid" ;
+VAL_ 864 BMS_PowerConsumption 1048575 "Invalid" ;
+VAL_ 864 BMS_AvailableOutputPower 65535 "Invalid" ;
+VAL_ 865 BMS2_Status_HVCULostCom 1 "Fault" 0 "Normal" ;
+VAL_ 865 BMS2_Status_CSULostCom 1 "Fault" 0 "Normal" ;
+VAL_ 865 BMS2_Status_CellAFESelfChkFail 1 "Fault" 0 "Normal" ;
+VAL_ 865 BMS2_Status_BMULostCom 1 "Fault" 0 "Normal" ;
+VAL_ 865 BMS2_Status_BMSTempTooLow 1 "Fault" 0 "Normal" ;
+VAL_ 865 BMS2_Status_CellTempOvrRng 1 "Fault" 0 "Normal" ;
+VAL_ 865 BMS2_Status_CellVltgOvrRng 1 "Fault" 0 "Normal" ;
+VAL_ 865 BMS_SOC 1023 "Invalid" ;
+VAL_ 865 BMS_SOH 255 "Invalid" ;
+VAL_ 865 BMS_ChargingStop 1 "BMS ChargingStop" 0 "Normal" ;
+VAL_ 865 BMS_DischargingStop 1 "BMS DischargingStop" 0 "Normal" ;
+VAL_ 865 BMS_MIL 1 "BMS status MIL" 0 "Normal" ;
+VAL_ 865 BMS_RelayOffReq 1 "Relay off request" 0 "None" ;
+VAL_ 865 BMS_AC_HVPathReq 1 "connect request" 0 "disconnect request" ;
+VAL_ 865 BMS_DC_HVPathReq 1 "connect request" 0 "disconnect request" ;
+VAL_ 865 BMS_StatusCellVoltageSensorOpen 1 "Cell voltage sensor line fail" 0 "Normal" ;
+VAL_ 865 BMS_StatusCurrentSensorOpen 1 "Cell current sensor line fail" 0 "Normal" ;
+VAL_ 865 BMS_StatusTempSensorFault 1 "Module temperature sensor fail" 0 "Normal" ;
+VAL_ 865 BMS_CellBalancingFET 1 "Fault" 0 "Normal" ;
+VAL_ 865 BMS_StatusCellVolHigh_Fault 1 "Cell voltage too high" 0 "Normal" ;
+VAL_ 865 BMS_StatusCellVolLow_Fault 1 "Cell voltage too low" 0 "Normal" ;
+VAL_ 865 BMS_StatusCellVolDevHigh_Fault 1 "Cell voltage deviation too high" 0 "Normal" ;
+VAL_ 865 BMS_StatusPackVolHigh 1 "Battery pack voltage too high" 0 "Normal" ;
+VAL_ 865 BMS_StatusPackVolLow 1 "Battery pack voltage too low" 0 "Normal" ;
+VAL_ 865 BMS_StatusDischargeCurrentHi 1 "Batt discharge current too high" 0 "Normal" ;
+VAL_ 865 BMS_StatusChargeCurrentHi 1 "Batt charge current too high" 0 "Normal" ;
+VAL_ 865 BMS_StatusTempHigh_Fault 1 "Module temp too high" 0 "Normal" ;
+VAL_ 865 BMS_StatusTempDevHigh_Fault 1 "Module temp deviation too high" 0 "Normal" ;
+VAL_ 865 BMS_DCChargingFault 1 "Fault" 0 "Normal" ;
+VAL_ 865 BMS_CANCommBusOff 1 "Fault" 0 "Normal" ;
+VAL_ 865 BMS_SOCHigh 1 "SOC high (warning)" 0 "Normal" ;
+VAL_ 865 BMS_SOCLow 1 "SOC low (warning)" 0 "Normal" ;
+VAL_ 865 BMS_VCMLostComm 1 "Fault" 0 "Normal" ;
+VAL_ 865 BMS_MCULostComm 1 "Fault" 0 "Normal" ;
+VAL_ 865 BMS_StatusIsolationFault 1 "Isolation fail detection" 0 "Normal" ;
+VAL_ 865 BMS_StatusCAN2Fault 1 "Slave BMS CAN error" 0 "Normal" ;
+VAL_ 865 BMS_StatusValid 1 "Status Valid" 0 "Status Invalid" ;
+VAL_ 865 BMS_StatusHVIL 1 "HVIL Open" 0 "HVIL Closed" ;
+VAL_ 865 BMS_StatusCellBalancing 1 "Balancing" 0 "No balancing" ;
+VAL_ 866 BMS_Negative_IsolationValue 65535 "Invalid" ;
+VAL_ 866 BMS_BatteryCurrent 65535 "Invalid" ;
+VAL_ 866 BMS_Positive_IsolationValue 65535 "Invalid" ;
+VAL_ 867 BMS_MaxCellVoltage 65535 "Invalid" ;
+VAL_ 867 BMS_AveCellVoltage 65535 "Invalid" ;
+VAL_ 867 BMS_SumVoltage 65535 "Invalid" ;
+VAL_ 867 BMS_MinCellVoltage 65535 "Invalid" ;
+VAL_ 868 BMS_PackVoltage 65535 "Invalid" ;
+VAL_ 868 BMS_Batt_TempMin 255 "Invalid" ;
+VAL_ 868 BMS_Batt_TempMax 255 "Invalid" ;
+VAL_ 868 BMS_Batt_TempAver 255 "Invalid" ;
+VAL_ 868 BMS_DCLinkVoltage 65535 "Invalid" ;
+VAL_ 928 VCM_ChargingStopRequest 3 "Not available" 2 "error" 1 "charging stop" 0 "none" ;
+VAL_ 928 VCM_QuickChargingStopRequest 3 "Not available" 2 "error" 1 "charging stop" 0 "none" ;
+VAL_ 928 VCM_BookingReqStatus 3 "charging stop ????????" 2 "charging Now ????????" 1 "waiting booking ????????" 0 "default  ????????????" ;
+VAL_ 81 OBC_ChargingStopResponse 3 "Not available" 2 "Error" 1 "Charging stop" 0 "None" ;
+

@@ -59,32 +59,6 @@ class Uninstall:
         print("执行{}模拟驱动卸载程序".format(Information.device_name))
 
 
-class TCPChannel:
-    def __init__(self, host, port):
-        self.host = host
-        self.port = port
-        self.fds = None
-
-    def open(self):
-        if self.fds:
-            return self
-
-        self.fds = socket.socket()
-        self.fds.connect((self.host, self.port))
-
-        return self
-
-    def close(self):
-        if self.fds:
-            self.fds.close()
-
-    def read(self, n):
-        pass
-
-    def write(self, b):
-        pass
-
-
 class Driver:
     """
     这个是驱动样板，驱动主题程序就按这个写
@@ -134,6 +108,8 @@ class Driver:
         self.pubsub.psubscribe(profile.get_device_control_command_path(Information.dev_type))
 
         while True:
+            api.device_set_profile_statement(Information.dev_type,self.get_driver_statement())
+
             # 200毫秒用于等待命令消息
             pack = self.pubsub.get_message(ignore_subscribe_messages=True, timeout=0.2)
             if pack:

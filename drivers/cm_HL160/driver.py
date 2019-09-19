@@ -160,6 +160,8 @@ class Driver:
         self.pubsub.psubscribe(profile.get_device_control_command_path(Information.dev_type))
 
         while True:
+            api.device_set_profile_statement(Information.dev_type,self.get_driver_statement())
+
             # 200毫秒用于等待命令消息
             pack = self.pubsub.get_message(ignore_subscribe_messages=True, timeout=0.2)
             if pack:
